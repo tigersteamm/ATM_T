@@ -28,7 +28,10 @@ public class BranchDao extends BaseDao<Branch> {
 
     public Branch findById(String id) throws APIException {
         for (Branch branch : frwBranch.getAll()) {
-            if (id.equals(branch.getId())) return branch;
+            if (id.equals(branch.getId()))
+                if (branch.getDeleted() == 0) {
+                    return branch;
+                } else break;
         }
         throw new APIException("Branch Not Found", HttpStatus.HTTP_404);
     }
@@ -44,10 +47,11 @@ public class BranchDao extends BaseDao<Branch> {
 
     public Branch findByName(String name) throws APIException {
         for (Branch branch : frwBranch.getAll()) {
-            if (name.equalsIgnoreCase(branch.getName())) {
-                return branch;
-            }
+            if (name.equalsIgnoreCase(branch.getName()))
+                if (branch.getDeleted() == 0) {
+                    return branch;
+                } else break;
         }
-        throw new APIException("Branch Not Found Exception", HttpStatus.HTTP_404);
+        throw new APIException("Branch Not Found", HttpStatus.HTTP_404);
     }
 }

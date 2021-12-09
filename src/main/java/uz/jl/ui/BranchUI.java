@@ -12,6 +12,7 @@ import static uz.jl.ui.BaseUI.showResponse;
  * @author Elmurodov Javohir, Wed 12:11 PM. 12/8/2021
  */
 public class BranchUI {
+    // TODO: 09.12.2021 set check for admin
     static BranchService service = BranchService.getInstance(BranchDao.getInstance(), BranchMapper.getInstance());
 
     public static void create() {
@@ -31,18 +32,22 @@ public class BranchUI {
     }
 
     public static void list() {
-
+        service.list();
     }
 
     public static void block() {
-
+        String name = Input.getStr("Branch name = ");
+        ResponseEntity<String> response = service.block(name);
+        showResponse(response);
     }
 
     public static void unblock() {
-
+        String name = Input.getStr("Branch name = ");
+        ResponseEntity<String> response = service.unblock(name);
+        showResponse(response);
     }
 
     public static void blockList() {
-
+        service.blockList();
     }
 }

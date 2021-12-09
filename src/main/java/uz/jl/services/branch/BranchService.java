@@ -1,7 +1,6 @@
 package uz.jl.services.branch;
 
 import uz.jl.configs.Session;
-import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.branch.BranchDao;
 import uz.jl.dao.db.FRWBranch;
 import uz.jl.enums.branch.BranchStatus;
@@ -12,6 +11,8 @@ import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
+import uz.jl.utils.Color;
+import uz.jl.utils.Print;
 
 import java.util.Date;
 import java.util.List;
@@ -47,8 +48,9 @@ public class BranchService
         branch.setStatus(BranchStatus.ACTIVE);
         branch.setCreatedAt(new Date());
         branch.setCreatedBy(Session.getInstance().getUser().getId());
+        branch.setDeleted(0);
 
-        FRWBranch.getInstance().writeAll(branch);
+        create(branch);
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
@@ -62,28 +64,86 @@ public class BranchService
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
+    public void list() {
+        for (Branch branch : FRWBranch.getInstance().getAll()) {
+            Print.println(Color.PURPLE, branch.getName());
+        }
+    }
+
     @Override
     public void create(Branch branch) {
-
+        FRWBranch.getInstance().writeAll(branch);
     }
 
     @Override
     public void delete(String id) {
-
+        try {
+            repository.findById(id).setDeleted(1);
+        } catch (APIException e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
+        }
+        FRWBranch.getInstance().writeAll(getAll());
+//        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
     @Override
     public Branch get(String id) {
+        for (Branch branch : FRWBranch.getInstance().getAll()) {
+            if (id.equals(branch.getId()))
+                return branch;
+        }
         return null;
     }
 
     @Override
     public List<Branch> getAll() {
-        return null;
+        return FRWBranch.getInstance().getAll();
     }
 
     @Override
     public void update(String id, Branch branch) {
+        // TODO: 09.12.2021 some logic
+        branch.setUpdatedAt(new Date());
+        branch.setUpdatedBy(id);
+        FRWBranch.getInstance().writeAll(getAll());
+    }
 
+    public void blockList() {
+        for (Branch branch : FRWBranch.getInstance().getAll()) {
+            if (branch.getStatus().equals(BranchStatus.BLOCKED))
+                Print.println(Color.RED, branch.getName());
+        }
+    }
+
+    public ResponseEntity<String> block(String name) {
+        try {
+            Branch branch = repository.findByName(name);
+            if (branch.getStatus().equals(BranchStatus.BLOCKED)) {
+                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+            }
+            if (branch.getStatus().equals(BranchStatus.ACTIVE)) {
+                branch.setStatus(BranchStatus.BLOCKED);
+            }
+        } catch (APIException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
+        }
+        FRWBranch.getInstance().writeAll(getAll());
+        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+    }
+
+    public ResponseEntity<String> unblock(String name) {
+        try {
+            Branch branch = repository.findByName(name);
+            if (branch.getStatus().equals(BranchStatus.ACTIVE)) {
+                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+            }
+            if (branch.getStatus().equals(BranchStatus.BLOCKED)) {
+                branch.setStatus(BranchStatus.ACTIVE);
+            }
+        } catch (APIException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
+        }
+        FRWBranch.getInstance().writeAll(getAll());
+        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 }
