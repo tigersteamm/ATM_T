@@ -4,9 +4,7 @@ import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.auth.AuthService;
-import uz.jl.utils.Color;
 import uz.jl.utils.Input;
-import uz.jl.utils.Print;
 
 /**
  * @author Elmurodov Javohir, Wed 12:08 PM. 12/8/2021
