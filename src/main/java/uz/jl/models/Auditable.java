@@ -36,4 +36,9 @@ public class Auditable implements BaseEntity {
         this.updatedBy = updatedBy;
         this.deleted = deleted;
     }
+    public Auditable(String id,String createdBy){
+        this.id=id;
+        this.createdBy=createdBy;
+        this.createdAt=new Date();
+    }
 }

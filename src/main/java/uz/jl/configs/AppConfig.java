@@ -29,7 +29,7 @@ public class AppConfig {
         language = Language.getByCode(get("bank.default.language"));
     }
 
-    private static void initSuperUser() {
+    public static void initSuperUser() {
         AuthUser user = new AuthUser();
         user.setId(BaseUtils.genId());
         user.setUsername(get("bank.super.username"));

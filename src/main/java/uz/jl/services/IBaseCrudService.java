@@ -1,6 +1,7 @@
 package uz.jl.services;
 
 import uz.jl.models.BaseEntity;
+import uz.jl.response.ResponseEntity;
 
 import java.util.List;
 
