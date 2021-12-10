@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import static uz.jl.utils.Color.BLUE;
 import static uz.jl.utils.Print.print;
+import static uz.jl.utils.Print.println;
 
 /**
  * @author Elmurodov Javohir, Mon 12:12 PM. 11/29/2021
@@ -25,6 +26,7 @@ public enum ATMType {
             else
                 print(BLUE,value);
         }
+        println("");
     }
     public static ATMType getByValue(String type){
         for (ATMType value : values()) {

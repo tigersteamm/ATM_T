@@ -2,15 +2,13 @@ package uz.jl.dao.db;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 
-public sealed abstract class FRWBase<T> permits FRWATMEntity, FRWAuthUser, FRWBranch {
+public sealed abstract class FRWBase<T> permits FRWAtm, FRWAuthUser, FRWBranch {
     protected List<T> list = new ArrayList<>();
     protected static Gson gson;
     protected String path;
