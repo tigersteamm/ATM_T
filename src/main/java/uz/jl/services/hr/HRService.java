@@ -2,6 +2,7 @@ package uz.jl.services.hr;
 
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
+import uz.jl.dao.auth.hr.HRDao;
 import uz.jl.enums.auth.Role;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
@@ -26,8 +27,6 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
         hr.setPhoneNumber(phoneNumber);
         hr.setLanguage(Session.getInstance().getUser().getLanguage());
         hr.setRole(Role.HR);
-
-
-
+        HRDao.create(hr);
     }
 }
