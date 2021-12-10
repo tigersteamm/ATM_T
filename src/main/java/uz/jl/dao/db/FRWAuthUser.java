@@ -55,7 +55,9 @@ public final class FRWAuthUser extends FRWBase<AuthUser> {
         }
     }
 
-    public void writeAll(AuthUser user) {
-        writeAll(Collections.singletonList(user));
+    public void writeAll(AuthUser user){
+        List<AuthUser> list=getAll();
+        list.add(user);
+        writeAll(list);
     }
 }
