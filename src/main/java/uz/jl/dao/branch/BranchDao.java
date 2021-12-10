@@ -33,7 +33,7 @@ public class BranchDao extends BaseDao<Branch> {
                     return branch;
                 } else break;
         }
-        throw new APIException("Branch not Found", HttpStatus.HTTP_404);
+        throw new APIException("Branch Not Found", HttpStatus.HTTP_404);
     }
 
     public boolean hasSuchName(String name) {
