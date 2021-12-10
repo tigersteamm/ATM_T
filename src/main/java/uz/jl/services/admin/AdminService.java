@@ -1,10 +1,12 @@
-package uz.jl.services.employee;
+package uz.jl.services.admin;
 
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.db.FRWAuthUser;
+import uz.jl.dao.db.FRWBranch;
 import uz.jl.enums.auth.Role;
 import uz.jl.enums.auth.UserStatus;
+import uz.jl.enums.branch.BranchStatus;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.mapper.AuthUserMapper;
@@ -23,31 +25,37 @@ import static uz.jl.utils.Color.PURPLE;
 import static uz.jl.utils.Color.RED;
 import static uz.jl.utils.Input.getStr;
 
-public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUserMapper>
+/**
+ * @author Nodirbek Abdukarimov Fri. 11:19 AM. 12/10/2021
+ */
+public class AdminService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUserMapper>
         implements IBaseCrudService<AuthUser> {
-    private static EmployeeService service;
 
-    public static EmployeeService getInstance(AuthUserDao repository, AuthUserMapper mapper) {
+    Role role = Session.getInstance().getUser().getRole();
+    private static AdminService service;
+
+    public static AdminService getInstance(AuthUserDao repository, AuthUserMapper mapper) {
         if (Objects.isNull(service)) {
-            service = new EmployeeService(repository, mapper);
+            service = new AdminService(repository, mapper);
         }
         return service;
     }
 
-    public EmployeeService(AuthUserDao repository, AuthUserMapper mapper) {
+
+    public AdminService(AuthUserDao repository, AuthUserMapper mapper) {
         super(repository, mapper);
     }
 
-    public ResponseEntity<String> create(String userName, String password, String phoneNumber)  {
-      try {
-          AuthUser user = repository.findByUserName(userName);
-          if (Objects.nonNull(user)){
-              return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
-          }
-      }catch (APIException e){
-          return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
-      }
-        AuthUser user=new AuthUser();
+    public ResponseEntity<String> create(String userName, String password, String phoneNumber) {
+        try {
+            AuthUser user = repository.findByUserName(userName);
+            if (Objects.nonNull(user)) {
+                return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
+            }
+        } catch (APIException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
+        }
+        AuthUser user = new AuthUser();
         user.setId(genId());
         user.setUsername(userName);
         user.setPassword(password);
@@ -60,14 +68,48 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
+    @Override
+    public void create(AuthUser authUser) {
+
+    }
+
+    @Override
+    public ResponseEntity<String> create(String userName, String password) {
+        try {
+            AuthUser user = repository.findByUserName(userName);
+            if (Objects.nonNull(user)) {
+                return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
+            }
+        } catch (APIException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
+        }
+
+        AuthUser user = new AuthUser();
+        user.setId(genId());
+        user.setUsername(userName);
+        user.setPassword(password);
+        user.setStatus(UserStatus.ACTIVE);
+        user.setRole(Role.ADMIN);
+        user.setCreatedBy(Session.getInstance().getUser().getId());
+        user.setLanguage(Session.getInstance().getUser().getLanguage());
+        FRWAuthUser.getInstance().writeAll(user);
+        return new ResponseEntity<>("Successfully created Admin", HttpStatus.HTTP_200);
+    }
+
+
+    @Override
+    public ResponseEntity<String> delete(AuthUser authUser) {
+
+        return null;
+    }
 
     public static void delete() {
         List<AuthUser> users = FRWAuthUser.getInstance().getAll();
         if (list() == 1) {
-            Print.println(RED, "Employee not found !");
+            Print.println(RED, "Admin not found !");
             return;
         }
-        String username = getStr("Username-> ");
+        String username = getStr("Username -> ");
         String name = findByUsername(username);
         if (Objects.nonNull(name)) {
             for (AuthUser user : users) {
@@ -83,76 +125,17 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
     }
 
     public static int list() {
-        int k = 1;
+        int count = 1;
         List<AuthUser> users = FRWAuthUser.getInstance().getAll();
         for (AuthUser user : users) {
-            if (user.getRole().equals(Role.EMPLOYEE)) {
+            if (user.getRole().equals(Role.ADMIN)) {
                 if (user.getStatus().equals(UserStatus.ACTIVE))
-                    Print.println(k++ + ". " + PURPLE, user.getUsername());
+                    Print.println(count++ + ". " + PURPLE, user.getUsername());
                 else
-                    Print.println(k++ + ". " + RED, user.getUsername());
+                    Print.println(count++ + ". " + RED, user.getUsername());
             }
         }
-        return k;
-    }
-
-    public static void block() {
-        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
-        if (list() == 1) {
-            Print.println(RED, "Employee not found !");
-            return;
-        }
-        String username = getStr("Username -> ");
-        String name = findByUsername(username);
-        if (Objects.nonNull(name)) {
-            for (AuthUser user : users) {
-                if (user.getUsername().equals(name)) {
-                    if (user.getStatus().equals(UserStatus.BLOCKED)) {
-                        Print.println(RED, "Bu Oldin bloklanganku 😐");
-                        return;
-                    }
-                    user.setStatus(UserStatus.BLOCKED);
-                    FRWAuthUser.getInstance().writeAll(users);
-                    Print.println(PURPLE, "Successfully Blocked");
-                    return;
-                }
-            }
-        }
-        Print.println(RED, "Employee not found !");
-    }
-
-    public static void unBlock() {
-        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
-        if (blockList() == 1) {
-            Print.println(RED, "Employee not found !");
-            return;
-        }
-        String username = getStr("Username -> ");
-        String name = findByUsername(username);
-        if (Objects.nonNull(name)) {
-            for (AuthUser user : users) {
-                if (user.getUsername().equals(name)) {
-                    user.setStatus(UserStatus.ACTIVE);
-                    FRWAuthUser.getInstance().writeAll(users);
-                    Print.println(PURPLE, "Successfully UnBlocked");
-                    return;
-                }
-            }
-        }
-        Print.println(RED, "Employee not found !");
-
-    }
-
-    public static int blockList() {
-        int k = 1;
-        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
-        for (AuthUser user : users) {
-            if (user.getStatus().equals(UserStatus.BLOCKED)) {
-                Print.println(k++ + ". " + RED, user.getUsername());
-                k++;
-            }
-        }
-        return k;
+        return count;
     }
 
     private static String findByUsername(String userName) {
@@ -165,19 +148,64 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
         return null;
     }
 
-    @Override
-    public void create(AuthUser user) {
+
+    public static void block() {
+        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
+        if (list() == 1) {
+            Print.println(RED, "Admin not found !");
+            return;
+        }
+        String username = getStr("Username -> ");
+        String name = findByUsername(username);
+        if (Objects.nonNull(name)) {
+            for (AuthUser user : users) {
+                if (user.getUsername().equals(name)) {
+                    if (user.getStatus().equals(UserStatus.BLOCKED)) {
+                        Print.println(RED, "This admin already blocked");
+                        return;
+                    }
+                    user.setStatus(UserStatus.BLOCKED);
+                    FRWAuthUser.getInstance().writeAll(users);
+                    Print.println(PURPLE, "Successfully blocked");
+                    return;
+                }
+            }
+        }
+        Print.println(RED, "Admin not found !");
+    }
+
+    public static void unBlock() {
+        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
+        if (blockList() == 1) {
+            Print.println(RED, "Admin not found !");
+            return;
+        }
+        String username = getStr("Username -> ");
+        String name = findByUsername(username);
+        if (Objects.nonNull(name)) {
+            for (AuthUser user : users) {
+                if (user.getUsername().equals(name)) {
+                    user.setStatus(UserStatus.ACTIVE);
+                    FRWAuthUser.getInstance().writeAll(users);
+                    Print.println(PURPLE, "Successfully unblocked");
+                    return;
+                }
+            }
+        }
+        Print.println(RED, "Admin not found !");
 
     }
 
-    @Override
-    public ResponseEntity<String> create(String userName, String password) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<String> delete(AuthUser authUser) {
-        return null;
+    public static int blockList() {
+        int count = 1;
+        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
+        for (AuthUser user : users) {
+            if (user.getStatus().equals(UserStatus.BLOCKED)) {
+                Print.println(count++ + ". " + RED, user.getUsername());
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override
@@ -191,7 +219,7 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
     }
 
     @Override
-    public void update(String id, AuthUser user) {
+    public void update(String id, AuthUser authUser) {
 
     }
 }

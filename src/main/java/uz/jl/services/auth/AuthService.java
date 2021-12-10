@@ -6,6 +6,7 @@ import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
+import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
@@ -45,19 +46,23 @@ public class AuthService
         }
     }
 
-
     @Override
     public void create(AuthUser authUser) {
 
     }
 
     @Override
-    public void delete(String id) {
-
+    public ResponseEntity<String> create(String userName, String password) {
+        return null;
     }
 
     @Override
-    public AuthUser get(String id) {
+    public ResponseEntity<String> delete(AuthUser authUser) {
+        return null;
+    }
+
+    @Override
+    public Branch get(String id) {
         return null;
     }
 
