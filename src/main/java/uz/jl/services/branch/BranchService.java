@@ -7,6 +7,7 @@ import uz.jl.enums.auth.Role;
 import uz.jl.enums.branch.BranchStatus;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
+import uz.jl.exceptions.APIRuntimeException;
 import uz.jl.mapper.BranchMapper;
 import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
@@ -45,9 +46,6 @@ public class BranchService
         if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
-        if (repository.hasSuchName(name)) {
-            return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
-        }
         Branch branch = new Branch();
         branch.setName(name);
         branch.setBankId(Session.getInstance().getUser().getBankId());
@@ -56,28 +54,39 @@ public class BranchService
         branch.setCreatedBy(Session.getInstance().getUser().getId());
         branch.setDeleted(0);
 
-        create(branch);
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return create(branch);
     }
 
     @Override
-    public void create(Branch branch) {
+    public ResponseEntity<String> create(Branch branch) {
+        if (repository.hasSuchName(branch.getName())) {
+            return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
+        }
         FRWBranch.getInstance().writeAll(branch);
+        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
-    public ResponseEntity<String> delete(String name, String undefined) {
+    public ResponseEntity<String> delete(String name) {
         if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
+        Branch branch;
         try {
-            Branch branch = repository.findByName(name);
-            if (branch.getDeleted() == 1)
-                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
-            branch.setDeleted(1);
-            FRWBranch.getInstance().writeAll(getAll());
+            branch = repository.findByName(name);
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
+        return delete(branch);
+    }
+
+    @Override
+    public ResponseEntity<String> delete(Branch branch) {
+        if (branch.getDeleted() == 1) {
+            return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+        }
+
+        branch.setDeleted(1);
+        FRWBranch.getInstance().writeAll(getAll());
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
@@ -96,16 +105,6 @@ public class BranchService
         }
     }
 
-    @Override
-    public void delete(String id) {
-        try {
-            repository.findById(id).setDeleted(1);
-        } catch (APIException e) {
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
-        }
-        FRWBranch.getInstance().writeAll(getAll());
-//        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
-    }
 
     @Override
     public Branch get(String id) {
@@ -113,7 +112,7 @@ public class BranchService
             if (id.equals(branch.getId()))
                 return branch;
         }
-        return null;
+        throw new APIRuntimeException("Branch Not Found", HttpStatus.HTTP_404.getCode());
     }
 
     @Override
@@ -122,11 +121,12 @@ public class BranchService
     }
 
     @Override
-    public void update(String id, Branch branch) {
+    public ResponseEntity<String> update(String id, Branch branch) {
         // TODO: 09.12.2021 some logic
         branch.setUpdatedAt(new Date());
         branch.setUpdatedBy(id);
         FRWBranch.getInstance().writeAll(getAll());
+        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
     public ResponseEntity<String> block(String name) {

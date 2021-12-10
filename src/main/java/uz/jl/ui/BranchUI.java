@@ -27,7 +27,7 @@ public class BranchUI {
 
     public static void delete() {
         String name = Input.getStr("Branch name = ");
-        ResponseEntity<String> response = service.delete(name, "");
+        ResponseEntity<String> response = service.delete(name);
         showResponse(response);
     }
 

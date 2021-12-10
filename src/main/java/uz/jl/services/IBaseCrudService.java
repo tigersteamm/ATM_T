@@ -13,7 +13,7 @@ public interface IBaseCrudService<E extends BaseEntity> {
 
     ResponseEntity<String> delete(E e);
 
-    ResponseEntity<E> get(String id);
+    E get(String id);
 
     List<E> getAll();
 
