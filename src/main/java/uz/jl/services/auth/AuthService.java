@@ -4,15 +4,12 @@ import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
-import uz.jl.exceptions.APIRuntimeException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
-import uz.jl.response.Data;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
