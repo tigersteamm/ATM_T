@@ -2,12 +2,15 @@
 /shelf/
 /workspace.xml
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
 =======
+=======
+>>>>>>> origin/version1
 # Editor-based HTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files
@@ -51,4 +54,7 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
+<<<<<<< HEAD
 >>>>>>> f365abae2dde360112c84a18216cd17b0bb9fd6d
+=======
+>>>>>>> origin/version1
