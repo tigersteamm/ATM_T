@@ -36,12 +36,14 @@ public class BranchUI {
     }
 
     public static void block() {
+        unblockList();
         String name = Input.getStr("Branch name = ");
         ResponseEntity<String> response = service.block(name);
         showResponse(response);
     }
 
     public static void unblock() {
+        blockList();
         String name = Input.getStr("Branch name = ");
         ResponseEntity<String> response = service.unblock(name);
         showResponse(response);
