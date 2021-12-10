@@ -3,8 +3,10 @@ package uz.jl.services.admin;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.db.FRWAuthUser;
+import uz.jl.dao.db.FRWBranch;
 import uz.jl.enums.auth.Role;
 import uz.jl.enums.auth.UserStatus;
+import uz.jl.enums.branch.BranchStatus;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.mapper.AuthUserMapper;
@@ -13,11 +15,15 @@ import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
+import uz.jl.utils.Print;
 
 import java.util.List;
 import java.util.Objects;
 
 import static uz.jl.utils.BaseUtils.genId;
+import static uz.jl.utils.Color.PURPLE;
+import static uz.jl.utils.Color.RED;
+import static uz.jl.utils.Input.getStr;
 
 /**
  * @author Nodirbek Abdukarimov Fri. 11:19 AM. 12/10/2021
@@ -25,6 +31,7 @@ import static uz.jl.utils.BaseUtils.genId;
 public class AdminService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUserMapper>
         implements IBaseCrudService<AuthUser> {
 
+    Role role = Session.getInstance().getUser().getRole();
     private static AdminService service;
 
     public static AdminService getInstance(AuthUserDao repository, AuthUserMapper mapper) {
@@ -89,9 +96,116 @@ public class AdminService extends BaseAbstractService<AuthUser, AuthUserDao, Aut
         return new ResponseEntity<>("Successfully created Admin", HttpStatus.HTTP_200);
     }
 
+
     @Override
     public ResponseEntity<String> delete(AuthUser authUser) {
+
         return null;
+    }
+
+    public static void delete() {
+        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
+        if (list() == 1) {
+            Print.println(RED, "Admin not found !");
+            return;
+        }
+        String username = getStr("Username -> ");
+        String name = findByUsername(username);
+        if (Objects.nonNull(name)) {
+            for (AuthUser user : users) {
+                if (user.getUsername().equals(name)) {
+                    users.remove(user);
+                    FRWAuthUser.getInstance().writeAll(users);
+                    Print.println(PURPLE, "Successfully Deleted");
+                    return;
+                }
+            }
+        }
+        Print.println(RED, "Employee not found !");
+    }
+
+    public static int list() {
+        int count = 1;
+        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
+        for (AuthUser user : users) {
+            if (user.getRole().equals(Role.ADMIN)) {
+                if (user.getStatus().equals(UserStatus.ACTIVE))
+                    Print.println(count++ + ". " + PURPLE, user.getUsername());
+                else
+                    Print.println(count++ + ". " + RED, user.getUsername());
+            }
+        }
+        return count;
+    }
+
+    private static String findByUsername(String userName) {
+        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
+        for (AuthUser user : users) {
+            if (user.getUsername().equals(userName)) {
+                return userName;
+            }
+        }
+        return null;
+    }
+
+
+    public static void block() {
+        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
+        if (list() == 1) {
+            Print.println(RED, "Admin not found !");
+            return;
+        }
+        String username = getStr("Username -> ");
+        String name = findByUsername(username);
+        if (Objects.nonNull(name)) {
+            for (AuthUser user : users) {
+                if (user.getUsername().equals(name)) {
+                    if (user.getStatus().equals(UserStatus.BLOCKED)) {
+                        Print.println(RED, "This admin already blocked");
+                        return;
+                    }
+                    user.setStatus(UserStatus.BLOCKED);
+                    FRWAuthUser.getInstance().writeAll(users);
+                    Print.println(PURPLE, "Successfully blocked");
+                    return;
+                }
+            }
+        }
+        Print.println(RED, "Admin not found !");
+    }
+
+    public static void unBlock() {
+        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
+        if (blockList() == 1) {
+            Print.println(RED, "Admin not found !");
+            return;
+        }
+        String username = getStr("Username -> ");
+        String name = findByUsername(username);
+        if (Objects.nonNull(name)) {
+            for (AuthUser user : users) {
+                if (user.getUsername().equals(name)) {
+                    user.setStatus(UserStatus.ACTIVE);
+                    FRWAuthUser.getInstance().writeAll(users);
+                    Print.println(PURPLE, "Successfully unblocked");
+                    return;
+                }
+            }
+        }
+        Print.println(RED, "Admin not found !");
+
+    }
+
+    public static int blockList() {
+        int count = 1;
+        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
+        for (AuthUser user : users) {
+            if (user.getStatus().equals(UserStatus.BLOCKED)) {
+                Print.println(count++ + ". " + RED, user.getUsername());
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override
