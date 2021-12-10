@@ -8,7 +8,6 @@ import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.models.auth.AuthUser;
 
-import java.sql.DriverManager;
 import java.util.Objects;
 
 /**

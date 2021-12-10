@@ -2,7 +2,6 @@ package uz.jl.mapper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import uz.jl.dao.auth.AuthUserDao;
 
 import java.util.Objects;
 

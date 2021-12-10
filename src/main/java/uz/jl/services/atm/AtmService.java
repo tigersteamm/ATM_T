@@ -5,8 +5,6 @@ import uz.jl.mapper.ATMMapper;
 import uz.jl.models.atm.ATMEntity;
 import uz.jl.services.BaseAbstractService;
 
-import java.util.List;
-
 /**
  * @author Elmurodov Javohir, Mon 10:46 AM. 12/6/2021
  */
