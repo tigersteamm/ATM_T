@@ -30,3 +30,4 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
         HRDao.create(hr);
     }
 }
+
