@@ -166,12 +166,7 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
     }
 
     @Override
-    public void create(AuthUser user) {
-
-    }
-
-    @Override
-    public ResponseEntity<String> create(String userName, String password) {
+    public ResponseEntity<String> create(AuthUser authUser) {
         return null;
     }
 
@@ -181,7 +176,7 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
     }
 
     @Override
-    public Branch get(String id) {
+    public AuthUser get(String id) {
         return null;
     }
 
@@ -191,7 +186,8 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
     }
 
     @Override
-    public void update(String id, AuthUser user) {
-
+    public ResponseEntity<String> update(String id, AuthUser authUser) {
+        return null;
     }
+
 }

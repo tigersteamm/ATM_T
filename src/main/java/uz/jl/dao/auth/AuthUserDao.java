@@ -7,6 +7,7 @@ import uz.jl.dao.db.FRWAuthUser;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.models.auth.AuthUser;
+import uz.jl.models.branch.Branch;
 
 import java.util.Objects;
 
@@ -24,6 +25,16 @@ public class AuthUserDao extends BaseDao<AuthUser> {
             dao = new AuthUserDao();
         return dao;
     }
+
+    public boolean hasSuchName(String name) {
+        for (AuthUser authUser : frwAuthUser.getAll()) {
+            if (name.equalsIgnoreCase(authUser.getUsername())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public AuthUser findByUserName(String username) throws APIException {
         for (AuthUser user : frwAuthUser.getAll()) {
