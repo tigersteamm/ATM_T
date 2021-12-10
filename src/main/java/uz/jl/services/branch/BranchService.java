@@ -136,7 +136,6 @@ public class BranchService
         if (unblockCount() == 0) {
             return new ResponseEntity<>("Not Found Any Unblocked Branch", HttpStatus.HTTP_404);
         }
-        unblockList();
         try {
             Branch branch = repository.findByName(name);
             if (branch.getDeleted() == 1) {
@@ -162,7 +161,6 @@ public class BranchService
         if (blockCount() == 0) {
             return new ResponseEntity<>("Not Found Any Blocked Branch", HttpStatus.HTTP_404);
         }
-        blockList();
         try {
             Branch branch = repository.findByName(name);
             if (branch.getDeleted() == 1) {

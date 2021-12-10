@@ -44,14 +44,6 @@ public class AdminService
     }
 
     public ResponseEntity<String> create(String userName, String password) {
-        try {
-            AuthUser user = repository.findByUserName(userName);
-            if (Objects.nonNull(user)) {
-                return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
-            }
-        } catch (APIException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
-        }
         AuthUser user = new AuthUser();
         user.setId(genId());
         user.setUsername(userName);
