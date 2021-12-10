@@ -24,7 +24,6 @@ public final class FRWBranch extends FRWBase<Branch> {
         return frwBranch;
     }
 
-
     public FRWBranch() {
         super(AppConfig.get("db.branches.path"));
     }
