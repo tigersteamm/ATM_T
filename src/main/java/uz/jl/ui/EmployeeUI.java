@@ -29,6 +29,8 @@ public class EmployeeUI {
     }
 
     public static void delete() {
+        String username=getStr("Username-> ");
+        ResponseEntity<String> response = service.delete(username);
 
     }
 

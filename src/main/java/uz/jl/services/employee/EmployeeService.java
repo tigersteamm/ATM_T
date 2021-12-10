@@ -7,12 +7,14 @@ import uz.jl.enums.auth.Role;
 import uz.jl.enums.auth.UserStatus;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
+import uz.jl.exceptions.APIRuntimeException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
 import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
+import uz.jl.utils.Color;
 import uz.jl.utils.Print;
 
 import java.util.List;
@@ -56,138 +58,122 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
         user.setPhoneNumber(phoneNumber);
         user.setCreatedBy(Session.getInstance().getUser().getId());
         user.setLanguage(Session.getInstance().getUser().getLanguage());
-        FRWAuthUser.getInstance().writeAll(user);
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
-    }
-
-
-    public static void delete() {
-        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
-        if (list() == 1) {
-            Print.println(RED, "Employee not found !");
-            return;
-        }
-        String username = getStr("Username-> ");
-        String name = findByUsername(username);
-        if (Objects.nonNull(name)) {
-            for (AuthUser user : users) {
-                if (user.getUsername().equals(name)) {
-                    users.remove(user);
-                    FRWAuthUser.getInstance().writeAll(users);
-                    Print.println(PURPLE, "Successfully Deleted");
-                    return;
-                }
-            }
-        }
-        Print.println(RED, "Employee not found !");
-    }
-
-    public static int list() {
-        int k = 1;
-        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
-        for (AuthUser user : users) {
-            if (user.getRole().equals(Role.EMPLOYEE)) {
-                if (user.getStatus().equals(UserStatus.ACTIVE))
-                    Print.println(k++ + ". " + PURPLE, user.getUsername());
-                else
-                    Print.println(k++ + ". " + RED, user.getUsername());
-            }
-        }
-        return k;
-    }
-
-    public static void block() {
-        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
-        if (list() == 1) {
-            Print.println(RED, "Employee not found !");
-            return;
-        }
-        String username = getStr("Username -> ");
-        String name = findByUsername(username);
-        if (Objects.nonNull(name)) {
-            for (AuthUser user : users) {
-                if (user.getUsername().equals(name)) {
-                    if (user.getStatus().equals(UserStatus.BLOCKED)) {
-                        Print.println(RED, "Bu Oldin bloklanganku 😐");
-                        return;
-                    }
-                    user.setStatus(UserStatus.BLOCKED);
-                    FRWAuthUser.getInstance().writeAll(users);
-                    Print.println(PURPLE, "Successfully Blocked");
-                    return;
-                }
-            }
-        }
-        Print.println(RED, "Employee not found !");
-    }
-
-    public static void unBlock() {
-        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
-        if (blockList() == 1) {
-            Print.println(RED, "Employee not found !");
-            return;
-        }
-        String username = getStr("Username -> ");
-        String name = findByUsername(username);
-        if (Objects.nonNull(name)) {
-            for (AuthUser user : users) {
-                if (user.getUsername().equals(name)) {
-                    user.setStatus(UserStatus.ACTIVE);
-                    FRWAuthUser.getInstance().writeAll(users);
-                    Print.println(PURPLE, "Successfully UnBlocked");
-                    return;
-                }
-            }
-        }
-        Print.println(RED, "Employee not found !");
-
-    }
-
-    public static int blockList() {
-        int k = 1;
-        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
-        for (AuthUser user : users) {
-            if (user.getStatus().equals(UserStatus.BLOCKED)) {
-                Print.println(k++ + ". " + RED, user.getUsername());
-                k++;
-            }
-        }
-        return k;
-    }
-
-    private static String findByUsername(String userName) {
-        List<AuthUser> users = FRWAuthUser.getInstance().getAll();
-        for (AuthUser user : users) {
-            if (user.getUsername().equals(userName)) {
-                return userName;
-            }
-        }
-        return null;
+        return create(user);
     }
 
     @Override
     public ResponseEntity<String> create(AuthUser authUser) {
-        return null;
+        FRWAuthUser.getInstance().writeAll(authUser);
+        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+    }
+
+
+
+    public ResponseEntity<String> delete(String userName) {
+        AuthUser authUser;
+        try {
+            authUser = repository.findByUserName(userName);
+        } catch (APIException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
+        }
+        return delete(authUser);
     }
 
     @Override
     public ResponseEntity<String> delete(AuthUser authUser) {
-        return null;
+        if (authUser.getDeleted() == 1) {
+            return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+        }
+
+        authUser.setDeleted(1);
+        FRWAuthUser.getInstance().writeAll(getAll());
+        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+    }
+
+    public void list() {
+        for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
+            if (authUser.getDeleted() == 0) {
+                if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
+                    Print.println(Color.RED, authUser.getUsername());
+                } else {
+                    Print.println(Color.PURPLE, authUser.getUsername());
+                }
+            }
+        }
     }
 
     @Override
     public AuthUser get(String id) {
-        return null;
+        for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
+            if (id.equalsIgnoreCase(authUser.getId())) {
+                return authUser;
+            }
+        }
+        throw new APIRuntimeException("Employee not found", HttpStatus.HTTP_404.getCode());
     }
 
     @Override
     public List<AuthUser> getAll() {
-        return null;
+        return FRWAuthUser.getInstance().getAll();
+    }
+
+    public ResponseEntity<String> block(String userName) {
+        try {
+            AuthUser authUser = repository.findByUserName(userName);
+            if (authUser.getDeleted() == 1) {
+                throw new APIException("Employee Not Found", HttpStatus.HTTP_404);
+            }
+            if (authUser.getStatus().equals(UserStatus.BLOCKED)) {
+                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+            }
+            if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
+                authUser.setStatus(UserStatus.BLOCKED);
+            }
+            FRWAuthUser.getInstance().writeAll(getAll());
+        } catch (APIException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
+        }
+        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+    }
+
+    public ResponseEntity<String> unblock(String userName) {
+        try {
+            AuthUser authUser = repository.findByUserName(userName);
+            if (authUser.getDeleted() == 1) {
+                throw new APIException("Employee Not Found", HttpStatus.HTTP_404);
+            }
+            if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
+                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+            }
+            if (authUser.getStatus().equals(UserStatus.BLOCKED)) {
+                authUser.setStatus(UserStatus.ACTIVE);
+            }
+            FRWAuthUser.getInstance().writeAll(getAll());
+        } catch (APIException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
+        }
+        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
     @Override
     public ResponseEntity<String> update(String id, AuthUser authUser) {
         return null;
+    }
+
+    public void blockList() {
+        for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
+            if (authUser.getDeleted() == 0 && authUser.getStatus().equals(UserStatus.BLOCKED))
+                Print.println(Color.RED, authUser.getUsername());
+        }
+    }
+
+    public Integer blockCount() {
+        Integer count = 0;
+        for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
+            if (authUser.getDeleted() == 0 && authUser.getStatus().equals(UserStatus.BLOCKED))
+                count++;
+        }
+        return count;
     }
 
 }
