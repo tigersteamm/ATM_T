@@ -77,7 +77,7 @@ public class MainMenu {
             case BLOCK_LIST_ATM -> AtmUI.blockList();
 
             case EXIT -> {
-                Print.println(Color.YELLOW, "Good day");
+                Print.println(Color.YELLOW, "Good bay");
                 return;
             }
             default -> // TODO: 12/8/2021 do translations here
