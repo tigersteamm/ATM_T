@@ -2,21 +2,17 @@ package uz.jl.services.employee;
 
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
-import uz.jl.dao.branch.BranchDao;
 import uz.jl.dao.db.FRWAuthUser;
 import uz.jl.enums.auth.Role;
 import uz.jl.enums.auth.UserStatus;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.mapper.AuthUserMapper;
-import uz.jl.mapper.BranchMapper;
 import uz.jl.models.auth.AuthUser;
 import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
-import uz.jl.services.branch.BranchService;
-import uz.jl.utils.Color;
 import uz.jl.utils.Print;
 
 import java.util.List;
@@ -175,12 +171,17 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
     }
 
     @Override
-    public void delete(String id) {
-
+    public ResponseEntity<String> create(String userName, String password) {
+        return null;
     }
 
     @Override
-    public AuthUser get(String id) {
+    public ResponseEntity<String> delete(AuthUser authUser) {
+        return null;
+    }
+
+    @Override
+    public Branch get(String id) {
         return null;
     }
 

@@ -1,6 +1,7 @@
 package uz.jl.services;
 
 import uz.jl.models.BaseEntity;
+import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
 
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.List;
 public interface IBaseCrudService<E extends BaseEntity> {
     void create(E e);
 
-    void delete(String id);
+    ResponseEntity<String> create(String userName, String password);
 
-    E get(String id);
+    ResponseEntity<String> delete(E e);
+
+    Branch get(String id);
 
     List<E> getAll();
 

@@ -65,6 +65,16 @@ public class BranchService
         FRWBranch.getInstance().writeAll(branch);
     }
 
+    @Override
+    public ResponseEntity<String> create(String userName, String password) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<String> delete(Branch branch) {
+        return null;
+    }
+
     public ResponseEntity<String> delete(String name, String undefined) {
         if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
@@ -93,11 +103,9 @@ public class BranchService
                 else
                     Print.println(Color.PURPLE, branch.getName());
             }
-
         }
     }
 
-    @Override
     public void delete(String id) {
         try {
             repository.findById(id).setDeleted(1);
@@ -130,21 +138,14 @@ public class BranchService
         FRWBranch.getInstance().writeAll(getAll());
     }
 
-    public void blockList() {
-        if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
-            Print.println(Color.RED, "Forbidden");
-            return; // new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
-        }
-        for (Branch branch : FRWBranch.getInstance().getAll()) {
-            if (branch.getDeleted() == 0 && branch.getStatus().equals(BranchStatus.BLOCKED))
-                Print.println(Color.RED, branch.getName());
-        }
-    }
-
     public ResponseEntity<String> block(String name) {
         if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
+        if (unblockCount() == 0) {
+            return new ResponseEntity<>("Not Found Any Unblocked Branch", HttpStatus.HTTP_404);
+        }
+        unblockList();
         try {
             Branch branch = repository.findByName(name);
             if (branch.getDeleted() == 1) {
@@ -167,6 +168,9 @@ public class BranchService
         if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
+        if (blockCount() == 0) {
+            return new ResponseEntity<>("Not Found Any Blocked Branch", HttpStatus.HTTP_404);
+        }
         blockList();
         try {
             Branch branch = repository.findByName(name);
@@ -184,5 +188,45 @@ public class BranchService
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+    }
+
+    public void blockList() {
+        if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
+            Print.println(Color.RED, "Forbidden");
+            return; // new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
+        for (Branch branch : FRWBranch.getInstance().getAll()) {
+            if (branch.getDeleted() == 0 && branch.getStatus().equals(BranchStatus.BLOCKED))
+                Print.println(Color.RED, branch.getName());
+        }
+    }
+
+    public void unblockList() {
+        if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
+            Print.println(Color.RED, "Forbidden");
+            return; // new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
+        for (Branch branch : FRWBranch.getInstance().getAll()) {
+            if (branch.getDeleted() == 0 && branch.getStatus().equals(BranchStatus.ACTIVE))
+                Print.println(Color.PURPLE, branch.getName());
+        }
+    }
+
+    public Integer blockCount() {
+        Integer count = 0;
+        for (Branch branch : FRWBranch.getInstance().getAll()) {
+            if (branch.getDeleted() == 0 && branch.getStatus().equals(BranchStatus.BLOCKED))
+                count++;
+        }
+        return count;
+    }
+
+    public Integer unblockCount() {
+        Integer count = 0;
+        for (Branch branch : FRWBranch.getInstance().getAll()) {
+            if (branch.getDeleted() == 0 && branch.getStatus().equals(BranchStatus.ACTIVE))
+                count++;
+        }
+        return count;
     }
 }

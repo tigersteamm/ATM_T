@@ -50,4 +50,8 @@ public class BranchUI {
     public static void blockList() {
         service.blockList();
     }
+
+    public static void unblockList() {
+        service.unblockList();
+    }
 }
