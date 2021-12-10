@@ -1,14 +1,10 @@
 package uz.jl.dao.db;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import uz.jl.configs.AppConfig;
-import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.models.auth.AuthUser;
 
 import java.io.*;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
