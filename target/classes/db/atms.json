@@ -1,0 +1,21 @@
+[
+  {
+    "type": "HUMO",
+    "name": "shahbpz",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "id": "82803f312cdd4b4ba31dae051cb75fac",
+    "createdAt": "Dec 10, 2021, 7:08:13 AM",
+    "deleted": 0
+  },
+  {
+    "type": "UZCARD",
+    "name": "pdp",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "id": "63a7a7cc1d494cb8bd862b63b014e291",
+    "createdAt": "Dec 10, 2021, 9:14:41 AM",
+    "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "deleted": 0
+  }
+]

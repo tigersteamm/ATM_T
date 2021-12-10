@@ -26,7 +26,7 @@ public final class FRWATMEntity extends FRWBase<ATMEntity> {
     @Override
     public List<ATMEntity> getAll() {
         if (list.isEmpty()) {
-            try (FileReader fileReader = new FileReader("src/main/resource/db/atms.json");
+            try (FileReader fileReader = new FileReader("src/main/resources/db/atms.json");
                  BufferedReader bufferedReader = new BufferedReader(fileReader)) {
                 String jsonDATA = bufferedReader.lines().collect(Collectors.joining());
                 list = gson.fromJson(jsonDATA, new TypeToken<List<AtmUI>>() {

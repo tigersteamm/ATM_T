@@ -3,7 +3,6 @@ package uz.jl.dao.branch;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import uz.jl.dao.atm.BaseDao;
-import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.db.FRWBranch;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
@@ -14,6 +13,7 @@ import java.util.Objects;
 /**
  * @author D4uranbek чт. 18:48. 09.12.2021
  */
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BranchDao extends BaseDao<Branch> {
     FRWBranch frwBranch = FRWBranch.getInstance();
@@ -48,9 +48,9 @@ public class BranchDao extends BaseDao<Branch> {
     public Branch findByName(String name) throws APIException {
         for (Branch branch : frwBranch.getAll()) {
             if (name.equalsIgnoreCase(branch.getName()))
-                if (branch.getDeleted() == 0) {
-                    return branch;
-                } else break;
+//                if (branch.getDeleted() == 0) {
+                return branch;
+//                } else break;
         }
         throw new APIException("Branch Not Found", HttpStatus.HTTP_404);
     }

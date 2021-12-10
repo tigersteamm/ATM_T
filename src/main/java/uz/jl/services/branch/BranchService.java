@@ -3,6 +3,7 @@ package uz.jl.services.branch;
 import uz.jl.configs.Session;
 import uz.jl.dao.branch.BranchDao;
 import uz.jl.dao.db.FRWBranch;
+import uz.jl.enums.auth.Role;
 import uz.jl.enums.branch.BranchStatus;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
@@ -25,6 +26,8 @@ public class BranchService
         extends BaseAbstractService<Branch, BranchDao, BranchMapper>
         implements IBaseCrudService<Branch> {
 
+    Role role = Session.getInstance().getUser().getRole();
+
     private static BranchService service;
 
     public static BranchService getInstance(BranchDao repository, BranchMapper mapper) {
@@ -39,6 +42,9 @@ public class BranchService
     }
 
     public ResponseEntity<String> create(String name) {
+        if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
         if (repository.hasSuchName(name)) {
             return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
         }
@@ -54,25 +60,41 @@ public class BranchService
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
-    public ResponseEntity<String> delete(String name, String a) {
+    @Override
+    public void create(Branch branch) {
+        FRWBranch.getInstance().writeAll(branch);
+    }
+
+    public ResponseEntity<String> delete(String name, String undefined) {
+        if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
         try {
-            repository.findByName(name).setDeleted(1);
+            Branch branch = repository.findByName(name);
+            if (branch.getDeleted() == 1)
+                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+            branch.setDeleted(1);
+            FRWBranch.getInstance().writeAll(getAll());
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
-        FRWBranch.getInstance().writeAll(getAll());
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
     public void list() {
-        for (Branch branch : FRWBranch.getInstance().getAll()) {
-            Print.println(Color.PURPLE, branch.getName());
+        if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
+            Print.println(Color.RED, "Forbidden");
+            return; // new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
-    }
+        for (Branch branch : FRWBranch.getInstance().getAll()) {
+            if (branch.getDeleted() == 0) {
+                if (branch.getStatus().equals(BranchStatus.BLOCKED))
+                    Print.println(Color.RED, branch.getName());
+                else
+                    Print.println(Color.PURPLE, branch.getName());
+            }
 
-    @Override
-    public void create(Branch branch) {
-        FRWBranch.getInstance().writeAll(branch);
+        }
     }
 
     @Override
@@ -109,41 +131,58 @@ public class BranchService
     }
 
     public void blockList() {
+        if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
+            Print.println(Color.RED, "Forbidden");
+            return; // new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
         for (Branch branch : FRWBranch.getInstance().getAll()) {
-            if (branch.getStatus().equals(BranchStatus.BLOCKED))
+            if (branch.getDeleted() == 0 && branch.getStatus().equals(BranchStatus.BLOCKED))
                 Print.println(Color.RED, branch.getName());
         }
     }
 
     public ResponseEntity<String> block(String name) {
+        if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
         try {
             Branch branch = repository.findByName(name);
+            if (branch.getDeleted() == 1) {
+                throw new APIException("Branch Not Found", HttpStatus.HTTP_404);
+            }
             if (branch.getStatus().equals(BranchStatus.BLOCKED)) {
                 return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
             }
             if (branch.getStatus().equals(BranchStatus.ACTIVE)) {
                 branch.setStatus(BranchStatus.BLOCKED);
             }
+            FRWBranch.getInstance().writeAll(getAll());
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
-        FRWBranch.getInstance().writeAll(getAll());
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
     public ResponseEntity<String> unblock(String name) {
+        if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
+        blockList();
         try {
             Branch branch = repository.findByName(name);
+            if (branch.getDeleted() == 1) {
+                throw new APIException("Branch Not Found", HttpStatus.HTTP_404);
+            }
             if (branch.getStatus().equals(BranchStatus.ACTIVE)) {
                 return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
             }
             if (branch.getStatus().equals(BranchStatus.BLOCKED)) {
                 branch.setStatus(BranchStatus.ACTIVE);
             }
+            FRWBranch.getInstance().writeAll(getAll());
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
-        FRWBranch.getInstance().writeAll(getAll());
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 }
