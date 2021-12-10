@@ -17,7 +17,7 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
     public static void createHR(){
         String username=getStr("Enter HR username : ");
         String password=getStr("Enter HR password : ");
-        String phoneNumber=getStr("Phone number : ");
+        String phoneNumber=getStr("Phone numberr : ");
         AuthUser hr=new AuthUser();
         hr.setLanguage(Session.getInstance().getUser().getLanguage());
         hr.setPhoneNumber(phoneNumber);
