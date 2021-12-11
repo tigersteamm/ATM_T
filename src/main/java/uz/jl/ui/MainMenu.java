@@ -1,24 +1,17 @@
-package uz.jl;
+package uz.jl.ui;
 
 import uz.jl.configs.AppConfig;
 import uz.jl.exceptions.APIException;
-import uz.jl.models.auth.AuthUser;
-import uz.jl.ui.*;
 import uz.jl.ui.menus.Menu;
 import uz.jl.ui.menus.MenuKey;
 import uz.jl.utils.Color;
 import uz.jl.utils.Input;
 import uz.jl.utils.Print;
 
-<<<<<<< HEAD
-import uz.jl.ui.AtmUI;
-
-=======
 /**
  * @author Elmurodov Javohir, Wed 11:30 AM. 12/8/2021
  */
->>>>>>> eea3290ec305398a0923bde2541cd0452a788718
-public class App {
+public class MainMenu {
     static {
         try {
             AppConfig.init();
@@ -26,8 +19,8 @@ public class App {
             e.printStackTrace();
         }
     }
-
     public static void main(String[] args) {
+AtmProcessUI.service.infoCard();
         Menu.show();
         String choice = Input.getStr("?:");
         MenuKey key = MenuKey.getByValue(choice);
@@ -80,6 +73,8 @@ public class App {
             case BLOCK_ATM -> AtmUI.block();
             case UN_BLOCK_ATM -> AtmUI.unblock();
             case BLOCK_LIST_ATM -> AtmUI.blockList();
+
+            case CARD_INFO-> AtmProcessUI.infoCard();
 
             case EXIT -> {
                 Print.println(Color.YELLOW, "Good bay");
