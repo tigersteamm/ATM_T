@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "type": "UZCARD",
+    "name": "atm1",
+    "status": "ACTIVE",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "id": "7dcbf3a0888a44eaa1426e6bf164228f",
+    "createdAt": "Dec 11, 2021, 10:54:08 AM",
+    "createdBy": "8972788434800Gz6FHtYWABDMvHok4ZYP",
+    "deleted": 0
+  },
+  {
+    "type": "UZCARD",
+    "name": "atm11",
+    "status": "ACTIVE",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "id": "465c7af368ee4759a3f9759684e2b0f0",
+    "createdAt": "Dec 11, 2021, 11:17:09 AM",
+    "createdBy": "9469288192600JkfXmwhzXrOowibtXr9f",
+    "deleted": 0
+  }
+]

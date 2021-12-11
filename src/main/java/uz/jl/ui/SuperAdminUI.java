@@ -1,11 +1,16 @@
 package uz.jl.ui;
 
 import uz.jl.dao.auth.AuthUserDao;
+import uz.jl.dao.branch.BranchDao;
 import uz.jl.mapper.AuthUserMapper;
+import uz.jl.mapper.BranchMapper;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.admin.AdminService;
+import uz.jl.services.branch.BranchService;
+import uz.jl.utils.Print;
 
 import static uz.jl.ui.BaseUI.showResponse;
+import static uz.jl.utils.Color.GREEN;
 import static uz.jl.utils.Input.getStr;
 
 /**
@@ -15,9 +20,14 @@ public class SuperAdminUI {
     static AdminService service = AdminService.getInstance(AuthUserDao.getInstance(), AuthUserMapper.getInstance());
 
     public static void create() {
+        BranchService serviceBranch = BranchService.getInstance(BranchDao.getInstance(), BranchMapper.getInstance());
+        serviceBranch.list();
+        String branch = getStr("Choose branch : ");
+
+        Print.println(GREEN, "Create an admin for the branch");
         String userName = getStr("Username = ");
         String password = getStr("password = ");
-        ResponseEntity<String> response = service.create(userName, password);
+        ResponseEntity<String> response = service.create(userName, password, branch);
         showResponse(response);
     }
 

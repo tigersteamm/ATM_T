@@ -108,7 +108,6 @@ public class BranchService
         }
     }
 
-
     @Override
     public Branch get(String id) {
         for (Branch branch : FRWBranch.getInstance().getAll()) {

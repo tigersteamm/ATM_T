@@ -13,9 +13,71 @@
     "username": "admin",
     "password": "admin123",
     "role": "ADMIN",
-    "status": "ACTIVE",
+    "status": "BLOCKED",
     "id": "8972788434800Gz6FHtYWABDMvHok4ZYP",
     "createdAt": "Dec 11, 2021, 10:22:35 AM",
+    "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "deleted": 0
+  },
+  {
+    "username": "admin1",
+    "password": "admin123",
+    "role": "ADMIN",
+    "status": "ACTIVE",
+    "id": "9469288192600JkfXmwhzXrOowibtXr9f",
+    "createdAt": "Dec 11, 2021, 10:30:52 AM",
+    "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "deleted": 0
+  },
+  {
+    "username": "hr",
+    "password": "hr123",
+    "role": "HR",
+    "status": "ACTIVE",
+    "id": "9656729643600tuWcsMkesmFWT4xLQxm9",
+    "createdAt": "Dec 11, 2021, 10:33:59 AM",
+    "createdBy": "9469288192600JkfXmwhzXrOowibtXr9f",
+    "deleted": 0
+  },
+  {
+    "username": "hr1",
+    "password": "hr123",
+    "role": "HR",
+    "status": "BLOCKED",
+    "id": "9668548426200N2lnusAYxjEiHLw8jST8",
+    "createdAt": "Dec 11, 2021, 10:34:11 AM",
+    "createdBy": "9469288192600JkfXmwhzXrOowibtXr9f",
+    "deleted": 1
+  },
+  {
+    "username": "employee",
+    "password": "employee",
+    "role": "EMPLOYEE",
+    "status": "BLOCKED",
+    "phoneNumber": "+998932885122",
+    "id": "11129504465000Pofr7QzSsb37VQaoe8kg",
+    "createdAt": "Dec 11, 2021, 10:58:32 AM",
+    "createdBy": "8972788434800Gz6FHtYWABDMvHok4ZYP",
+    "deleted": 1
+  },
+  {
+    "username": "employee1",
+    "password": "employee123",
+    "role": "EMPLOYEE",
+    "status": "ACTIVE",
+    "phoneNumber": "+998932885122",
+    "id": "11162205581700GNn1hPAJwV9lTyuAsTIM",
+    "createdAt": "Dec 11, 2021, 10:59:05 AM",
+    "createdBy": "8972788434800Gz6FHtYWABDMvHok4ZYP",
+    "deleted": 0
+  },
+  {
+    "username": "admin2",
+    "password": "admin123",
+    "role": "ADMIN",
+    "status": "ACTIVE",
+    "id": "932268444000tNOto4JBDZKCCVlzxHYz",
+    "createdAt": "Dec 11, 2021, 5:46:54 PM",
     "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
     "deleted": 0
   }

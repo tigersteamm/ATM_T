@@ -56,7 +56,7 @@ public class AtmService
     }
 
     public ResponseEntity<String> create(String name) {
-        if (!(Role.ADMIN.equals(role) || Role.HR.equals(role))) {
+        if (!Role.ADMIN.equals(role)) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
         ATMType.show();
