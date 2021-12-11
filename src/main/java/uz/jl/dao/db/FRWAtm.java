@@ -3,7 +3,6 @@ package uz.jl.dao.db;
 import com.google.gson.reflect.TypeToken;
 import uz.jl.configs.AppConfig;
 import uz.jl.models.atm.Atm;
-import uz.jl.ui.AtmUI;
 
 import java.io.*;
 import java.util.*;

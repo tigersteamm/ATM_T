@@ -2,7 +2,6 @@ package uz.jl.ui;
 
 import uz.jl.configs.AppConfig;
 import uz.jl.exceptions.APIException;
-import uz.jl.models.auth.AuthUser;
 import uz.jl.ui.menus.Menu;
 import uz.jl.ui.menus.MenuKey;
 import uz.jl.utils.Color;
@@ -21,7 +20,7 @@ public class MainMenu {
         }
     }
     public static void main(String[] args) {
-
+AtmProcessUI.service.infoCard();
         Menu.show();
         String choice = Input.getStr("?:");
         MenuKey key = MenuKey.getByValue(choice);
@@ -74,6 +73,8 @@ public class MainMenu {
             case BLOCK_ATM -> AtmUI.block();
             case UN_BLOCK_ATM -> AtmUI.unblock();
             case BLOCK_LIST_ATM -> AtmUI.blockList();
+
+            case CARD_INFO-> AtmProcessUI.infoCard();
 
             case EXIT -> {
                 Print.println(Color.YELLOW, "Good bay");
