@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static uz.jl.utils.BaseUtils.genId;
+import static uz.jl.utils.Color.PURPLE;
+import static uz.jl.utils.Color.RED;
 
 /**
  * @author Nodirbek Abdukarimov Fri. 8:51 PM. 12/10/2021
@@ -43,11 +45,12 @@ public class AdminService
         super(repository, mapper);
     }
 
-    public ResponseEntity<String> create(String userName, String password) {
+    public ResponseEntity<String> create(String branch, String userName, String password) {
         AuthUser user = new AuthUser();
         user.setId(genId());
         user.setUsername(userName);
         user.setPassword(password);
+//        user.setBankId();
         user.setStatus(UserStatus.ACTIVE);
         user.setRole(Role.ADMIN);
         user.setCreatedBy(Session.getInstance().getUser().getId());
@@ -90,10 +93,11 @@ public class AdminService
     public void list() {
         for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
             if (authUser.getDeleted() == 0) {
-                if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
-                    Print.println(Color.RED, authUser.getUsername());
-                } else {
-                    Print.println(Color.PURPLE, authUser.getUsername());
+                if (authUser.getStatus().equals(UserStatus.ACTIVE) && authUser.getRole().equals(Role.ADMIN)) {
+                    Print.println(PURPLE, authUser.getUsername());
+                }
+                if (authUser.getStatus().equals(UserStatus.BLOCKED) && authUser.getRole().equals(Role.ADMIN)) {
+                    Print.println(RED, authUser.getUsername());
                 }
             }
         }

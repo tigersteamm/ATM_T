@@ -40,16 +40,8 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
         super(repository, mapper);
     }
 
-    public ResponseEntity<String> create(String userName, String password, String phoneNumber)  {
-      try {
-          AuthUser user = repository.findByUserName(userName);
-          if (Objects.nonNull(user)){
-              return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
-          }
-      }catch (APIException e){
-          return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
-      }
-        AuthUser user=new AuthUser();
+    public ResponseEntity<String> create(String userName, String password, String phoneNumber) {
+        AuthUser user = new AuthUser();
         user.setId(genId());
         user.setUsername(userName);
         user.setPassword(password);
@@ -63,10 +55,12 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
 
     @Override
     public ResponseEntity<String> create(AuthUser authUser) {
+        if (repository.hasSuchName(authUser.getUsername())) {
+            return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
+        }
         FRWAuthUser.getInstance().writeAll(authUser);
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
-
 
 
     public ResponseEntity<String> delete(String userName) {
@@ -93,10 +87,11 @@ public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, 
     public void list() {
         for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
             if (authUser.getDeleted() == 0) {
-                if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
-                    Print.println(Color.RED, authUser.getUsername());
-                } else {
-                    Print.println(Color.PURPLE, authUser.getUsername());
+                if (authUser.getStatus().equals(UserStatus.ACTIVE) && authUser.getRole().equals(Role.EMPLOYEE)) {
+                    Print.println(PURPLE, authUser.getUsername());
+                }
+                if (authUser.getStatus().equals(UserStatus.BLOCKED) && authUser.getRole().equals(Role.EMPLOYEE)) {
+                    Print.println(RED, authUser.getUsername());
                 }
             }
         }

@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static uz.jl.utils.BaseUtils.genId;
+import static uz.jl.utils.Color.PURPLE;
+import static uz.jl.utils.Color.RED;
 
 public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUserMapper>
         implements IBaseCrudService<AuthUser> {
@@ -89,10 +91,11 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
     public void list() {
         for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
             if (authUser.getDeleted() == 0) {
-                if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
-                    Print.println(uz.jl.utils.Color.RED, authUser.getUsername());
-                } else {
-                    Print.println(uz.jl.utils.Color.PURPLE, authUser.getUsername());
+                if (authUser.getStatus().equals(UserStatus.ACTIVE) && authUser.getRole().equals(Role.HR)) {
+                    Print.println(PURPLE, authUser.getUsername());
+                }
+                if (authUser.getStatus().equals(UserStatus.BLOCKED) && authUser.getRole().equals(Role.HR)) {
+                    Print.println(RED, authUser.getUsername());
                 }
             }
         }
