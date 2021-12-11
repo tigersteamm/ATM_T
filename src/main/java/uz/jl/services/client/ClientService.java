@@ -4,6 +4,7 @@ import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.card.CardDao;
 import uz.jl.dao.db.FRWAuthUser;
+import uz.jl.dao.db.FRWCard;
 import uz.jl.enums.auth.Role;
 import uz.jl.enums.auth.UserStatus;
 import uz.jl.enums.card.CardStatus;
@@ -216,6 +217,7 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
                 .bankId(Session.getInstance().getUser().getBankId())
                 .holderId(user.getId())
                 .build();
+        FRWCard.getInstance().writeAll(card);
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }
 
