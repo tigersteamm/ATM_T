@@ -1,7 +1,7 @@
 [
   {
-    "username": "ad",
-    "password": "ad123",
+    "username": "super",
+    "password": "super123",
     "role": "SUPER_ADMIN",
     "status": "ACTIVE",
     "phoneNumber": "998908115225",
