@@ -8,9 +8,7 @@ import uz.jl.exceptions.APIException;
 import uz.jl.models.atm.Atm;
 
 
-
 import java.util.Objects;
-
 
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
