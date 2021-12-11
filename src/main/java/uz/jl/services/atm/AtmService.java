@@ -60,14 +60,14 @@ public class AtmService
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
         ATMType.show();
-        String typeStr=getStr("?:").toUpperCase(Locale.ROOT);
-        while(Objects.isNull(ATMType.getByValue(typeStr))){
-            println(RED,"Enter true 😒");
+        String typeStr = getStr("?:").toUpperCase(Locale.ROOT);
+        while (Objects.isNull(ATMType.getByValue(typeStr))) {
+            println(RED, "Enter true 😒");
             ATMType.show();
-            typeStr=getStr("?:").toUpperCase(Locale.ROOT);
+            typeStr = getStr("?:").toUpperCase(Locale.ROOT);
         }
-        ATMType type1=ATMType.valueOf(typeStr);
-        Atm atm=new Atm(name,type1,Session.getInstance().getUser().getBankId(), Session.getInstance().getUser());
+        ATMType type1 = ATMType.valueOf(typeStr);
+        Atm atm = new Atm(name, type1, Session.getInstance().getUser().getBankId(), Session.getInstance().getUser());
         return create(atm);
     }
 
@@ -109,18 +109,18 @@ public class AtmService
             Print.println(Color.RED, "Forbidden");
             return;// new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
-        boolean stop=true;
+        boolean stop = true;
         for (Atm atm : FRWAtm.getInstance().getAll()) {
             if (atm.getDeleted() == 0) {
-                stop=false;
+                stop = false;
                 if (atm.getStatus().equals(ATMStatus.BLOCKED))
                     Print.println(Color.RED, atm.getName());
                 else
                     Print.println(Color.PURPLE, atm.getName());
             }
         }
-        if(stop)
-        println(RED,"You haven't ATM 🤔");
+        if (stop)
+            println(RED, "You haven't ATM 🤔");
     }
 
     @Override
@@ -133,7 +133,7 @@ public class AtmService
         return FRWAtm.getInstance().getAll();
     }
 
-    public ResponseEntity<String> update(String oldName,String newName) {
+    public ResponseEntity<String> update(String oldName, String newName) {
         if (!(Role.ADMIN.equals(role) || Role.HR.equals(role))) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
@@ -145,14 +145,15 @@ public class AtmService
             if (atm.getStatus().equals(ATMStatus.BLOCKED)) {
                 return new ResponseEntity<>("This ATM is Blocked", HttpStatus.HTTP_406);
             }
-            if(repository.hasSuchName(newName)){
+            if (repository.hasSuchName(newName)) {
                 return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
             }
-            return update(newName,atm);
+            return update(newName, atm);
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
     }
+
     @Override
     public ResponseEntity<String> update(String newName, Atm atm) {
         atm.setName(newName);
@@ -170,7 +171,7 @@ public class AtmService
             return new ResponseEntity<>("Not Found Any Unblocked Branch", HttpStatus.HTTP_404);
         }
 //        unblockList();
-            try {
+        try {
             Atm atm = repository.findByName(name);
             if (atm.getDeleted() == 1) {
                 throw new APIException("ATM Not Found", HttpStatus.HTTP_404);

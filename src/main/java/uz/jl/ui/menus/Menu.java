@@ -19,8 +19,14 @@ public class Menu {
             menus.put("Create Branch", MenuKey.CREATE_BRANCH);
             menus.put("Create Admin", MenuKey.CREATE_ADMIN);
 
+            menus.put("Admin List", MenuKey.LIST_ADMIN);
+            menus.put("Branch List", MenuKey.LIST_BRANCH);
+
             menus.put("Block Admin", MenuKey.BLOCK_ADMIN);
+            menus.put("Unblock Admin", MenuKey.UN_BLOCK_ADMIN);
+
             menus.put("Block Branch", MenuKey.BLOCK_BRANCH);
+            menus.put("UnBlock Branch", MenuKey.UN_BLOCK_BRANCH);
 
             menus.put("Delete Admin", MenuKey.DELETE_ADMIN);
             menus.put("Delete Branch", MenuKey.DELETE_BRANCH);
