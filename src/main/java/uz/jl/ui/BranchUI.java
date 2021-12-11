@@ -7,6 +7,7 @@ import uz.jl.services.branch.BranchService;
 import uz.jl.utils.Input;
 
 import static uz.jl.ui.BaseUI.showResponse;
+import static uz.jl.utils.Input.getStr;
 
 /**
  * @author Elmurodov Javohir, Wed 12:11 PM. 12/8/2021
@@ -16,17 +17,20 @@ public class BranchUI {
     static BranchService service = BranchService.getInstance(BranchDao.getInstance(), BranchMapper.getInstance());
 
     public static void create() {
-        String name = Input.getStr("Branch name = ");
+        String name = Input.getStr("Branch name: ");
         ResponseEntity<String> response = service.create(name);
         showResponse(response);
     }
 
     public static void update() {
-
+        String oldName = getStr("Old branch name: ");
+        String newName = getStr("New branch name: ");
+        ResponseEntity<String> response = service.update(oldName, newName);
+        showResponse(response);
     }
 
     public static void delete() {
-        String name = Input.getStr("Branch name = ");
+        String name = Input.getStr("Branch name: ");
         ResponseEntity<String> response = service.delete(name);
         showResponse(response);
     }
@@ -37,14 +41,14 @@ public class BranchUI {
 
     public static void block() {
         unblockList();
-        String name = Input.getStr("Branch name = ");
+        String name = Input.getStr("Branch name: ");
         ResponseEntity<String> response = service.block(name);
         showResponse(response);
     }
 
     public static void unblock() {
         blockList();
-        String name = Input.getStr("Branch name = ");
+        String name = Input.getStr("Branch name: ");
         ResponseEntity<String> response = service.unblock(name);
         showResponse(response);
     }

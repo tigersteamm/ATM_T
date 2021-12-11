@@ -152,7 +152,6 @@ public class AtmService
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
-
     }
 
     @Override
