@@ -5,7 +5,6 @@ import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.db.FRWAuthUser;
 import uz.jl.enums.auth.Role;
 import uz.jl.enums.auth.UserStatus;
-import uz.jl.enums.branch.BranchStatus;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.exceptions.APIRuntimeException;
@@ -15,19 +14,14 @@ import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
-import uz.jl.services.hr.HRService;
 import uz.jl.utils.Color;
 import uz.jl.utils.Print;
 
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import static uz.jl.utils.BaseUtils.genId;
-import static uz.jl.utils.Input.getStr;
 
 public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUserMapper>
         implements IBaseCrudService<AuthUser> {
