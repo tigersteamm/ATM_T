@@ -20,7 +20,6 @@ public class MainMenu {
             e.printStackTrace();
         }
     }
-
     public static void main(String[] args) {
 
         Menu.show();
@@ -43,7 +42,7 @@ public class MainMenu {
             case DELETE_HR -> AdminUI.delete();
             case LIST_HR -> AdminUI.list();
             case BLOCK_HR -> AdminUI.block();
-            case UN_BLOCK_HR -> AdminUI.unBlock();
+            case UN_BLOCK_HR -> AdminUI.unblock();
             case BLOCK_LIST_HR -> AdminUI.blockList();
 
             case CREATE_USER -> HrUI.create();

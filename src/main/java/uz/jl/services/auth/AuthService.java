@@ -60,7 +60,7 @@ public class AuthService
 
 
     public ResponseEntity<String> logout() {
-        if (Role.ANONYMOUS.equals(role)) {
+        if (!Role.ANONYMOUS.equals(role)) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
         Session.getInstance().setUser(new AuthUser());
@@ -68,7 +68,7 @@ public class AuthService
     }
 
     public ResponseEntity<String> profile() {
-        if (Role.ANONYMOUS.equals(role)) {
+        if (!Role.ANONYMOUS.equals(role)) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
         Print.println(Color.GREEN, Session.getInstance().getUser());

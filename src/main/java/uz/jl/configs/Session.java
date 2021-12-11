@@ -29,15 +29,4 @@ public class Session {
         return session;
     }
 
-    @Override
-    public String toString() {
-        return
-                "username=" + user.getUsername() +
-//                        "\npassword=" + user.getPassword() +
-                        "\nrole=" + user.getRole() +
-                        "\nstatus=" + user.getStatus() +
-                        "\nphone number=" + user.getPhoneNumber() +
-                        "\nlanguage=" + user.getLanguage().toString()
-                ;
-    }
 }

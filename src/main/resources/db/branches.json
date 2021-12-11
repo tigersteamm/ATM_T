@@ -7,10 +7,12 @@
     "deleted": 1
   },
   {
-    "name": "ads",
+    "name": "branch",
     "status": "ACTIVE",
     "createdAt": "Dec 9, 2021, 10:14:40 PM",
     "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "updatedAt": "Dec 11, 2021, 9:15:23 AM",
+    "updatedBy": "1511617896657700RNTZm9kTlFgPg968jslM",
     "deleted": 0
   },
   {

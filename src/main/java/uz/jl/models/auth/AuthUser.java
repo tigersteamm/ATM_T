@@ -43,4 +43,16 @@ public class AuthUser extends Auditable {
         this.phoneNumber = phoneNumber;
         this.language = language;
     }
+
+    @Override
+    public String toString() {
+        return
+                "username=" + username +
+//                        "\npassword=" + user.getPassword() +
+                        "\nrole=" + role +
+                        "\nstatus=" + status +
+                        "\nphone number=" + phoneNumber +
+                        "\nlanguage=" + language
+                ;
+    }
 }

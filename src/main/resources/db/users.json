@@ -8,5 +8,25 @@
     "id": "1511617896657700RNTZm9kTlFgPg968jslM",
     "createdAt": "Dec 9, 2021, 11:15:57 AM",
     "deleted": 0
+  },
+  {
+    "username": "a",
+    "password": "a",
+    "role": "ADMIN",
+    "status": "BLOCKED",
+    "id": "45490415579003GfSHzM80qP59SLf9OFL",
+    "createdAt": "Dec 11, 2021, 9:08:52 AM",
+    "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "deleted": 0
+  },
+  {
+    "username": "hr",
+    "password": "123",
+    "role": "HR",
+    "status": "ACTIVE",
+    "id": "4702983224100oSF2puW94nBncyZj3BTS",
+    "createdAt": "Dec 11, 2021, 9:11:26 AM",
+    "createdBy": "45490415579003GfSHzM80qP59SLf9OFL",
+    "deleted": 1
   }
 ]
