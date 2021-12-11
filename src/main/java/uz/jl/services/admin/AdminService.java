@@ -91,9 +91,9 @@ public class AdminService
         for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
             if (authUser.getDeleted() == 0) {
                 if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
-                    Print.println(Color.RED, authUser.getUsername());
-                } else {
                     Print.println(Color.PURPLE, authUser.getUsername());
+                } else {
+                    Print.println(Color.RED, authUser.getUsername());
                 }
             }
         }

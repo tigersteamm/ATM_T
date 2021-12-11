@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "name": "atm1",
+    "status": "ACTIVE",
+    "createdAt": "Dec 11, 2021, 10:22:25 AM",
+    "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "deleted": 0
+  }
+]

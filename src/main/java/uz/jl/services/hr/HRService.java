@@ -90,9 +90,9 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
         for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
             if (authUser.getDeleted() == 0) {
                 if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
-                    Print.println(uz.jl.utils.Color.RED, authUser.getUsername());
+                    Print.println(Color.PURPLE, authUser.getUsername());
                 } else {
-                    Print.println(uz.jl.utils.Color.PURPLE, authUser.getUsername());
+                    Print.println(Color.RED, authUser.getUsername());
                 }
             }
         }
