@@ -12,6 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ATM_T" target="17" />
+      <module name="online_bank" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
