@@ -8,8 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ATM_T" />
-        <module name="online_bank" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ATM_T" target="17" />
+      <module name="online_bank" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
