@@ -2,24 +2,24 @@ package uz.jl.services.auth;
 
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
+import uz.jl.enums.auth.Role;
+import uz.jl.enums.auth.UserStatus;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
-import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
-import uz.jl.services.IBaseCrudService;
+import uz.jl.utils.Color;
+import uz.jl.utils.Print;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
  * @author Elmurodov Javohir, Mon 10:46 AM. 12/6/2021
  */
 public class AuthService
-        extends BaseAbstractService<AuthUser, AuthUserDao, AuthUserMapper>
-        implements IBaseCrudService<AuthUser> {
+        extends BaseAbstractService<AuthUser, AuthUserDao, AuthUserMapper> {
 
     private static AuthService service;
 
@@ -34,11 +34,23 @@ public class AuthService
         super(repository, mapper);
     }
 
+    Role role = Session.getInstance().getUser().getRole();
+
     public ResponseEntity<String> login(String username, String password) {
+        if (!Role.ANONYMOUS.equals(role)) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
         try {
             AuthUser user = repository.findByUserName(username);
-            if (Objects.isNull(user) || !user.getPassword().equals(password))
+            if (user.getDeleted() == 1) {
+                return new ResponseEntity<>("Not Found", HttpStatus.HTTP_404);
+            }
+            if (Objects.isNull(user) || !user.getPassword().equals(password)) {
                 return new ResponseEntity<>("Bad Credentials", HttpStatus.HTTP_400);
+            }
+            if (user.getStatus().equals(UserStatus.BLOCKED)) {
+                return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+            }
             Session.getInstance().setUser(user);
             return new ResponseEntity<>("success", HttpStatus.HTTP_200);
         } catch (APIException e) {
@@ -46,28 +58,20 @@ public class AuthService
         }
     }
 
-    @Override
-    public ResponseEntity<String> create(AuthUser authUser) {
-        return null;
+
+    public ResponseEntity<String> logout() {
+        if (Role.ANONYMOUS.equals(role)) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
+        Session.getInstance().setUser(new AuthUser());
+        return new ResponseEntity<>("success", HttpStatus.HTTP_200);
     }
 
-    @Override
-    public ResponseEntity<String> delete(AuthUser authUser) {
-        return null;
-    }
-
-    @Override
-    public AuthUser get(String id) {
-        return null;
-    }
-
-    @Override
-    public List<AuthUser> getAll() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<String> update(String id, AuthUser authUser) {
-        return null;
+    public ResponseEntity<String> profile() {
+        if (Role.ANONYMOUS.equals(role)) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
+        Print.println(Color.GREEN, Session.getInstance().getUser());
+        return new ResponseEntity<>("success", HttpStatus.HTTP_200);
     }
 }

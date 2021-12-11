@@ -28,7 +28,6 @@ public class MainMenu {
 
         switch (key) {
             case LOGIN -> AuthUI.login();
-            case REGISTER -> AuthUI.register();
             case PROFILE -> AuthUI.profile();
             case LOGOUT -> AuthUI.logout();
 

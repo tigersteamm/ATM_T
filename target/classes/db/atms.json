@@ -1,32 +1,61 @@
 [
   {
     "type": "HUMO",
-    "name": "shahbpz",
+    "name": "Shahboz",
+    "status": "ACTIVE",
     "latitude": 0.0,
     "longitude": 0.0,
-    "id": "82803f312cdd4b4ba31dae051cb75fac",
-    "createdAt": "Dec 10, 2021, 7:08:13 AM",
-    "deleted": 0
+    "id": "5ca5ae58d007416281c8737a27b62379",
+    "createdAt": "Dec 11, 2021, 12:10:13 AM",
+    "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "deleted": 1
   },
   {
     "type": "UZCARD",
-    "name": "pdp",
+    "name": "agrobank",
+    "status": "ACTIVE",
     "latitude": 0.0,
     "longitude": 0.0,
-    "id": "63a7a7cc1d494cb8bd862b63b014e291",
-    "createdAt": "Dec 10, 2021, 9:14:41 AM",
+    "id": "a149c09f543e4876b4bb98697098f26c",
+    "createdAt": "Dec 11, 2021, 12:17:52 AM",
     "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
-    "deleted": 0
-  }
-][
+    "deleted": 1
+  },
   {
-    "type": "UZCARD",
-    "name": "ATM",
+    "type": "VISA",
+    "name": "delo",
+    "status": "ACTIVE",
     "latitude": 0.0,
     "longitude": 0.0,
-    "id": "a24310a3db8c42fcb9a8b186c4f2fc05",
-    "createdAt": "Dec 10, 2021, 9:38:46 AM",
+    "id": "59db8b9ae68e42e39819e9c115ed46ef",
+    "createdAt": "Dec 11, 2021, 12:19:59 AM",
     "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "deleted": 1
+  },
+  {
+    "type": "VISA_UZCARD",
+    "name": "primera",
+    "status": "ACTIVE",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "id": "9840189339544273b00616048ac99ad6",
+    "createdAt": "Dec 11, 2021, 12:54:24 AM",
+    "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "updatedAt": "Dec 11, 2021, 1:48:34 AM",
+    "updatedBy": "ad",
+    "deleted": 0
+  },
+  {
+    "type": "VISA_UZCARD",
+    "name": "primera",
+    "status": "ACTIVE",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "id": "9840189339544273b00616048ac99ad6",
+    "createdAt": "Dec 11, 2021, 12:54:24 AM",
+    "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "updatedAt": "Dec 11, 2021, 1:48:34 AM",
+    "updatedBy": "ad",
     "deleted": 0
   }
 ]
