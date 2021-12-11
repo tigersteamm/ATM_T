@@ -25,9 +25,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 import static uz.jl.utils.BaseUtils.genId;
 
@@ -188,9 +186,9 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
     }
 
     public ResponseEntity<String> giveCard(String holderUsername, String type, String password) {
-        if (!Role.EMPLOYEE.equals(role)) {
-            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
-        }
+//        if (!Role.EMPLOYEE.equals(role)) {
+//            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+//        }
         AuthUser user;
         try {
             user = AuthUserDao.getInstance().findByUserName(holderUsername);
@@ -198,7 +196,7 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
 
-        CardType cardType = getCardType(type);
+        CardType cardType = CardType.getByString(type);
         if (cardType.equals(CardType.UNDEFINED)) {
             return new ResponseEntity<>("Invalid card type", HttpStatus.HTTP_400);
         }
@@ -222,8 +220,12 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
     }
 
     private String getStringExpiry() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, 3);
+        Date expiry = cal.getTime();
+
         DateFormat dateFormat = new SimpleDateFormat("MMyy");
-        return dateFormat.format(LocalDate.now().plusYears(3));
+        return dateFormat.format(expiry);
     }
 
     private String generatePan(CardType type) {
@@ -242,21 +244,21 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         return generatedPan;
     }
 
-    private CardType getCardType(String pan) {
-        if (pan.matches("^(8600)[0-9]{12}$")) {
-            return CardType.UZCARD;
-        } else if (pan.matches("^(9860)[0-9]{12}$")) {
-            return CardType.HUMO;
-        } else if (pan.matches("^(4853)[0-9]{12}$")) {
-            return CardType.MASTER_CARD;
-        } else if (pan.matches("^4[0-9]{12}(?:[0-9]{3})?$")) {
-            return CardType.VISA;
-        } else if (pan.matches("^(6330)[0-9]{12}$")) {
-            return CardType.COBAGE;
-        } else if (pan.matches("^(6262)[0-9]{12}$")) {
-            return CardType.UNION_PAY;
-        } else {
-            return CardType.UNDEFINED;
-        }
-    }
+//    private CardType getCardType(String pan) {
+//        if (pan.matches("^(8600)[0-9]{12}$")) {
+//            return CardType.UZCARD;
+//        } else if (pan.matches("^(9860)[0-9]{12}$")) {
+//            return CardType.HUMO;
+//        } else if (pan.matches("^(4853)[0-9]{12}$")) {
+//            return CardType.MASTER_CARD;
+//        } else if (pan.matches("^4[0-9]{12}(?:[0-9]{3})?$")) {
+//            return CardType.VISA;
+//        } else if (pan.matches("^(6330)[0-9]{12}$")) {
+//            return CardType.COBAGE;
+//        } else if (pan.matches("^(6262)[0-9]{12}$")) {
+//            return CardType.UNION_PAY;
+//        } else {
+//            return CardType.UNDEFINED;
+//        }
+//    }
 }

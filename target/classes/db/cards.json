@@ -1,1 +1,35 @@
-[]
+[
+  {
+    "pan": "8600793633256218",
+    "expiry": "1224",
+    "password": "1234",
+    "type": "UZCARD",
+    "status": "ACTIVE",
+    "balance": 0,
+    "holderId": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "createdAt": "Dec 11, 2021, 7:12:46 PM",
+    "deleted": 0
+  },
+  {
+    "pan": "9860850520669054",
+    "expiry": "1224",
+    "password": "1233",
+    "type": "HUMO",
+    "status": "ACTIVE",
+    "balance": 0,
+    "holderId": "9668548426200N2lnusAYxjEiHLw8jST8",
+    "createdAt": "Dec 11, 2021, 7:13:33 PM",
+    "deleted": 0
+  },
+  {
+    "pan": "4735293296269604",
+    "expiry": "1224",
+    "password": "3333",
+    "type": "VISA",
+    "status": "ACTIVE",
+    "balance": 0,
+    "holderId": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "createdAt": "Dec 11, 2021, 7:14:31 PM",
+    "deleted": 0
+  }
+]

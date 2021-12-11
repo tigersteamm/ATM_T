@@ -4,7 +4,7 @@ import uz.jl.dao.atm.AtmDao;
 import uz.jl.enums.card.CardType;
 import uz.jl.mapper.ATMMapper;
 import uz.jl.models.atm.Atm;
-import uz.jl.models.card.Cards;
+//import uz.jl.models.card.Cards;
 import uz.jl.response.Data;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;

@@ -27,12 +27,12 @@ public enum CardType {
         }
     }
 
-    public static CardType getByValue(String type) {
+    public static CardType getByString(String type) {
         for (CardType value : values()) {
-            if (value.name().equals(type))
+            if (value.name().equalsIgnoreCase(type))
                 return value;
         }
-        return null;
+        return UNDEFINED;
     }
 
     public static boolean isValidCardType(String type) {

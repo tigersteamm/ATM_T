@@ -10,14 +10,14 @@ import uz.jl.utils.Color;
 import uz.jl.utils.Input;
 import uz.jl.utils.Print;
 
-<<<<<<< HEAD
-import uz.jl.ui.AtmUI;
-
-=======
-/**
- * @author Elmurodov Javohir, Wed 11:30 AM. 12/8/2021
- */
->>>>>>> eea3290ec305398a0923bde2541cd0452a788718
+//<<<<<<< HEAD
+//import uz.jl.ui.AtmUI;
+//
+//=======
+///**
+// * @author Elmurodov Javohir, Wed 11:30 AM. 12/8/2021
+// */
+//>>>>>>> eea3290ec305398a0923bde2541cd0452a788718
 public class App {
     static {
         try {

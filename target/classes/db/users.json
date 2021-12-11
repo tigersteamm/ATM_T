@@ -80,5 +80,15 @@
     "createdAt": "Dec 11, 2021, 5:46:54 PM",
     "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
     "deleted": 0
+  },
+  {
+    "username": "ad",
+    "password": "atm",
+    "role": "ADMIN",
+    "status": "ACTIVE",
+    "id": "2412762456100XbyNl5XzLHfn1QY3msku",
+    "createdAt": "Dec 11, 2021, 6:11:34 PM",
+    "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "deleted": 0
   }
 ]
