@@ -57,5 +57,16 @@
     "updatedAt": "Dec 11, 2021, 1:48:34 AM",
     "updatedBy": "ad",
     "deleted": 0
+  },
+  {
+    "type": "UZCARD",
+    "name": "atm",
+    "status": "ACTIVE",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "id": "eb60e499846942239ee740038dfad226",
+    "createdAt": "Dec 11, 2021, 9:09:58 AM",
+    "createdBy": "45490415579003GfSHzM80qP59SLf9OFL",
+    "deleted": 0
   }
 ]

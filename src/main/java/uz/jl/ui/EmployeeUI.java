@@ -20,33 +20,37 @@ public class EmployeeUI {
     static EmployeeService service = EmployeeService.getInstance(AuthUserDao.getInstance(), AuthUserMapper.getInstance());
 
 
-    public static void create()  {
+    public static void create() {
         String userName = getStr("Username-> ");
         String password = getStr("password-> ");
         String phoneNumber = getStr("Phone Number->");
-        ResponseEntity<String> response = service.create(userName,password,phoneNumber);
+        ResponseEntity<String> response = service.create(userName, password, phoneNumber);
         showResponse(response);
     }
 
     public static void delete() {
-        String username=getStr("Username-> ");
+        String username = getStr("Username-> ");
         ResponseEntity<String> response = service.delete(username);
-
+        showResponse(response);
     }
 
     public static void list() {
-
+        service.list();
     }
 
     public static void block() {
-
+        String userName = getStr("Username = ");
+        ResponseEntity<String> response = service.block(userName);
+        showResponse(response);
     }
 
     public static void unBlock() {
-
+        String userName = getStr("Username = ");
+        ResponseEntity<String> response = service.unblock(userName);
+        showResponse(response);
     }
 
     public static void blockList() {
-
+        service.blockList();
     }
 }
