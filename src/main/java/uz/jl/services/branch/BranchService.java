@@ -2,13 +2,16 @@ package uz.jl.services.branch;
 
 import uz.jl.configs.Session;
 import uz.jl.dao.branch.BranchDao;
+import uz.jl.dao.db.FRWAtm;
 import uz.jl.dao.db.FRWBranch;
+import uz.jl.enums.atm.ATMStatus;
 import uz.jl.enums.auth.Role;
 import uz.jl.enums.branch.BranchStatus;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.exceptions.APIRuntimeException;
 import uz.jl.mapper.BranchMapper;
+import uz.jl.models.atm.Atm;
 import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
@@ -120,11 +123,32 @@ public class BranchService
         return FRWBranch.getInstance().getAll();
     }
 
+    public ResponseEntity<String> update(String oldName, String newName) {
+        if (!(Role.SUPER_ADMIN.equals(role) || Role.ADMIN.equals(role))) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
+        try {
+            Branch branch = repository.findByName(oldName);
+            if (branch.getDeleted() == 1) {
+                return new ResponseEntity<>("Branch Not Found", HttpStatus.HTTP_404);
+            }
+            if (branch.getStatus().equals(BranchStatus.BLOCKED)) {
+                return new ResponseEntity<>("Branch is Blocked", HttpStatus.HTTP_406);
+            }
+            if (repository.hasSuchName(newName)) {
+                return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
+            }
+            return update(newName, branch);
+        } catch (APIException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
+        }
+    }
+
     @Override
-    public ResponseEntity<String> update(String id, Branch branch) {
-        // TODO: 09.12.2021 some logic
+    public ResponseEntity<String> update(String newName, Branch branch) {
+        branch.setName(newName);
         branch.setUpdatedAt(new Date());
-        branch.setUpdatedBy(id);
+        branch.setUpdatedBy(Session.getInstance().getUser().getId());
         FRWBranch.getInstance().writeAll(getAll());
         return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
     }

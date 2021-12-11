@@ -21,15 +21,13 @@ public class AuthUI extends BaseUI {
         showResponse(response);
     }
 
-    public static void register() {
-
-    }
-
     public static void profile() {
-
+        ResponseEntity<String> response = service.profile();;
+        showResponse(response);
     }
 
     public static void logout() {
-
+        ResponseEntity<String> response = service.logout();
+        showResponse(response);
     }
 }
