@@ -2,22 +2,31 @@ package uz.jl.services.client;
 
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
+import uz.jl.dao.card.CardDao;
 import uz.jl.dao.db.FRWAuthUser;
 import uz.jl.enums.auth.Role;
 import uz.jl.enums.auth.UserStatus;
+import uz.jl.enums.card.CardStatus;
+import uz.jl.enums.card.CardType;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.exceptions.APIRuntimeException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
+import uz.jl.models.card.Card;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
 import uz.jl.utils.Color;
 import uz.jl.utils.Print;
 
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import static uz.jl.utils.BaseUtils.genId;
 
@@ -177,4 +186,75 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         return count;
     }
 
+    public ResponseEntity<String> giveCard(String holderUsername, String type, String password) {
+        if (!Role.EMPLOYEE.equals(role)) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
+        AuthUser user;
+        try {
+            user = AuthUserDao.getInstance().findByUserName(holderUsername);
+        } catch (APIException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
+        }
+
+        CardType cardType = getCardType(type);
+        if (cardType.equals(CardType.UNDEFINED)) {
+            return new ResponseEntity<>("Invalid card type", HttpStatus.HTTP_400);
+        }
+
+        if (!password.matches("^[0-9]{4}$")) {
+            return new ResponseEntity<>("Invalid password", HttpStatus.HTTP_400);
+        }
+
+        Card card = Card.builder()
+                .pan(generatePan(cardType))
+                .expiry(getStringExpiry())
+                .password(password)
+                .type(cardType)
+                .status(CardStatus.ACTIVE)
+                .balance(BigDecimal.valueOf(0))
+                .bankId(Session.getInstance().getUser().getBankId())
+                .holderId(user.getId())
+                .build();
+        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+    }
+
+    private String getStringExpiry() {
+        DateFormat dateFormat = new SimpleDateFormat("MMyy");
+        return dateFormat.format(LocalDate.now().plusYears(3));
+    }
+
+    private String generatePan(CardType type) {
+        String generatedPan = "";
+        do {
+            generatedPan = switch (type) {
+                case UZCARD -> "8600" + (new Random().nextLong(1000000000000L) + 100000000000L);
+                case HUMO -> "9860" + (new Random().nextLong(1000000000000L) + 100000000000L);
+                case MASTER_CARD -> "4853" + (new Random().nextLong(1000000000000L) + 100000000000L);
+                case VISA -> "4735" + (new Random().nextLong(1000000000000L) + 100000000000L);
+                case UNION_PAY -> "6262" + (new Random().nextLong(1000000000000L) + 100000000000L);
+                case COBAGE -> "6330" + (new Random().nextLong(1000000000000L) + 100000000000L);
+                default -> "-1";
+            };
+        } while (CardDao.getInstance().hasSuchPan(generatedPan));
+        return generatedPan;
+    }
+
+    private CardType getCardType(String pan) {
+        if (pan.matches("^(8600)[0-9]{12}$")) {
+            return CardType.UZCARD;
+        } else if (pan.matches("^(9860)[0-9]{12}$")) {
+            return CardType.HUMO;
+        } else if (pan.matches("^(4853)[0-9]{12}$")) {
+            return CardType.MASTER_CARD;
+        } else if (pan.matches("^4[0-9]{12}(?:[0-9]{3})?$")) {
+            return CardType.VISA;
+        } else if (pan.matches("^(6330)[0-9]{12}$")) {
+            return CardType.COBAGE;
+        } else if (pan.matches("^(6262)[0-9]{12}$")) {
+            return CardType.UNION_PAY;
+        } else {
+            return CardType.UNDEFINED;
+        }
+    }
 }

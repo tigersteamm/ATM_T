@@ -1,10 +1,8 @@
 package uz.jl.models.card;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import uz.jl.enums.atm.Status;
+import uz.jl.enums.card.CardStatus;
 import uz.jl.enums.card.CardType;
 import uz.jl.models.Auditable;
 
@@ -18,12 +16,13 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cards extends Auditable {
+@Builder
+public class Card extends Auditable {
     private String pan;
     private String expiry;
     private String password;
     private CardType type;
-    private Status status;
+    private CardStatus status;
     private BigDecimal balance;
     private String bankId;
     private String holderId;
