@@ -6,8 +6,8 @@ package uz.jl.enums.auth;
 public enum Role {
     SUPER_ADMIN,
     ADMIN,
-    EMPLOYEE,
     HR,
+    EMPLOYEE,
     CLIENT,
     ANONYMOUS;
 
