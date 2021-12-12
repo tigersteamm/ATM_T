@@ -1,14 +1,11 @@
 package uz.jl.ui;
 
+import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
-import uz.jl.dao.branch.BranchDao;
-import uz.jl.exceptions.APIException;
 import uz.jl.mapper.AuthUserMapper;
-import uz.jl.mapper.BranchMapper;
+import uz.jl.models.settings.Language;
 import uz.jl.response.ResponseEntity;
-import uz.jl.services.branch.BranchService;
 import uz.jl.services.employee.EmployeeService;
-import uz.jl.utils.Input;
 
 import static uz.jl.ui.BaseUI.showResponse;
 import static uz.jl.utils.Input.getStr;
@@ -18,6 +15,7 @@ import static uz.jl.utils.Input.getStr;
  */
 public class EmployeeUI {
     static EmployeeService service = EmployeeService.getInstance(AuthUserDao.getInstance(), AuthUserMapper.getInstance());
+    static Language language = Session.getInstance().getUser().getLanguage();
 
     public static void create() {
         String userName = getStr("Username-> ");

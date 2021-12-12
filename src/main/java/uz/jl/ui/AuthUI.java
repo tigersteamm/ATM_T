@@ -1,5 +1,6 @@
 package uz.jl.ui;
 
+import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.settings.Language;
@@ -14,6 +15,7 @@ public class AuthUI extends BaseUI {
     static AuthService service = AuthService.getInstance(
             AuthUserDao.getInstance(),
             AuthUserMapper.getInstance());
+    static Language language = Session.getInstance().getUser().getLanguage();
 
     public static void login() {
         String username = Input.getStr("username = ");

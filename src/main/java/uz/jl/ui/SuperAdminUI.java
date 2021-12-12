@@ -1,11 +1,12 @@
 package uz.jl.ui;
 
+import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.branch.BranchDao;
-import uz.jl.exceptions.APIException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.mapper.BranchMapper;
 import uz.jl.models.branch.Branch;
+import uz.jl.models.settings.Language;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.admin.AdminService;
 import uz.jl.services.branch.BranchService;
@@ -20,6 +21,7 @@ import static uz.jl.utils.Input.getStr;
  */
 public class SuperAdminUI {
     static AdminService service = AdminService.getInstance(AuthUserDao.getInstance(), AuthUserMapper.getInstance());
+    static Language language = Session.getInstance().getUser().getLanguage();
 
     public static void create() {
         BranchService serviceBranch = BranchService.getInstance(BranchDao.getInstance(), BranchMapper.getInstance());

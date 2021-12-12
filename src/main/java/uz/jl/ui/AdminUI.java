@@ -1,11 +1,11 @@
 package uz.jl.ui;
 
+import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.mapper.AuthUserMapper;
+import uz.jl.models.settings.Language;
 import uz.jl.response.ResponseEntity;
-import uz.jl.services.admin.AdminService;
 import uz.jl.services.hr.HRService;
-import uz.jl.utils.Input;
 
 import static uz.jl.ui.BaseUI.showResponse;
 import static uz.jl.utils.Input.getStr;
@@ -15,6 +15,7 @@ import static uz.jl.utils.Input.getStr;
  */
 public class AdminUI {
     static HRService service = HRService.getInstance(AuthUserDao.getInstance(), AuthUserMapper.getInstance());
+    static Language language = Session.getInstance().getUser().getLanguage();
 
     public static void create() {
         String userName = getStr("Username = ");
