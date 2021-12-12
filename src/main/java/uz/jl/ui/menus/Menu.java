@@ -51,7 +51,6 @@ public class Menu {
             menus.put("Block BRANCH", MenuKey.BLOCK_BRANCH);
             menus.put("Block HR", MenuKey.BLOCK_HR);
             menus.put("Block ATM", MenuKey.BLOCK_ATM);
-            menus.put("Block ATM list",MenuKey.BLOCK_LIST_ATM);
             menus.put("Block Employee", MenuKey.BLOCK_EMPLOYEE);
 
             menus.put("UnBlock BRANCH", MenuKey.UN_BLOCK_BRANCH);
