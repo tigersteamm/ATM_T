@@ -1,35 +1,28 @@
 package uz.jl.services.atm;
 
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.atm.AtmDao;
-
-
 import uz.jl.dao.db.FRWAtm;
-import uz.jl.dao.db.FRWBranch;
 import uz.jl.enums.atm.ATMStatus;
 import uz.jl.enums.atm.ATMType;
 import uz.jl.enums.auth.Role;
-import uz.jl.enums.branch.BranchStatus;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.mapper.ATMMapper;
 import uz.jl.models.atm.Atm;
-
-
-import uz.jl.models.branch.Branch;
+import uz.jl.models.settings.Language;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
 import uz.jl.utils.Color;
 import uz.jl.utils.Print;
 
-
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import static uz.jl.ui.BranchUI.unblockList;
 import static uz.jl.utils.Color.RED;
 import static uz.jl.utils.Input.getStr;
 import static uz.jl.utils.Print.println;
@@ -41,6 +34,7 @@ public class AtmService
         extends BaseAbstractService<Atm, AtmDao, ATMMapper>
         implements IBaseCrudService<Atm> {
     Role role = Session.getInstance().getUser().getRole();
+    Language language = Session.getInstance().getUser().getLanguage();
 
     private static AtmService service;
 
@@ -112,14 +106,15 @@ public class AtmService
         }
         boolean stop = true;
         for (Atm atm : FRWAtm.getInstance().getAll()) {
-            if(Session.getInstance().getUser().getBranchId().equals(atm.getBranchId())){
-            if (atm.getDeleted() == 0) {
-                stop = false;
-                if (atm.getStatus().equals(ATMStatus.BLOCKED))
-                    Print.println(Color.RED, atm.getName());
-                else
-                    Print.println(Color.PURPLE, atm.getName());
-            }}
+            if (Session.getInstance().getUser().getBranchId().equals(atm.getBranchId())) {
+                if (atm.getDeleted() == 0) {
+                    stop = false;
+                    if (atm.getStatus().equals(ATMStatus.BLOCKED))
+                        Print.println(Color.RED, atm.getName());
+                    else
+                        Print.println(Color.PURPLE, atm.getName());
+                }
+            }
         }
         if (stop)
             println(RED, "You haven't ATM 🤔");
@@ -220,7 +215,7 @@ public class AtmService
             return;
         }
         for (Atm atm : FRWAtm.getInstance().getAll()) {
-            if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.BLOCKED)&&atm.getBranchId().equals(Session.getInstance().getUser().getBranchId()))
+            if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.BLOCKED) && atm.getBranchId().equals(Session.getInstance().getUser().getBranchId()))
                 Print.println(Color.RED, atm.getName());
         }
     }
@@ -228,20 +223,22 @@ public class AtmService
     public Integer blockCount() {
         Integer count = 0;
         for (Atm atm : FRWAtm.getInstance().getAll()) {
-            if(atm.getBranchId().equals(Session.getInstance().getUser().getBranchId())){
-            if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.BLOCKED))
-                count++;
-        }}
+            if (atm.getBranchId().equals(Session.getInstance().getUser().getBranchId())) {
+                if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.BLOCKED))
+                    count++;
+            }
+        }
         return count;
     }
 
     public Integer unblockCount() {
         Integer count = 0;
         for (Atm atm : FRWAtm.getInstance().getAll()) {
-            if(atm.getBranchId().equals(Session.getInstance().getUser().getBranchId())){
-            if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.ACTIVE))
-                count++;
-        }}
+            if (atm.getBranchId().equals(Session.getInstance().getUser().getBranchId())) {
+                if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.ACTIVE))
+                    count++;
+            }
+        }
         return count;
     }
 }

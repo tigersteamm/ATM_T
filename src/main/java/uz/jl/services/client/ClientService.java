@@ -1,5 +1,6 @@
 package uz.jl.services.client;
 
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.card.CardDao;
@@ -15,6 +16,7 @@ import uz.jl.exceptions.APIRuntimeException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
 import uz.jl.models.card.Card;
+import uz.jl.models.settings.Language;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
@@ -24,7 +26,6 @@ import uz.jl.utils.Print;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 import static uz.jl.utils.BaseUtils.genId;
@@ -33,6 +34,8 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         implements IBaseCrudService<AuthUser> {
 
     Role role = Session.getInstance().getUser().getRole();
+    Language language = Session.getInstance().getUser().getLanguage();
+
 
     private static ClientService service;
 
