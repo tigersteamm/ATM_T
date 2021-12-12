@@ -43,4 +43,7 @@ public class AtmProcessService
         serviceAtm.list();
     }
 
+    public void showAtmMenu() {
+
+    }
 }
