@@ -4,6 +4,7 @@ import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.enums.auth.Role;
 import uz.jl.models.settings.Language;
+import uz.jl.ui.AtmProcessUI;
 import uz.jl.utils.Print;
 
 import java.util.LinkedHashMap;
@@ -82,7 +83,13 @@ public class Menu {
             menus.put(LangConfig.get(language, "client.list"), MenuKey.LIST_USER);
             menus.put(LangConfig.get(language, "give.card"), MenuKey.GIVE_CARD);
         } else if (Role.CLIENT.equals(role)) {
-            menus.put(LangConfig.get(language, "atmProcess.useAtm"), MenuKey.USE_ATM);
+//            menus.put(LangConfig.get(language, "sms.info"), MenuKey.SMS_INFO);
+            menus.put(LangConfig.get(language, "change.pin"), MenuKey.CHANGE_PIN);
+            menus.put(LangConfig.get(language, "card.info"), MenuKey.CARD_INFO);
+            menus.put(LangConfig.get(language, "card.balance"), MenuKey.CARD_BALANCE);
+            menus.put(LangConfig.get(language, "cash.withdrawal"), MenuKey.CASH_WITHDRAWAL);
+            menus.put(LangConfig.get(language, "card.deposit"), MenuKey.CARD_DEPOSIT);
+            menus.put(LangConfig.get(language, "return.card"), MenuKey.RETURN_CARD);
         } else if (Role.ANONYMOUS.equals(role)) {
             menus.put(LangConfig.get(language, "login"), MenuKey.LOGIN);
         }
