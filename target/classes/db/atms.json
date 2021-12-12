@@ -1,2 +1,38 @@
 [
+  {
+    "branchId": "742539002942200T76DqMD6zQMataNpJqQ5",
+    "type": "HUMO",
+    "name": "atm1",
+    "status": "ACTIVE",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "id": "9e55c87588624e62825bf7a7058ea503",
+    "createdAt": "Dec 12, 2021, 2:39:36 PM",
+    "createdBy": "745614748362600r3Pq9CeLyPQoH9xXSzPQ",
+    "deleted": 0
+  },
+  {
+    "branchId": "745436718041100XcvJXhEEL6W5DgJ0tMep",
+    "type": "HUMO",
+    "name": "atm2",
+    "status": "BLOCKED",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "id": "4aaa2f0ec1ef463c9f72f9de6b2d7bd4",
+    "createdAt": "Dec 12, 2021, 2:40:39 PM",
+    "createdBy": "7456557165820004AnMgKzlhspDmfG2j0oq",
+    "deleted": 0
+  },
+  {
+    "branchId": "745436718041100XcvJXhEEL6W5DgJ0tMep",
+    "type": "HUMO",
+    "name": "atm4",
+    "status": "ACTIVE",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "id": "befd2ae5fad14309818efc9e7f19df82",
+    "createdAt": "Dec 12, 2021, 2:41:57 PM",
+    "createdBy": "7456557165820004AnMgKzlhspDmfG2j0oq",
+    "deleted": 0
+  }
 ]
