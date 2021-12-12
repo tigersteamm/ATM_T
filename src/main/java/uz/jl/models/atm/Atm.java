@@ -9,6 +9,7 @@ import uz.jl.enums.atm.ATMType;
 import uz.jl.models.Auditable;
 import uz.jl.models.auth.AuthUser;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import static uz.jl.utils.BaseUtil.generateUniqueID;
@@ -16,7 +17,8 @@ import static uz.jl.utils.BaseUtil.generateUniqueID;
 /**
  * @author Elmurodov Javohir, Mon 12:10 PM. 11/29/2021
  */
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 public class Atm extends Auditable {
     private String branchId;
@@ -25,12 +27,12 @@ public class Atm extends Auditable {
     private ATMStatus status;
     private double latitude;
     private double longitude;
+    private ArrayList<Cassette> cassettes;
 
-
-    public Atm(String name,ATMType atmType, AuthUser user) {
-        super(generateUniqueID(),user.getId());
-        this.name=name;
-        type=atmType;
-        status=ATMStatus.ACTIVE;
+    public Atm(String name, ATMType atmType, AuthUser user) {
+        super(generateUniqueID(), user.getId());
+        this.name = name;
+        type = atmType;
+        status = ATMStatus.ACTIVE;
     }
 }
