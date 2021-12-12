@@ -36,13 +36,13 @@ public class EmployeeUI {
     }
 
     public static void block() {
-        String userName = getStr("Username = ");
+        String userName = getStr(LangConfig.get(language, "username"));
         ResponseEntity<String> response = service.block(userName);
         showResponse(response);
     }
 
     public static void unBlock() {
-        String userName = getStr("Username = ");
+        String userName = getStr(LangConfig.get(language, "username"));
         ResponseEntity<String> response = service.unblock(userName);
         showResponse(response);
     }

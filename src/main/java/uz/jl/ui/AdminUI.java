@@ -18,14 +18,14 @@ public class AdminUI {
     static Language language = Session.getInstance().getUser().getLanguage();
 
     public static void create() {
-        String userName = getStr("Username = ");
-        String password = getStr("password = ");
+        String userName = getStr(LangConfig.get(language, "username"));
+        String password = getStr(LangConfig.get(language, "password") + " >> ");
         ResponseEntity<String> response = service.create(userName, password);
         showResponse(response);
     }
 
     public static void delete() {
-        String userName = getStr("Username = ");
+        String userName = getStr(LangConfig.get(language, "username"));
         ResponseEntity<String> response = service.delete(userName);
         showResponse(response);
     }
@@ -35,13 +35,13 @@ public class AdminUI {
     }
 
     public static void block() {
-        String userName = getStr("Username = ");
+        String userName = getStr(LangConfig.get(language, "username"));
         ResponseEntity<String> response = service.block(userName);
         showResponse(response);
     }
 
     public static void unblock() {
-        String userName = getStr("Username = ");
+        String userName = getStr(LangConfig.get(language, "username"));
         ResponseEntity<String> response = service.unblock(userName);
         showResponse(response);
     }

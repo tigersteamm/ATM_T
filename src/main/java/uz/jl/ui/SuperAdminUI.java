@@ -1,5 +1,6 @@
 package uz.jl.ui;
 
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.branch.BranchDao;
@@ -26,19 +27,19 @@ public class SuperAdminUI {
     public static void create() {
         BranchService serviceBranch = BranchService.getInstance(BranchDao.getInstance(), BranchMapper.getInstance());
         serviceBranch.list();
-        String branchName = getStr("Choose branch : ");
+        String branchName = getStr(LangConfig.get(language, "choose.branch") + " >> ");
         Branch branch = BranchDao.getInstance().findByNameWithNull(branchName);
 
 
-        Print.println(GREEN, "Create an admin for the branch");
-        String userName = getStr("Username = ");
-        String password = getStr("password = ");
+        Print.println(GREEN, LangConfig.get(language, "create.admin.for.branch"));
+        String userName = getStr(LangConfig.get(language, "username") + " >> ");
+        String password = getStr(LangConfig.get(language, "password") + " >> ");
         ResponseEntity<String> response = service.create(userName, password, branch);
         showResponse(response);
     }
 
     public static void delete() {
-        String userName = getStr("Username = ");
+        String userName = getStr(LangConfig.get(language, "username") + " >> ");
         ResponseEntity<String> response = service.delete(userName);
         showResponse(response);
     }
@@ -48,13 +49,13 @@ public class SuperAdminUI {
     }
 
     public static void block() {
-        String userName = getStr("Username = ");
+        String userName = getStr(LangConfig.get(language, "username") + " >> ");
         ResponseEntity<String> response = service.block(userName);
         showResponse(response);
     }
 
     public static void unblock() {
-        String userName = getStr("Username = ");
+        String userName = getStr(LangConfig.get(language, "username") + " >> ");
         ResponseEntity<String> response = service.unblock(userName);
         showResponse(response);
     }

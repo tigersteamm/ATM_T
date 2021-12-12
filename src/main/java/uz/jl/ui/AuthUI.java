@@ -18,8 +18,8 @@ public class AuthUI extends BaseUI {
     static Language language = Session.getInstance().getUser().getLanguage();
 
     public static void login() {
-        String username = Input.getStr("username = ");
-        String password = Input.getStr("password = ");
+        String username = Input.getStr(LangConfig.get(language, "username"));
+        String password = Input.getStr(LangConfig.get(language, "password") + " >> ");
         ResponseEntity<String> response = service.login(username, password);
         showResponse(response);
     }
