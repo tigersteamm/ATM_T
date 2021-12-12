@@ -57,6 +57,7 @@ public enum MenuKey {
     CARD_INFO,
     CHANGE_LANG,
     CHANGE_PIN,
+    USE_ATM,
     BALANCE;
 
     public static MenuKey getByValue(String choice) {

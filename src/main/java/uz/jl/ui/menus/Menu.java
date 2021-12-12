@@ -81,9 +81,7 @@ public class Menu {
             menus.put(LangConfig.get(language, "client.unblock"), MenuKey.UN_BLOCK_USER);
             menus.put(LangConfig.get(language, "client.list"), MenuKey.LIST_USER);
         } else if (Role.CLIENT.equals(role)) {
-            menus.put(LangConfig.get(language, "atmProcess.changePin"), MenuKey.CHANGE_PIN);
-            menus.put(LangConfig.get(language, "atmProcess.cardInfo"), MenuKey.CARD_INFO);
-            menus.put(LangConfig.get(language, "atmProcess.balance"), MenuKey.BALANCE);
+            menus.put(LangConfig.get(language, "atmProcess.useAtm"), MenuKey.USE_ATM);
         } else if (Role.ANONYMOUS.equals(role)) {
             menus.put(LangConfig.get(language, "login"), MenuKey.LOGIN);
         }

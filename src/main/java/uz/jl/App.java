@@ -81,6 +81,7 @@ public class App {
             case UN_BLOCK_ATM -> AtmUI.unblock();
             case BLOCK_LIST_ATM -> AtmUI.blockList();
 
+            case USE_ATM -> AtmProcessUI.enter();
             case CARD_INFO -> AtmProcessUI.infoCard();
 
             case EXIT -> {

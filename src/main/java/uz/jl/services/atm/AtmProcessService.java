@@ -16,8 +16,9 @@ import java.util.Date;
 import java.util.Objects;
 
 public class AtmProcessService
-        extends BaseAbstractService<Atm, AtmDao, ATMMapper>{
+        extends BaseAbstractService<Atm, AtmDao, ATMMapper> {
     private static AtmProcessService service;
+
     public static AtmProcessService getInstance(AtmDao repository, ATMMapper mapper) {
         if (Objects.isNull(service)) {
             service = new AtmProcessService(repository, mapper);
@@ -28,10 +29,15 @@ public class AtmProcessService
     public AtmProcessService(AtmDao repository, ATMMapper mapper) {
         super(repository, mapper);
     }
+
     public void infoCard() {
-        Date date=new Date();
-        Print.println("Date :  "+date);
+        Date date = new Date();
+        Print.println("Date :  " + date);
         Print.println("Short information about card ");
+    }
+
+    public void enter() {
+
     }
 
 }

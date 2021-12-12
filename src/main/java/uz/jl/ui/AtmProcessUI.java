@@ -10,8 +10,11 @@ public class AtmProcessUI {
     public static AtmProcessService service = uz.jl.services.atm.AtmProcessService.getInstance(AtmDao.getInstance(), ATMMapper.getInstance());
     static Language language = Session.getInstance().getUser().getLanguage();
 
-
     public static void infoCard() {
         service.infoCard();
+    }
+
+    public static void enter() {
+        service.enter();
     }
 }
