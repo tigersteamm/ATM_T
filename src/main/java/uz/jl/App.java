@@ -1,8 +1,10 @@
 package uz.jl;
 
 import uz.jl.configs.AppConfig;
+import uz.jl.configs.LangConfig;
+import uz.jl.configs.Session;
 import uz.jl.exceptions.APIException;
-import uz.jl.models.auth.AuthUser;
+import uz.jl.models.settings.Language;
 import uz.jl.ui.*;
 import uz.jl.ui.menus.Menu;
 import uz.jl.ui.menus.MenuKey;
@@ -10,14 +12,9 @@ import uz.jl.utils.Color;
 import uz.jl.utils.Input;
 import uz.jl.utils.Print;
 
-//<<<<<<< HEAD
-//import uz.jl.ui.AtmUI;
-//
-//=======
-///**
-// * @author Elmurodov Javohir, Wed 11:30 AM. 12/8/2021
-// */
-//>>>>>>> eea3290ec305398a0923bde2541cd0452a788718
+/**
+ * @author Elmurodov Javohir, Wed 11:30 AM. 12/8/2021
+ */
 public class App {
     static {
         try {
@@ -28,13 +25,16 @@ public class App {
     }
 
     public static void main(String[] args) {
+        Language language = Session.getInstance().getUser().getLanguage();
+        AtmProcessUI.service.infoCard();
         Menu.show();
-        String choice = Input.getStr("?:");
+        String choice = Input.getStr(">>>>");
         MenuKey key = MenuKey.getByValue(choice);
 
         switch (key) {
             case LOGIN -> AuthUI.login();
             case PROFILE -> AuthUI.profile();
+            case CHANGE_LANG -> AuthUI.changeLang();
             case LOGOUT -> AuthUI.logout();
 
             case CREATE_ADMIN -> SuperAdminUI.create();
@@ -51,12 +51,12 @@ public class App {
             case UN_BLOCK_HR -> AdminUI.unblock();
             case BLOCK_LIST_HR -> AdminUI.blockList();
 
-            case CREATE_USER -> HrUI.create();
-            case DELETE_USER -> HrUI.delete();
-            case LIST_USER -> HrUI.list();
-            case BLOCK_USER -> HrUI.block();
-            case UN_BLOCK_USER -> HrUI.unBlock();
-            case BLOCK_LIST_USER -> HrUI.blockList();
+            case CREATE_USER -> ClientUI.create();
+            case DELETE_USER -> ClientUI.delete();
+            case LIST_USER -> ClientUI.list();
+            case BLOCK_USER -> ClientUI.block();
+            case UN_BLOCK_USER -> ClientUI.unBlock();
+            case BLOCK_LIST_USER -> ClientUI.blockList();
 
             case CREATE_EMPLOYEE -> EmployeeUI.create();
             case DELETE_EMPLOYEE -> EmployeeUI.delete();
@@ -81,12 +81,13 @@ public class App {
             case UN_BLOCK_ATM -> AtmUI.unblock();
             case BLOCK_LIST_ATM -> AtmUI.blockList();
 
+            case CARD_INFO -> AtmProcessUI.infoCard();
+
             case EXIT -> {
-                Print.println(Color.YELLOW, "Good bay");
+                Print.println(Color.YELLOW, LangConfig.get(language, "bye"));
                 return;
             }
-            default -> // TODO: 12/8/2021 do translations here
-                    Print.println(Color.RED, "Wrong Choice");
+            default -> Print.println(Color.RED, LangConfig.get(language, "wrong.choice"));
         }
         main(args);
     }

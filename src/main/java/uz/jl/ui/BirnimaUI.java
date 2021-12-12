@@ -23,7 +23,7 @@ public class BirnimaUI {
 
     public void cashWithdrawal() {
         String amount = Input.getStr(LangConfig.get(language, "amount") + " >> ");
-        ResponseEntity<String> response = service.cashWithdrawal(amount);
-        showResponse(response);
+//        ResponseEntity<String> response = service.cashWithdrawal(amount);
+//        showResponse(response);
     }
 }

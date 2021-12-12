@@ -32,7 +32,6 @@ public class AtmProcessService
         Date date=new Date();
         Print.println("Date :  "+date);
         Print.println("Short information about card ");
-
     }
 
 }

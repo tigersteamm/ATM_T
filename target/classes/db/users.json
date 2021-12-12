@@ -121,5 +121,17 @@
     "createdAt": "Dec 12, 2021, 8:47:18 PM",
     "createdBy": "9469288192600JkfXmwhzXrOowibtXr9f",
     "deleted": 0
+  },
+  {
+    "username": "user",
+    "password": "user123",
+    "role": "CLIENT",
+    "status": "ACTIVE",
+    "phoneNumber": "+998932885122",
+    "language": "RU",
+    "id": "14833165835500niwK70g4CnEhd0bnLQt6",
+    "createdAt": "Dec 12, 2021, 9:36:32 PM",
+    "createdBy": "11162205581700GNn1hPAJwV9lTyuAsTIM",
+    "deleted": 0
   }
 ]
