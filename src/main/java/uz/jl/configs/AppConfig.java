@@ -22,6 +22,9 @@ public class AppConfig {
     public static Language language;
 
     private static final Properties properties = new Properties();
+    private static final Properties en = new Properties();
+    private static final Properties uz = new Properties();
+    private static final Properties ru = new Properties();
 
     public static void init() throws APIException {
         load();
@@ -50,8 +53,19 @@ public class AppConfig {
     private static void load() throws APIException {
         try {
             properties.load(new FileReader("src/main/resources/app.properties"));
+            en.load(new FileReader("src/main/resources/lang/en.properties"));
+            uz.load(new FileReader("src/main/resources/lang/uz.properties"));
+            ru.load(new FileReader("src/main/resources/lang/ru.properties"));
         } catch (IOException e) {
             throw new APIException("File not found", HttpStatus.HTTP_404);
         }
+    }
+
+    public static Properties getLang(String lang) {
+        return switch (lang) {
+            case "uz" -> uz;
+            case "ru" -> ru;
+            default -> en;
+        };
     }
 }
