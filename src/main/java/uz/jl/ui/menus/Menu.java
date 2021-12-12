@@ -80,6 +80,7 @@ public class Menu {
             menus.put(LangConfig.get(language, "client.block"), MenuKey.BLOCK_USER);
             menus.put(LangConfig.get(language, "client.unblock"), MenuKey.UN_BLOCK_USER);
             menus.put(LangConfig.get(language, "client.list"), MenuKey.LIST_USER);
+            menus.put(LangConfig.get(language, "give.card"), MenuKey.GIVE_CARD);
         } else if (Role.CLIENT.equals(role)) {
             menus.put(LangConfig.get(language, "atmProcess.useAtm"), MenuKey.USE_ATM);
         } else if (Role.ANONYMOUS.equals(role)) {

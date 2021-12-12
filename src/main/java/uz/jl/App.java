@@ -56,6 +56,7 @@ public class App {
             case BLOCK_USER -> ClientUI.block();
             case UN_BLOCK_USER -> ClientUI.unBlock();
             case BLOCK_LIST_USER -> ClientUI.blockList();
+            case GIVE_CARD -> ClientUI.giveCard();
 
             case CREATE_EMPLOYEE -> EmployeeUI.create();
             case DELETE_EMPLOYEE -> EmployeeUI.delete();
