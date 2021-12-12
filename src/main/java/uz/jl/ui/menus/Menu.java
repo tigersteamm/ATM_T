@@ -33,12 +33,12 @@ public class Menu {
             menus.put(LangConfig.get(language, "admin.unblock"), MenuKey.UN_BLOCK_ADMIN);
             menus.put(LangConfig.get(language, "branch.unblock"), MenuKey.UN_BLOCK_BRANCH);
 
-            menus.put("List Admin", MenuKey.LIST_ADMIN);
-            menus.put("List Branch", MenuKey.LIST_BRANCH);
+            menus.put(LangConfig.get(language, "admin.list"), MenuKey.LIST_ADMIN);
+            menus.put(LangConfig.get(language, "branch.list"), MenuKey.LIST_BRANCH);
 
-            menus.put("Update Branch", MenuKey.UPDATE_BRANCH);
+            menus.put(LangConfig.get(language, "branch.update"), MenuKey.UPDATE_BRANCH);
         } else if (Role.ADMIN.equals(role)) {
-            menus.put("Create BRANCH", MenuKey.CREATE_BRANCH);
+            menus.put(LangConfig.get(language, "branch.create"), MenuKey.CREATE_BRANCH);
             menus.put("Create HR", MenuKey.CREATE_HR);
             menus.put("Create ATM", MenuKey.CREATE_ATM);
             menus.put("Create Employee", MenuKey.CREATE_EMPLOYEE);
