@@ -1,5 +1,6 @@
 package uz.jl.ui;
 
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.mapper.AuthUserMapper;
@@ -18,7 +19,7 @@ public class AuthUI extends BaseUI {
     static Language language = Session.getInstance().getUser().getLanguage();
 
     public static void login() {
-        String username = Input.getStr(LangConfig.get(language, "username"));
+        String username = Input.getStr(LangConfig.get(language, "username") + " >> ");
         String password = Input.getStr(LangConfig.get(language, "password") + " >> ");
         ResponseEntity<String> response = service.login(username, password);
         showResponse(response);
@@ -36,7 +37,7 @@ public class AuthUI extends BaseUI {
 
     public static void changeLang() {
         Language.showAll();
-        String lang = Input.getStr("Language = ");
+        String lang = Input.getStr(LangConfig.get(language, "language") + " >> ");
         ResponseEntity<String> response = service.changeLang(lang);
         showResponse(response);
     }
