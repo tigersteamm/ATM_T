@@ -22,5 +22,4 @@ public abstract class BaseAbstractService
         this.repository = repository;
         this.mapper = mapper;
     }
-
 }

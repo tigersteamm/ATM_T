@@ -26,7 +26,6 @@ public class App {
 
     public static void main(String[] args) {
         Language language = Session.getInstance().getUser().getLanguage();
-        AtmProcessUI.service.infoCard();
         Menu.show();
         String choice = Input.getStr(">>>>");
         MenuKey key = MenuKey.getByValue(choice);

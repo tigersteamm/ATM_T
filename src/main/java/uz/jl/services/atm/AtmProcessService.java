@@ -18,6 +18,8 @@ import java.util.Objects;
 public class AtmProcessService
         extends BaseAbstractService<Atm, AtmDao, ATMMapper> {
     private static AtmProcessService service;
+    static AtmService serviceAtm = uz.jl.services.atm.AtmService.getInstance(AtmDao.getInstance(), ATMMapper.getInstance());
+
 
     public static AtmProcessService getInstance(AtmDao repository, ATMMapper mapper) {
         if (Objects.isNull(service)) {
@@ -37,7 +39,8 @@ public class AtmProcessService
     }
 
     public void enter() {
-
+        Print.println("choose atm :");
+        serviceAtm.list();
     }
 
 }
