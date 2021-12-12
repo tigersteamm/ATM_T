@@ -13,8 +13,8 @@
   {
     "username": "admin",
     "password": "admin123",
-    "role": "ADMIN",
-    "status": "BLOCKED",
+    "role": "CLIENT",
+    "status": "ACTIVE",
     "language": "EN",
     "id": "8972788434800Gz6FHtYWABDMvHok4ZYP",
     "createdAt": "Dec 11, 2021, 10:22:35 AM",
@@ -58,13 +58,13 @@
     "username": "employee",
     "password": "employee",
     "role": "EMPLOYEE",
-    "status": "BLOCKED",
+    "status": "ACTIVE",
     "phoneNumber": "+998932885122",
     "language": "EN",
     "id": "11129504465000Pofr7QzSsb37VQaoe8kg",
     "createdAt": "Dec 11, 2021, 10:58:32 AM",
     "createdBy": "8972788434800Gz6FHtYWABDMvHok4ZYP",
-    "deleted": 1
+    "deleted": 0
   },
   {
     "username": "employee1",
@@ -132,6 +132,42 @@
     "id": "14833165835500niwK70g4CnEhd0bnLQt6",
     "createdAt": "Dec 12, 2021, 9:36:32 PM",
     "createdBy": "11162205581700GNn1hPAJwV9lTyuAsTIM",
+    "deleted": 0
+  },
+  {
+    "username": "daurabek",
+    "password": "12345",
+    "role": "CLIENT",
+    "status": "ACTIVE",
+    "phoneNumber": "998913033774",
+    "language": "EN",
+    "id": "20028578583100bTBcYdh9Lb4c07hzAWFO",
+    "createdAt": "Dec 13, 2021, 12:18:13 AM",
+    "createdBy": "11129504465000Pofr7QzSsb37VQaoe8kg",
+    "deleted": 0
+  },
+  {
+    "username": "adsgs",
+    "password": "`13",
+    "role": "CLIENT",
+    "status": "ACTIVE",
+    "phoneNumber": "12412",
+    "language": "EN",
+    "id": "20432224078300LWD5vq3QPvYiptCVjmoh",
+    "createdAt": "Dec 13, 2021, 12:24:56 AM",
+    "createdBy": "11129504465000Pofr7QzSsb37VQaoe8kg",
+    "deleted": 0
+  },
+  {
+    "username": "usergo",
+    "password": "123",
+    "role": "CLIENT",
+    "status": "ACTIVE",
+    "phoneNumber": "123",
+    "language": "EN",
+    "id": "205731590506009PdHQtPkH6uGArSInKWj",
+    "createdAt": "Dec 13, 2021, 12:27:17 AM",
+    "createdBy": "11129504465000Pofr7QzSsb37VQaoe8kg",
     "deleted": 0
   }
 ]

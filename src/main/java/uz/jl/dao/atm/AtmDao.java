@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AtmDao extends BaseDao<Atm> {
-    FRWAtm frwATMEntity = FRWAtm.getInstance();
+    static FRWAtm frwATMEntity = FRWAtm.getInstance();
     private static AtmDao dao;
 
     public static AtmDao getInstance() {
@@ -42,9 +42,9 @@ public class AtmDao extends BaseDao<Atm> {
         return false;
     }
 
-    public Atm findByName(String name) throws APIException {
+    public static Atm findByName(String name) throws APIException {
         for (Atm atm : frwATMEntity.getAll()) {
-            if (name.equalsIgnoreCase(atm.getName())&&Session.getInstance().getUser().getBranchId().equals(atm.getBranchId()))
+            if (name.equalsIgnoreCase(atm.getName())) //&& Session.getInstance().getUser().getBranchId().equals(atm.getBranchId())
                 if (atm.getDeleted() == 0) {
                     return atm;
                 } else break;

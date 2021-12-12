@@ -7,6 +7,7 @@ import uz.jl.dao.db.FRWCard;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.models.card.Card;
+import uz.jl.utils.Print;
 
 import java.util.Objects;
 
@@ -25,15 +26,13 @@ public class CardDao extends BaseDao<Card> {
         return dao;
     }
 
-//    public Card findById(String id) throws APIException {
-//        for (Card card : frwCard.getAll()) {
-//            if (id.equals(card.getId()))
-//                if (card.getDeleted() == 0) {
-//                    return card;
-//                } else break;
-//        }
-//        throw new APIException("Card Not Found", HttpStatus.HTTP_404);
-//    }
+    public void ShowByHolderId(String id) {
+        for (Card card : frwCard.getAll()) {
+            if (card.getHolderId().equals(id)) {
+                Print.println(card.getPan());
+            }
+        }
+    }
 
     public boolean hasSuchPan(String pan) {
         for (Card card : frwCard.getAll()) {

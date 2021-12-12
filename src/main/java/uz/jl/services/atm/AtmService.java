@@ -254,13 +254,20 @@ public class AtmService
     }
 
     public void blockList() {
-        if (!role.equals(Role.ADMIN)) {
+        if (role.notIn(Role.ADMIN)) {
             Print.println(Color.RED, "Forbidden");
             return;
         }
         for (Atm atm : FRWAtm.getInstance().getAll()) {
             if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.BLOCKED) && atm.getBranchId().equals(Session.getInstance().getUser().getBranchId()))
                 Print.println(Color.RED, atm.getName());
+        }
+    }
+
+    public void unblockList() {
+        for (Atm atm : FRWAtm.getInstance().getAll()) {
+            if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.ACTIVE))
+                Print.println(atm.getName());
         }
     }
 

@@ -23,7 +23,10 @@ public class ClientUI {
         String userName = getStr(LangConfig.get(language, "username") + " >> ");
         String password = getStr(LangConfig.get(language, "password") + " >> ");
         String phoneNumber = getStr(LangConfig.get(language, "phone.number") + " >> ");
-        ResponseEntity<String> response = service.create(userName, password, phoneNumber);
+
+        String type = getStr(LangConfig.get(language, "card.type") + " >> ");
+        String pin = getStr(LangConfig.get(language, "password") + " >> ");
+        ResponseEntity<String> response = service.create(userName, password, phoneNumber, type, pin);
         showResponse(response);
     }
 

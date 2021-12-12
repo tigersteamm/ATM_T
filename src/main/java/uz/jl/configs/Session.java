@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import uz.jl.models.auth.AuthUser;
 import uz.jl.models.atm.Atm;
+import uz.jl.models.card.Card;
 
 import java.util.Objects;
 
@@ -14,12 +15,18 @@ public class Session {
     @Getter
     @Setter
     private AuthUser user;
+    @Getter
+    @Setter
     private Atm atm;
+    @Getter
+    @Setter
+    private Card card;
     private static Session session;
 
     private Session() {
         user = new AuthUser();
-        atm = new Atm();
+//        atm = new Atm();
+//        card = new Card();
     }
 
     public static Session getInstance() {

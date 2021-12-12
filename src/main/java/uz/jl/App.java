@@ -3,14 +3,22 @@ package uz.jl;
 import uz.jl.configs.AppConfig;
 import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
+import uz.jl.dao.atm.AtmDao;
+import uz.jl.dao.card.CardDao;
+import uz.jl.enums.auth.Role;
 import uz.jl.exceptions.APIException;
+import uz.jl.mapper.ATMMapper;
 import uz.jl.models.settings.Language;
+import uz.jl.services.atm.AtmService;
 import uz.jl.ui.*;
 import uz.jl.ui.menus.Menu;
 import uz.jl.ui.menus.MenuKey;
 import uz.jl.utils.Color;
-import uz.jl.utils.Input;
 import uz.jl.utils.Print;
+
+import java.util.Objects;
+
+import static uz.jl.utils.Input.getStr;
 
 /**
  * @author Elmurodov Javohir, Wed 11:30 AM. 12/8/2021
@@ -26,9 +34,30 @@ public class App {
 
     public static void main(String[] args) {
         Language language = Session.getInstance().getUser().getLanguage();
-        AtmProcessUI.service.infoCard();
+
+        if (Session.getInstance().getUser().getRole().equals(Role.CLIENT)) {
+            while (Objects.isNull(Session.getInstance().getAtm())) {
+                AtmService.getInstance(AtmDao.getInstance(), ATMMapper.getInstance()).unblockList();
+                String name = getStr(">>>>");
+                try {
+                    Session.getInstance().setAtm(AtmDao.findByName(name));
+                } catch (APIException e) {
+                    Print.println("Enter valid ATM name");
+                }
+            }
+            while (Objects.isNull(Session.getInstance().getCard())) {
+                CardDao.getInstance().ShowByHolderId(Session.getInstance().getUser().getId());
+                String pan = getStr("Pan >>>>");
+                try {
+                    Session.getInstance().setCard(CardDao.getInstance().findByPan(pan));
+                } catch (APIException e) {
+                    Print.println("Enter valid pan");
+                }
+            }
+        }
+
         Menu.show();
-        String choice = Input.getStr(">>>>");
+        String choice = getStr(">>>>");
         MenuKey key = MenuKey.getByValue(choice);
 
         switch (key) {
@@ -82,8 +111,13 @@ public class App {
             case UN_BLOCK_ATM -> AtmUI.unblock();
             case BLOCK_LIST_ATM -> AtmUI.blockList();
 
-            case USE_ATM -> AtmProcessUI.enter();
+            case SMS_INFO -> AtmProcessUI.smsInfo();
+            case CHANGE_PIN -> AtmProcessUI.ChangePin();
             case CARD_INFO -> AtmProcessUI.infoCard();
+            case CARD_BALANCE -> AtmProcessUI.cardBalance();
+            case CASH_WITHDRAWAL -> AtmProcessUI.cashWithdrawal();
+            case CARD_DEPOSIT -> AtmProcessUI.cardDeposit();
+            case RETURN_CARD -> AtmProcessUI.returnCard();
 
             case EXIT -> {
                 Print.println(Color.YELLOW, LangConfig.get(language, "bye"));

@@ -40,4 +40,7 @@ public class AtmProcessService
 
     }
 
+    public void showAtmMenu() {
+
+    }
 }

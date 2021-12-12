@@ -52,12 +52,13 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         super(repository, mapper);
     }
 
-    public ResponseEntity<String> create(String userName, String password, String phoneNumber) {
+    public ResponseEntity<String> create(String userName, String password, String phoneNumber, String type, String pin) {
         if (!(Role.EMPLOYEE.equals(role))) {
             return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
         AuthUser user = new AuthUser();
-        user.setId(genId());
+        String id = genId();
+        user.setId(id);
         user.setUsername(userName);
         user.setPassword(password);
         user.setStatus(UserStatus.ACTIVE);
@@ -66,7 +67,33 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         user.setCreatedBy(Session.getInstance().getUser().getId());
         user.setLanguage(Session.getInstance().getUser().getLanguage());
         user.setDeleted(0);
-        return create(user);
+        ResponseEntity<String> response = create(user);
+        if (response.getStatus().equals(200)) {
+            CardType cardType = CardType.getByString(type);
+            if (cardType.equals(CardType.UNDEFINED)) {
+                return new ResponseEntity<>("Invalid card type", HttpStatus.HTTP_400);
+            }
+
+            if (!password.matches("^[0-9]{4}$")) {
+                return new ResponseEntity<>("Invalid password", HttpStatus.HTTP_400);
+            }
+
+            Card card = Card.builder()
+                    .pan(generatePan(cardType))
+                    .expiry(getStringExpiry())
+                    .password(password)
+                    .type(cardType)
+                    .status(CardStatus.ACTIVE)
+                    .balance(BigDecimal.valueOf(0))
+                    .bankId(Session.getInstance().getUser().getBankId())
+                    .holderId(id)
+                    .build();
+            card.setCreatedBy(Session.getInstance().getUser().getId());
+            FRWCard.getInstance().writeAll(card);
+            return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
+        }
+
+        return response;
     }
 
     @Override

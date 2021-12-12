@@ -6,7 +6,7 @@
     "type": "UZCARD",
     "status": "ACTIVE",
     "balance": 0,
-    "holderId": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "holderId": "8972788434800Gz6FHtYWABDMvHok4ZYP",
     "createdAt": "Dec 11, 2021, 7:12:46 PM",
     "deleted": 0
   },
@@ -30,6 +30,17 @@
     "balance": 0,
     "holderId": "1511617896657700RNTZm9kTlFgPg968jslM",
     "createdAt": "Dec 11, 2021, 7:14:31 PM",
+    "deleted": 0
+  },
+  {
+    "pan": "9860391243665451",
+    "expiry": "1224",
+    "password": "1234",
+    "type": "HUMO",
+    "status": "ACTIVE",
+    "balance": 0,
+    "holderId": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "createdAt": "Dec 12, 2021, 10:37:14 PM",
     "deleted": 0
   }
 ]
