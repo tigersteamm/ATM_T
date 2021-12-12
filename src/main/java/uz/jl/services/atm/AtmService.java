@@ -285,4 +285,9 @@ public class AtmService
         }
         return count;
     }
+
+    public ResponseEntity<String> cashWithdrawal(String amount) {
+
+        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+    }
 }
