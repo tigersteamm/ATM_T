@@ -87,6 +87,6 @@ public class Menu {
     }
 
     public static void show() {
-        Menu.menus().forEach((k, v) -> Print.println(k + " -> " + v));
+        Menu.menus().forEach((k, v) -> Print.println(k + " >> " + v));
     }
 }
