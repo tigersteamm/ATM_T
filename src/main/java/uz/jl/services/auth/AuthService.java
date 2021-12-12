@@ -41,7 +41,7 @@ public class AuthService
 
     public ResponseEntity<String> login(String username, String password) {
         if (!Role.ANONYMOUS.equals(role)) {
-            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+            return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
         try {
             AuthUser user = repository.findByUserName(username);
@@ -52,7 +52,7 @@ public class AuthService
                 return new ResponseEntity<>("Bad Credentials", HttpStatus.HTTP_400);
             }
             if (user.getStatus().equals(UserStatus.BLOCKED)) {
-                return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+                return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
             }
             Session.getInstance().setUser(user);
             return new ResponseEntity<>("success", HttpStatus.HTTP_200);
@@ -64,7 +64,7 @@ public class AuthService
 
     public ResponseEntity<String> logout() {
         if (!Role.ANONYMOUS.equals(role)) {
-            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+            return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
         Session.getInstance().setUser(new AuthUser());
         return new ResponseEntity<>("success", HttpStatus.HTTP_200);
@@ -72,7 +72,7 @@ public class AuthService
 
     public ResponseEntity<String> profile() {
         if (!Role.ANONYMOUS.equals(role)) {
-            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+            return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
         Print.println(Color.GREEN, Session.getInstance().getUser());
         return new ResponseEntity<>("success", HttpStatus.HTTP_200);

@@ -61,10 +61,10 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
     @Override
     public ResponseEntity<String> create(AuthUser authUser) {
         if (repository.hasSuchName(authUser.getUsername())) {
-            return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
+            return new ResponseEntity<>(LangConfig.get(language, "already.exists"), HttpStatus.HTTP_406);
         }
         FRWAuthUser.getInstance().writeAll(authUser);
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     public ResponseEntity<String> delete(String userName) {
@@ -80,12 +80,12 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
     @Override
     public ResponseEntity<String> delete(AuthUser authUser) {
         if (authUser.getDeleted() == 1) {
-            return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+            return new ResponseEntity<>(LangConfig.get(language, "already.done"), HttpStatus.HTTP_406);
         }
 
         authUser.setDeleted(1);
         FRWAuthUser.getInstance().writeAll(getAll());
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     public void list() {
@@ -123,7 +123,7 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
                 throw new APIException("Admin Not Found", HttpStatus.HTTP_404);
             }
             if (authUser.getStatus().equals(UserStatus.BLOCKED)) {
-                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+                return new ResponseEntity<>(LangConfig.get(language, "already.done"), HttpStatus.HTTP_406);
             }
             if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
                 authUser.setStatus(UserStatus.BLOCKED);
@@ -132,7 +132,7 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     public ResponseEntity<String> unblock(String userName) {
@@ -142,7 +142,7 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
                 throw new APIException("HR Not Found", HttpStatus.HTTP_404);
             }
             if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
-                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+                return new ResponseEntity<>(LangConfig.get(language, "already.done"), HttpStatus.HTTP_406);
             }
             if (authUser.getStatus().equals(UserStatus.BLOCKED)) {
                 authUser.setStatus(UserStatus.ACTIVE);
@@ -151,7 +151,7 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     @Override

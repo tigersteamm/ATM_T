@@ -57,7 +57,7 @@ public class AtmService
 
     public ResponseEntity<String> create(String name) {
         if (!role.equals(Role.ADMIN)) {
-            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+            return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
         ATMType.show();
         String typeStr = getStr("?:").toUpperCase(Locale.ROOT);
@@ -75,15 +75,15 @@ public class AtmService
     @Override
     public ResponseEntity<String> create(Atm atm) {
         if (repository.hasSuchName(atm.getName())) {
-            return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
+            return new ResponseEntity<>(LangConfig.get(language, "already.exists"), HttpStatus.HTTP_406);
         }
         FRWAtm.getInstance().writeAll(atm);
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     public ResponseEntity<String> delete(String name) {
         if (!role.equals(Role.ADMIN)) {
-            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+            return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
         Atm atm;
         try {
@@ -97,18 +97,18 @@ public class AtmService
     @Override
     public ResponseEntity<String> delete(Atm atm) {
         if (atm.getDeleted() == 1) {
-            return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+            return new ResponseEntity<>(LangConfig.get(language, "already.done"), HttpStatus.HTTP_406);
         }
 
         atm.setDeleted(1);
         FRWAtm.getInstance().writeAll(getAll());
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     public void list() {
         if (!role.equals(Role.ADMIN)) {
             Print.println(Color.RED, "Forbidden");
-            return;// new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+            return;// new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
         boolean stop = true;
         for (Atm atm : FRWAtm.getInstance().getAll()) {
@@ -137,7 +137,7 @@ public class AtmService
 
     public ResponseEntity<String> update(String oldName, String newName) {
         if (!(Role.ADMIN.equals(role) || Role.HR.equals(role))) {
-            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+            return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
         try {
             Atm atm = repository.findByName(oldName);
@@ -148,7 +148,7 @@ public class AtmService
                 return new ResponseEntity<>("This ATM is Blocked", HttpStatus.HTTP_406);
             }
             if (repository.hasSuchName(newName)) {
-                return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
+                return new ResponseEntity<>(LangConfig.get(language, "already.exists"), HttpStatus.HTTP_406);
             }
             return update(newName, atm);
         } catch (APIException e) {
@@ -162,15 +162,15 @@ public class AtmService
         atm.setUpdatedAt(new Date());
         atm.setUpdatedBy(Session.getInstance().getUser().getUsername());
         FRWAtm.getInstance().writeAll(atm);
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     public ResponseEntity<String> block(String name) {
         if (!role.equals(Role.ADMIN)) {
-            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+            return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
         if (unblockCount() == 0) {
-            return new ResponseEntity<>("Not Found Any Unblocked Branch", HttpStatus.HTTP_404);
+            return new ResponseEntity<>(LangConfig.get(language, "not.found.any.unblocked.branch"), HttpStatus.HTTP_404);
         }
 //        unblockList();
         try {
@@ -179,7 +179,7 @@ public class AtmService
                 throw new APIException("ATM Not Found", HttpStatus.HTTP_404);
             }
             if (atm.getStatus().equals(ATMStatus.BLOCKED)) {
-                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+                return new ResponseEntity<>(LangConfig.get(language, "already.done"), HttpStatus.HTTP_406);
             }
             if (atm.getStatus().equals(ATMStatus.ACTIVE)) {
                 atm.setStatus(ATMStatus.BLOCKED);
@@ -188,21 +188,21 @@ public class AtmService
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     public ResponseEntity<String> unblock(String name) {
         if (!role.equals(Role.ADMIN)) {
-            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+            return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
         if (blockCount() == 0) {
-            return new ResponseEntity<>("Not Found Any Blocked Branch", HttpStatus.HTTP_404);
+            return new ResponseEntity<>(LangConfig.get(language, "not.found.any.blocked.branch"), HttpStatus.HTTP_404);
         }
 //        blockList();
         try {
             Atm atm = repository.findByName(name);
             if (atm.getStatus().equals(ATMStatus.ACTIVE)) {
-                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+                return new ResponseEntity<>(LangConfig.get(language, "already.done"), HttpStatus.HTTP_406);
             }
             if (atm.getStatus().equals(ATMStatus.BLOCKED)) {
                 atm.setStatus(ATMStatus.ACTIVE);
@@ -211,7 +211,7 @@ public class AtmService
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     public void blockList() {

@@ -49,12 +49,12 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
 
     public ResponseEntity<String> create(String userName, String password, String phoneNumber) {
         if (!(Role.EMPLOYEE.equals(role))) {
-            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+            return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
         try {
             AuthUser user = repository.findByUserName(userName);
             if (Objects.nonNull(user)) {
-                return new ResponseEntity<>("Already exists", HttpStatus.HTTP_406);
+                return new ResponseEntity<>(LangConfig.get(language, "already.exists"), HttpStatus.HTTP_406);
             }
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
@@ -74,7 +74,7 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
     @Override
     public ResponseEntity<String> create(AuthUser authUser) {
         FRWAuthUser.getInstance().writeAll(authUser);
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
 
@@ -91,12 +91,12 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
     @Override
     public ResponseEntity<String> delete(AuthUser authUser) {
         if (authUser.getDeleted() == 1) {
-            return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+            return new ResponseEntity<>(LangConfig.get(language, "already.done"), HttpStatus.HTTP_406);
         }
 
         authUser.setDeleted(1);
         FRWAuthUser.getInstance().writeAll(getAll());
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     public void list() {
@@ -133,7 +133,7 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
                 throw new APIException("Client Not Found", HttpStatus.HTTP_404);
             }
             if (authUser.getStatus().equals(UserStatus.BLOCKED)) {
-                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+                return new ResponseEntity<>(LangConfig.get(language, "already.done"), HttpStatus.HTTP_406);
             }
             if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
                 authUser.setStatus(UserStatus.BLOCKED);
@@ -142,7 +142,7 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     public ResponseEntity<String> unblock(String userName) {
@@ -152,7 +152,7 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
                 throw new APIException("Client Not Found", HttpStatus.HTTP_404);
             }
             if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
-                return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
+                return new ResponseEntity<>(LangConfig.get(language, "already.done"), HttpStatus.HTTP_406);
             }
             if (authUser.getStatus().equals(UserStatus.BLOCKED)) {
                 authUser.setStatus(UserStatus.ACTIVE);
@@ -161,7 +161,7 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         } catch (APIException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
         }
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     @Override
@@ -187,7 +187,7 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
 
     public ResponseEntity<String> giveCard(String holderUsername, String type, String password) {
 //        if (!Role.EMPLOYEE.equals(role)) {
-//            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+//            return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
 //        }
         AuthUser user;
         try {
@@ -216,7 +216,7 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
                 .holderId(user.getId())
                 .build();
         FRWCard.getInstance().writeAll(card);
-        return new ResponseEntity<>("Successfully done", HttpStatus.HTTP_200);
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
 
     private String getStringExpiry() {
