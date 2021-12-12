@@ -1,5 +1,6 @@
 package uz.jl.ui;
 
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.mapper.AuthUserMapper;
@@ -19,15 +20,15 @@ public class ClientUI {
     static Language language = Session.getInstance().getUser().getLanguage();
 
     public static void create() {
-        String userName = getStr("Username: ");
-        String password = getStr("password: ");
-        String phoneNumber = getStr("Phone Number: ");
+        String userName = getStr(LangConfig.get(language, "username") + " >> ");
+        String password = getStr(LangConfig.get(language, "password") + " >> ");
+        String phoneNumber = getStr(LangConfig.get(language, "phone.number") + " >> ");
         ResponseEntity<String> response = service.create(userName, password, phoneNumber);
         showResponse(response);
     }
 
     public static void delete() {
-        String username = getStr("Username: ");
+        String username = getStr(LangConfig.get(language, "username") + " >> ");
         ResponseEntity<String> response = service.delete(username);
         showResponse(response);
     }
@@ -37,13 +38,13 @@ public class ClientUI {
     }
 
     public static void block() {
-        String userName = getStr("Username: ");
+        String userName = getStr(LangConfig.get(language, "username") + " >> ");
         ResponseEntity<String> response = service.block(userName);
         showResponse(response);
     }
 
     public static void unBlock() {
-        String userName = getStr("Username: ");
+        String userName = getStr(LangConfig.get(language, "username") + " >> ");
         ResponseEntity<String> response = service.unblock(userName);
         showResponse(response);
     }
@@ -53,9 +54,9 @@ public class ClientUI {
     }
 
     public static void giveCard() {
-        String holderUsername = getStr("Holder username: ");
-        String type = getStr("Card type: ");
-        String password = getStr("Password: ");
+        String holderUsername = getStr(LangConfig.get(language, "holder.username") + " >> ");
+        String type = getStr(LangConfig.get(language, "card.type") + " >> ");
+        String password = getStr(LangConfig.get(language, "password") + " >> ");
 
         ResponseEntity<String> response = service.giveCard(holderUsername, type, password);
         showResponse(response);
