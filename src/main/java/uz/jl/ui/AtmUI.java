@@ -1,5 +1,6 @@
 package uz.jl.ui;
 
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.atm.AtmDao;
 import uz.jl.mapper.ATMMapper;
@@ -19,20 +20,20 @@ public class AtmUI {
     static Language language = Session.getInstance().getUser().getLanguage();
 
     public static void create() {
-        String name = getStr("ATM name:");
+        String name = getStr(LangConfig.get(language, "atm.name") + " >> ");
         ResponseEntity<String> response = service.create(name);
         showResponse(response);
     }
 
     public static void update() {
-        String oldName = getStr("old ATM name:");
-        String newName = getStr("new ATM name:");
+        String oldName = getStr(LangConfig.get(language, "old.atm.name") + " >> ");
+        String newName = getStr(LangConfig.get(language, "new.atm.name") + " >> ");
         ResponseEntity<String> response = service.update(oldName, newName);
         showResponse(response);
     }
 
     public static void delete() {
-        String name = Input.getStr("ATM name: ");
+        String name = Input.getStr(LangConfig.get(language, "atm.name") + " >> ");
         ResponseEntity<String> response = service.delete(name);
         showResponse(response);
     }
@@ -42,13 +43,13 @@ public class AtmUI {
     }
 
     public static void block() {
-        String name = getStr("ATM name: ");
+        String name = getStr(LangConfig.get(language, "atm.name") + " >> ");
         ResponseEntity<String> response = service.block(name);
         showResponse(response);
     }
 
     public static void unblock() {
-        String name = getStr("ATM name: ");
+        String name = getStr(LangConfig.get(language, "atm.name") + " >> ");
         ResponseEntity<String> response = service.unblock(name);
         showResponse(response);
     }
