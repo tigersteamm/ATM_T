@@ -29,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static uz.jl.utils.BaseUtils.genId;
+import static uz.jl.utils.Color.PURPLE;
+import static uz.jl.utils.Color.RED;
 
 public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUserMapper>
         implements IBaseCrudService<AuthUser> {
@@ -54,14 +56,6 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         if (!(Role.EMPLOYEE.equals(role))) {
             return new ResponseEntity<>(LangConfig.get(language, "forbidden"), HttpStatus.HTTP_403);
         }
-        try {
-            AuthUser user = repository.findByUserName(userName);
-            if (Objects.nonNull(user)) {
-                return new ResponseEntity<>(LangConfig.get(language, "already.exists"), HttpStatus.HTTP_406);
-            }
-        } catch (APIException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.getStatusByCode(e.getCode()));
-        }
         AuthUser user = new AuthUser();
         user.setId(genId());
         user.setUsername(userName);
@@ -71,11 +65,15 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         user.setPhoneNumber(phoneNumber);
         user.setCreatedBy(Session.getInstance().getUser().getId());
         user.setLanguage(Session.getInstance().getUser().getLanguage());
+        user.setDeleted(0);
         return create(user);
     }
 
     @Override
     public ResponseEntity<String> create(AuthUser authUser) {
+        if (repository.hasSuchName(authUser.getUsername())) {
+            return new ResponseEntity<>(LangConfig.get(language, "already.exists"), HttpStatus.HTTP_406);
+        }
         FRWAuthUser.getInstance().writeAll(authUser);
         return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
     }
@@ -105,10 +103,11 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
     public void list() {
         for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
             if (authUser.getDeleted() == 0) {
-                if (authUser.getStatus().equals(UserStatus.ACTIVE)) {
-                    Print.println(Color.RED, authUser.getUsername());
-                } else {
-                    Print.println(Color.PURPLE, authUser.getUsername());
+                if (authUser.getStatus().equals(UserStatus.ACTIVE) && authUser.getRole().equals(Role.CLIENT)) {
+                    Print.println(PURPLE, authUser.getUsername());
+                }
+                if (authUser.getStatus().equals(UserStatus.BLOCKED) && authUser.getRole().equals(Role.CLIENT)) {
+                    Print.println(RED, authUser.getUsername());
                 }
             }
         }

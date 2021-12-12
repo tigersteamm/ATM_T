@@ -72,7 +72,7 @@
     "role": "EMPLOYEE",
     "status": "ACTIVE",
     "phoneNumber": "+998932885122",
-    "language": "EN",
+    "language": "RU",
     "id": "11162205581700GNn1hPAJwV9lTyuAsTIM",
     "createdAt": "Dec 11, 2021, 10:59:05 AM",
     "createdBy": "8972788434800Gz6FHtYWABDMvHok4ZYP",
@@ -109,6 +109,29 @@
     "id": "221422184465000ijWRQCjOC7VwEyRtImo",
     "createdAt": "Dec 12, 2021, 6:15:13 PM",
     "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
+    "deleted": 0
+  },
+  {
+    "username": "hrname",
+    "password": "hr123",
+    "role": "HR",
+    "status": "ACTIVE",
+    "language": "EN",
+    "id": "11879093455000p6GWU9cTN2Xr7EH6IpqA",
+    "createdAt": "Dec 12, 2021, 8:47:18 PM",
+    "createdBy": "9469288192600JkfXmwhzXrOowibtXr9f",
+    "deleted": 0
+  },
+  {
+    "username": "user",
+    "password": "user123",
+    "role": "CLIENT",
+    "status": "ACTIVE",
+    "phoneNumber": "+998932885122",
+    "language": "RU",
+    "id": "14833165835500niwK70g4CnEhd0bnLQt6",
+    "createdAt": "Dec 12, 2021, 9:36:32 PM",
+    "createdBy": "11162205581700GNn1hPAJwV9lTyuAsTIM",
     "deleted": 0
   }
 ]

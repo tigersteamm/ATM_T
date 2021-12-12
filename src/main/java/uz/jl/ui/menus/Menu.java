@@ -75,6 +75,11 @@ public class Menu {
         } else if (Role.EMPLOYEE.equals(role)) {
             menus.put(LangConfig.get(language, "atm.update"), MenuKey.UPDATE_ATM);
             menus.put(LangConfig.get(language, "atm.list"), MenuKey.LIST_ATM);
+            menus.put(LangConfig.get(language, "client.create"), MenuKey.CREATE_USER);
+            menus.put(LangConfig.get(language, "client.delete"), MenuKey.DELETE_USER);
+            menus.put(LangConfig.get(language, "client.block"), MenuKey.BLOCK_USER);
+            menus.put(LangConfig.get(language, "client.unblock"), MenuKey.UN_BLOCK_USER);
+            menus.put(LangConfig.get(language, "client.list"), MenuKey.LIST_USER);
         } else if (Role.ANONYMOUS.equals(role)) {
             menus.put(LangConfig.get(language, "login"), MenuKey.LOGIN);
         }

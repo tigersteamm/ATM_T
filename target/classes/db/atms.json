@@ -34,5 +34,38 @@
     "createdAt": "Dec 12, 2021, 2:41:57 PM",
     "createdBy": "7456557165820004AnMgKzlhspDmfG2j0oq",
     "deleted": 0
+  },
+  {
+    "type": "HUMO",
+    "name": "atmname",
+    "status": "ACTIVE",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "cassettes": [
+      {
+        "currencyValue": "100000",
+        "status": "ACTIVE",
+        "currencyCount": 10
+      },
+      {
+        "currencyValue": "50000",
+        "status": "ACTIVE",
+        "currencyCount": 50
+      },
+      {
+        "currencyValue": "10000",
+        "status": "ACTIVE",
+        "currencyCount": 2
+      },
+      {
+        "currencyValue": "5000",
+        "status": "ACTIVE",
+        "currencyCount": 5
+      }
+    ],
+    "id": "6cb607acf5d848039d6937d9b16bce74",
+    "createdAt": "Dec 12, 2021, 8:47:48 PM",
+    "createdBy": "9469288192600JkfXmwhzXrOowibtXr9f",
+    "deleted": 0
   }
 ]
