@@ -133,5 +133,17 @@
     "createdAt": "Dec 12, 2021, 9:36:32 PM",
     "createdBy": "11162205581700GNn1hPAJwV9lTyuAsTIM",
     "deleted": 0
+  },
+  {
+    "username": "user4",
+    "password": "123",
+    "role": "CLIENT",
+    "status": "ACTIVE",
+    "phoneNumber": "12",
+    "language": "RU",
+    "id": "24943897967200aKPMQV58Cqy0zpzDaUru",
+    "createdAt": "Dec 13, 2021, 12:25:03 AM",
+    "createdBy": "11162205581700GNn1hPAJwV9lTyuAsTIM",
+    "deleted": 0
   }
 ]
