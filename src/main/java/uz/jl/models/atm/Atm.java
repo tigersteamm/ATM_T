@@ -15,7 +15,8 @@ import static uz.jl.utils.BaseUtil.generateUniqueID;
 /**
  * @author Elmurodov Javohir, Mon 12:10 PM. 11/29/2021
  */
-@Getter @Setter
+@Getter
+@Setter
 public class Atm extends Auditable {
     private String bankId;
     private ATMType type;
@@ -24,12 +25,15 @@ public class Atm extends Auditable {
     private double latitude;
     private double longitude;
 
+    public Atm() {
+        super(generateUniqueID(), Session.getInstance().getUser().getId());
+    }
 
-    public Atm(String name,ATMType atmType, String bankId, AuthUser user) {
-        super(generateUniqueID(),user.getId());
-        this.name=name;
-        type=atmType;
-        this.bankId=bankId;
-        status=ATMStatus.ACTIVE;
+    public Atm(String name, ATMType atmType, String bankId, AuthUser user) {
+        super(generateUniqueID(), user.getId());
+        this.name = name;
+        type = atmType;
+        this.bankId = bankId;
+        status = ATMStatus.ACTIVE;
     }
 }
