@@ -21,6 +21,7 @@ public class AuthUser extends Auditable {
     private String username;
     private String password;
     private String bankId;
+    private String branchId;
     private Role role;
     private UserStatus status;
     private String phoneNumber;

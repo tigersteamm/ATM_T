@@ -54,4 +54,14 @@ public class BranchDao extends BaseDao<Branch> {
         }
         throw new APIException("Branch Not Found", HttpStatus.HTTP_404);
     }
+
+    public Branch findByNameWithNull(String branchName) {
+        for (Branch branch : frwBranch.getAll()) {
+            if (branchName.equalsIgnoreCase(branch.getName()))
+                if (branch.getDeleted() == 0) {
+                return branch;
+                } else break;
+        }
+        return null;
+    }
 }

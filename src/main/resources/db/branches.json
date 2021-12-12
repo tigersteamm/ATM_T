@@ -1,15 +1,17 @@
 [
   {
-    "name": "atm1",
+    "name": "branch1",
     "status": "ACTIVE",
-    "createdAt": "Dec 11, 2021, 10:22:25 AM",
+    "id": "742539002942200T76DqMD6zQMataNpJqQ5",
+    "createdAt": "Dec 12, 2021, 1:46:03 PM",
     "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
     "deleted": 0
   },
   {
-    "name": "atm2",
+    "name": "branch2",
     "status": "ACTIVE",
-    "createdAt": "Dec 11, 2021, 10:28:37 AM",
+    "id": "745436718041100XcvJXhEEL6W5DgJ0tMep",
+    "createdAt": "Dec 12, 2021, 2:34:21 PM",
     "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
     "deleted": 0
   }

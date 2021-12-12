@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import static uz.jl.utils.BaseUtils.genId;
+
 /**
  * @author D4uranbek чт. 18:45. 09.12.2021
  */
@@ -51,6 +53,7 @@ public class BranchService
         }
         Branch branch = new Branch();
         branch.setName(name);
+        branch.setId(genId());
         branch.setBankId(Session.getInstance().getUser().getBankId());
         branch.setStatus(BranchStatus.ACTIVE);
         branch.setCreatedAt(new Date());

@@ -2,6 +2,7 @@ package uz.jl.dao.atm;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import uz.jl.configs.Session;
 import uz.jl.dao.db.FRWAtm;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
@@ -43,7 +44,7 @@ public class AtmDao extends BaseDao<Atm> {
 
     public Atm findByName(String name) throws APIException {
         for (Atm atm : frwATMEntity.getAll()) {
-            if (name.equalsIgnoreCase(atm.getName()))
+            if (name.equalsIgnoreCase(atm.getName())&&Session.getInstance().getUser().getBranchId().equals(atm.getBranchId()))
                 if (atm.getDeleted() == 0) {
                     return atm;
                 } else break;
