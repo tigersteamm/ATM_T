@@ -56,7 +56,7 @@ public class AtmService
     }
 
     public ResponseEntity<String> create(String name) {
-        if (!Role.ADMIN.equals(role)) {
+        if (!role.equals(Role.ADMIN)) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
         ATMType.show();
@@ -67,7 +67,8 @@ public class AtmService
             typeStr = getStr("?:").toUpperCase(Locale.ROOT);
         }
         ATMType type1 = ATMType.valueOf(typeStr);
-        Atm atm = new Atm(name, type1, Session.getInstance().getUser().getBankId(), Session.getInstance().getUser());
+        Atm atm = new Atm(name, type1, Session.getInstance().getUser());
+        atm.setBranchId(Session.getInstance().getUser().getBranchId());
         return create(atm);
     }
 
@@ -81,7 +82,7 @@ public class AtmService
     }
 
     public ResponseEntity<String> delete(String name) {
-        if (!(Role.ADMIN.equals(role) || Role.HR.equals(role))) {
+        if (!role.equals(Role.ADMIN)) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
         Atm atm;
@@ -105,19 +106,20 @@ public class AtmService
     }
 
     public void list() {
-        if (!(Role.ADMIN.equals(role) || Role.HR.equals(role))) {
+        if (!role.equals(Role.ADMIN)) {
             Print.println(Color.RED, "Forbidden");
             return;// new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
         boolean stop = true;
         for (Atm atm : FRWAtm.getInstance().getAll()) {
+            if(Session.getInstance().getUser().getBranchId().equals(atm.getBranchId())){
             if (atm.getDeleted() == 0) {
                 stop = false;
                 if (atm.getStatus().equals(ATMStatus.BLOCKED))
                     Print.println(Color.RED, atm.getName());
                 else
                     Print.println(Color.PURPLE, atm.getName());
-            }
+            }}
         }
         if (stop)
             println(RED, "You haven't ATM 🤔");
@@ -164,9 +166,9 @@ public class AtmService
     }
 
     public ResponseEntity<String> block(String name) {
-//        if (!(Role.ADMIN.equals(role) || Role.HR.equals(role))) {
-//            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
-//        }
+        if (!role.equals(Role.ADMIN)) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
+        }
         if (unblockCount() == 0) {
             return new ResponseEntity<>("Not Found Any Unblocked Branch", HttpStatus.HTTP_404);
         }
@@ -190,7 +192,7 @@ public class AtmService
     }
 
     public ResponseEntity<String> unblock(String name) {
-        if (!(Role.ADMIN.equals(role) || Role.HR.equals(role))) {
+        if (!role.equals(Role.ADMIN)) {
             return new ResponseEntity<>("Forbidden", HttpStatus.HTTP_403);
         }
         if (blockCount() == 0) {
@@ -199,9 +201,6 @@ public class AtmService
 //        blockList();
         try {
             Atm atm = repository.findByName(name);
-            if (atm.getDeleted() == 1) {
-                throw new APIException("ATM Not Found", HttpStatus.HTTP_404);
-            }
             if (atm.getStatus().equals(ATMStatus.ACTIVE)) {
                 return new ResponseEntity<>("Already done", HttpStatus.HTTP_406);
             }
@@ -216,12 +215,12 @@ public class AtmService
     }
 
     public void blockList() {
-        if (!(Role.ADMIN.equals(role) || Role.HR.equals(role))) {
+        if (!role.equals(Role.ADMIN)) {
             Print.println(Color.RED, "Forbidden");
             return;
         }
         for (Atm atm : FRWAtm.getInstance().getAll()) {
-            if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.BLOCKED))
+            if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.BLOCKED)&&atm.getBranchId().equals(Session.getInstance().getUser().getBranchId()))
                 Print.println(Color.RED, atm.getName());
         }
     }
@@ -229,18 +228,20 @@ public class AtmService
     public Integer blockCount() {
         Integer count = 0;
         for (Atm atm : FRWAtm.getInstance().getAll()) {
+            if(atm.getBranchId().equals(Session.getInstance().getUser().getBranchId())){
             if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.BLOCKED))
                 count++;
-        }
+        }}
         return count;
     }
 
     public Integer unblockCount() {
         Integer count = 0;
         for (Atm atm : FRWAtm.getInstance().getAll()) {
+            if(atm.getBranchId().equals(Session.getInstance().getUser().getBranchId())){
             if (atm.getDeleted() == 0 && atm.getStatus().equals(ATMStatus.ACTIVE))
                 count++;
-        }
+        }}
         return count;
     }
 }

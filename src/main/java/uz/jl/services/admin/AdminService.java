@@ -10,6 +10,7 @@ import uz.jl.exceptions.APIException;
 import uz.jl.exceptions.APIRuntimeException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
+import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
@@ -45,18 +46,21 @@ public class AdminService
         super(repository, mapper);
     }
 
-    public ResponseEntity<String> create(String branch, String userName, String password) {
+    public ResponseEntity<String> create(String userName, String password, Branch branch) {
+        if(Objects.isNull(branch)){
+            return new ResponseEntity<>("Branch not found", HttpStatus.HTTP_404);
+        }
         AuthUser user = new AuthUser();
         user.setId(genId());
         user.setUsername(userName);
         user.setPassword(password);
 //        user.setBankId();
+        user.setBranchId(branch.getId());
         user.setStatus(UserStatus.ACTIVE);
         user.setRole(Role.ADMIN);
         user.setCreatedBy(Session.getInstance().getUser().getId());
         user.setLanguage(Session.getInstance().getUser().getLanguage());
         user.setDeleted(0);
-
         return create(user);
     }
 

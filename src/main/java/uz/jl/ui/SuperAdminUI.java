@@ -2,8 +2,10 @@ package uz.jl.ui;
 
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.branch.BranchDao;
+import uz.jl.exceptions.APIException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.mapper.BranchMapper;
+import uz.jl.models.branch.Branch;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.admin.AdminService;
 import uz.jl.services.branch.BranchService;
@@ -22,7 +24,9 @@ public class SuperAdminUI {
     public static void create() {
         BranchService serviceBranch = BranchService.getInstance(BranchDao.getInstance(), BranchMapper.getInstance());
         serviceBranch.list();
-        String branch = getStr("Choose branch : ");
+        String branchName = getStr("Choose branch : ");
+        Branch branch = BranchDao.getInstance().findByNameWithNull(branchName);
+
 
         Print.println(GREEN, "Create an admin for the branch");
         String userName = getStr("Username = ");
