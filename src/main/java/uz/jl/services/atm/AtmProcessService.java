@@ -46,4 +46,8 @@ public class AtmProcessService
     public void showAtmMenu() {
 
     }
+
+    public ResponseEntity<String> changePin(String oldPin, String newPin, String newPinCheck) {
+        return null;
+    }
 }

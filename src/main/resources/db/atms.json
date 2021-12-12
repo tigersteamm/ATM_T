@@ -7,22 +7,22 @@
     "longitude": 0.0,
     "cassettes": [
       {
-        "currencyValue": "100000",
+        "currencyValue": 100000,
         "status": "ACTIVE",
         "currencyCount": 10
       },
       {
-        "currencyValue": "50000",
+        "currencyValue": 50000,
         "status": "ACTIVE",
         "currencyCount": 50
       },
       {
-        "currencyValue": "10000",
+        "currencyValue": 10000,
         "status": "ACTIVE",
         "currencyCount": 2
       },
       {
-        "currencyValue": "5000",
+        "currencyValue": 5000,
         "status": "ACTIVE",
         "currencyCount": 5
       }

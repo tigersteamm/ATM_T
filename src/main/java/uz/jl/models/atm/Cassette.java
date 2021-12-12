@@ -13,7 +13,7 @@ import uz.jl.enums.atm.CassetteStatus;
 @AllArgsConstructor
 @ToString
 public class Cassette {
-    private String currencyValue;
+    private Long currencyValue;
     private CassetteStatus status;
-    private Integer currencyCount;
+    private Long currencyCount;
 }

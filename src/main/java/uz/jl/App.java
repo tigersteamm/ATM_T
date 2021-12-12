@@ -111,13 +111,16 @@ public class App {
             case UN_BLOCK_ATM -> AtmUI.unblock();
             case BLOCK_LIST_ATM -> AtmUI.blockList();
 
-            case SMS_INFO -> AtmProcessUI.smsInfo();
+//            case SMS_INFO -> AtmProcessUI.smsInfo();
             case CHANGE_PIN -> AtmProcessUI.ChangePin();
-            case CARD_INFO -> AtmProcessUI.infoCard();
+//            case CARD_INFO -> AtmProcessUI.infoCard();
             case CARD_BALANCE -> AtmProcessUI.cardBalance();
             case CASH_WITHDRAWAL -> AtmProcessUI.cashWithdrawal();
-            case CARD_DEPOSIT -> AtmProcessUI.cardDeposit();
-            case RETURN_CARD -> AtmProcessUI.returnCard();
+//            case CARD_DEPOSIT -> AtmProcessUI.cardDeposit();
+            case RETURN_CARD -> {
+                AtmProcessUI.returnCard();
+                AuthUI.logout();
+            }
 
             case EXIT -> {
                 Print.println(Color.YELLOW, LangConfig.get(language, "bye"));

@@ -1,7 +1,7 @@
 [
   {
     "username": "super",
-    "password": "super123",
+    "password": "123",
     "role": "SUPER_ADMIN",
     "status": "ACTIVE",
     "phoneNumber": "998908115225",
@@ -12,7 +12,7 @@
   },
   {
     "username": "admin",
-    "password": "admin123",
+    "password": "123",
     "branchId": "742539002942200T76DqMD6zQMataNpJqQ5",
     "role": "ADMIN",
     "status": "ACTIVE",
@@ -24,7 +24,7 @@
   },
   {
     "username": "hr",
-    "password": "hr123",
+    "password": "123",
     "role": "HR",
     "status": "ACTIVE",
     "language": "EN",
@@ -35,7 +35,7 @@
   },
   {
     "username": "employee",
-    "password": "employee123",
+    "password": "123",
     "role": "EMPLOYEE",
     "status": "ACTIVE",
     "phoneNumber": "123",
@@ -46,8 +46,8 @@
     "deleted": 0
   },
   {
-    "username": "uzer",
-    "password": "1234",
+    "username": "client",
+    "password": "123",
     "role": "CLIENT",
     "status": "ACTIVE",
     "phoneNumber": "1234",

@@ -14,6 +14,8 @@ import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.exceptions.APIRuntimeException;
 import uz.jl.mapper.AuthUserMapper;
+import uz.jl.models.atm.Atm;
+import uz.jl.models.atm.Cassette;
 import uz.jl.models.auth.AuthUser;
 import uz.jl.models.card.Card;
 import uz.jl.models.settings.Language;
@@ -273,6 +275,73 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         return generatedPan;
     }
 
+    public ResponseEntity<String> changePin(String oldPin, String newPin, String newPinCheck) {
+        Card card = Session.getInstance().getCard();
+        if (!card.getPassword().equals(oldPin)) {
+            return new ResponseEntity<>("Wrong Old Pin", HttpStatus.HTTP_406);
+        }
+        if (!newPin.matches("^[0-9]{4}$")) {
+            return new ResponseEntity<>("Invalid New Pin", HttpStatus.HTTP_400);
+        }
+        if (!newPin.equals(newPinCheck)) {
+            return new ResponseEntity<>("Wrong New Pin", HttpStatus.HTTP_406);
+        }
+
+        card.setPassword(newPin);
+        FRWCard.getInstance().writeAll(FRWCard.getInstance().getAll());
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
+    }
+
+    public void showCardBalance() {
+        System.out.println(Session.getInstance().getCard().getBalance());
+    }
+
+    public ResponseEntity<String> cashWithdrawal(String amount) {
+        BigDecimal needed = BigDecimal.valueOf(Long.parseLong(amount));
+        Card card = Session.getInstance().getCard();
+
+        if (card.getBalance().compareTo(needed.multiply(BigDecimal.valueOf(1.01))) < 0) {
+            return new ResponseEntity<>("Not Enough Money In Balance", HttpStatus.HTTP_406);
+        }
+
+        if (needed.divideAndRemainder(BigDecimal.valueOf(1000))[1].compareTo(BigDecimal.valueOf(0)) != 0) {
+            return new ResponseEntity<>("Invalid Amount", HttpStatus.HTTP_406);
+        }
+
+
+        Atm atm = Session.getInstance().getAtm();
+
+        Long neededLong = Long.parseLong(amount); //160 000
+
+        long atmBalance = 0;
+        ArrayList<Cassette> cassettes = atm.getCassettes();
+        //100 000 * 2
+        if (neededLong / cassettes.get(0).getCurrencyValue() > cassettes.get(0).getCurrencyCount()) {
+            // 60 000
+            neededLong -= cassettes.get(0).getCurrencyValue() * cassettes.get(0).getCurrencyCount();
+            if (neededLong / cassettes.get(1).getCurrencyValue() > cassettes.get(1).getCurrencyCount()) {
+
+            }
+        }
+
+
+//        cassettes.get(4).getCurrencyValue()
+
+//        for (int i = cassettes.size(); i > 0; i--) {
+//            Cassette cassette = cassettes.get(i);
+//            if (cassette.getStatus().getCode() == 0) {
+//                atmBalance += cassette.getCurrencyValue() * cassette.getCurrencyCount();
+//
+//                if (needed.divideAndRemainder(BigDecimal.valueOf(atmBalance))[1].compareTo(BigDecimal.valueOf(0)) != 0) {
+//
+//                }
+//            }
+//        }
+//
+
+        return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
+    }
+
 //    private CardType getCardType(String pan) {
 //        if (pan.matches("^(8600)[0-9]{12}$")) {
 //            return CardType.UZCARD;
@@ -290,4 +359,6 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
 //            return CardType.UNDEFINED;
 //        }
 //    }
+
+
 }
