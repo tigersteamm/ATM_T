@@ -58,7 +58,8 @@ public enum MenuKey {
     CHANGE_LANG,
     CHANGE_PIN,
     USE_ATM,
-    BALANCE;
+    BALANCE,
+    GIVE_CARD;
 
     public static MenuKey getByValue(String choice) {
         for (MenuKey menu : values()) {
