@@ -1,5 +1,6 @@
 package uz.jl.ui;
 
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.mapper.AuthUserMapper;
@@ -18,14 +19,14 @@ public class AdminUI {
     static Language language = Session.getInstance().getUser().getLanguage();
 
     public static void create() {
-        String userName = getStr(LangConfig.get(language, "username"));
+        String userName = getStr(LangConfig.get(language, "username") + " >> ");
         String password = getStr(LangConfig.get(language, "password") + " >> ");
         ResponseEntity<String> response = service.create(userName, password);
         showResponse(response);
     }
 
     public static void delete() {
-        String userName = getStr(LangConfig.get(language, "username"));
+        String userName = getStr(LangConfig.get(language, "username") + " >> ");
         ResponseEntity<String> response = service.delete(userName);
         showResponse(response);
     }
@@ -35,13 +36,13 @@ public class AdminUI {
     }
 
     public static void block() {
-        String userName = getStr(LangConfig.get(language, "username"));
+        String userName = getStr(LangConfig.get(language, "username") + " >> ");
         ResponseEntity<String> response = service.block(userName);
         showResponse(response);
     }
 
     public static void unblock() {
-        String userName = getStr(LangConfig.get(language, "username"));
+        String userName = getStr(LangConfig.get(language, "username") + " >> ");
         ResponseEntity<String> response = service.unblock(userName);
         showResponse(response);
     }
