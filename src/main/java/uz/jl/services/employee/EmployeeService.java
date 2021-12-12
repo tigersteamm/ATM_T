@@ -1,5 +1,6 @@
 package uz.jl.services.employee;
 
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.db.FRWAuthUser;
@@ -11,6 +12,7 @@ import uz.jl.exceptions.APIRuntimeException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
 import uz.jl.models.branch.Branch;
+import uz.jl.models.settings.Language;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
@@ -28,6 +30,8 @@ import static uz.jl.utils.Input.getStr;
 public class EmployeeService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUserMapper>
         implements IBaseCrudService<AuthUser> {
     private static EmployeeService service;
+    static Language language = Session.getInstance().getUser().getLanguage();
+
 
     public static EmployeeService getInstance(AuthUserDao repository, AuthUserMapper mapper) {
         if (Objects.isNull(service)) {

@@ -1,5 +1,6 @@
 package uz.jl.services.admin;
 
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.db.FRWAuthUser;
@@ -11,6 +12,7 @@ import uz.jl.exceptions.APIRuntimeException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
 import uz.jl.models.branch.Branch;
+import uz.jl.models.settings.Language;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
@@ -32,6 +34,8 @@ public class AdminService
         implements IBaseCrudService<AuthUser> {
 
     Role role = Session.getInstance().getUser().getRole();
+    Language language = Session.getInstance().getUser().getLanguage();
+
 
     private static AdminService service;
 

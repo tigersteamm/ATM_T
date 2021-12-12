@@ -1,6 +1,7 @@
 package uz.jl.services.auth;
 
 import uz.jl.configs.AppConfig;
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.db.FRWAuthUser;
@@ -38,6 +39,8 @@ public class AuthService
     }
 
     Role role = Session.getInstance().getUser().getRole();
+    Language language = Session.getInstance().getUser().getLanguage();
+
 
     public ResponseEntity<String> login(String username, String password) {
         if (!Role.ANONYMOUS.equals(role)) {

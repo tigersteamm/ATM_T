@@ -2,11 +2,14 @@ package uz.jl.dao.branch;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import uz.jl.configs.LangConfig;
+import uz.jl.configs.Session;
 import uz.jl.dao.atm.BaseDao;
 import uz.jl.dao.db.FRWBranch;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.models.branch.Branch;
+import uz.jl.models.settings.Language;
 
 import java.util.Objects;
 
@@ -19,6 +22,7 @@ public class BranchDao extends BaseDao<Branch> {
     FRWBranch frwBranch = FRWBranch.getInstance();
 
     private static BranchDao dao;
+    Language language = Session.getInstance().getUser().getLanguage();
 
     public static BranchDao getInstance() {
         if (Objects.isNull(dao))
@@ -59,7 +63,7 @@ public class BranchDao extends BaseDao<Branch> {
         for (Branch branch : frwBranch.getAll()) {
             if (branchName.equalsIgnoreCase(branch.getName()))
                 if (branch.getDeleted() == 0) {
-                return branch;
+                    return branch;
                 } else break;
         }
         return null;

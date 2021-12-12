@@ -1,5 +1,6 @@
 package uz.jl.services.hr;
 
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.db.FRWAuthUser;
@@ -10,13 +11,12 @@ import uz.jl.exceptions.APIException;
 import uz.jl.exceptions.APIRuntimeException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
-import uz.jl.models.branch.Branch;
+import uz.jl.models.settings.Language;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
 import uz.jl.utils.Color;
 import uz.jl.utils.Print;
-
 
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +29,8 @@ public class HRService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUs
         implements IBaseCrudService<AuthUser> {
 
     Role role = Session.getInstance().getUser().getRole();
+    Language language = Session.getInstance().getUser().getLanguage();
+
 
     private static HRService service;
 
