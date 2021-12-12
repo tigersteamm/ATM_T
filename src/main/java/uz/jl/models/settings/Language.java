@@ -13,8 +13,8 @@ public enum Language {
     RU("RU", "Russian"),
     EN("EN", "English");
 
-    private final String name;
     private final String code;
+    private final String name;
 
     public static Language getByCode(String code) {
         for (Language language : values()) {
@@ -23,5 +23,16 @@ public enum Language {
             }
         }
         return null;
+    }
+
+    public static void showAll() {
+        for (Language language : values()) {
+            System.out.println(language);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return name + " -> " + code;
     }
 }

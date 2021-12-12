@@ -19,8 +19,9 @@ public class MainMenu {
             e.printStackTrace();
         }
     }
+
     public static void main(String[] args) {
-AtmProcessUI.service.infoCard();
+        AtmProcessUI.service.infoCard();
         Menu.show();
         String choice = Input.getStr("?:");
         MenuKey key = MenuKey.getByValue(choice);
@@ -28,6 +29,7 @@ AtmProcessUI.service.infoCard();
         switch (key) {
             case LOGIN -> AuthUI.login();
             case PROFILE -> AuthUI.profile();
+            case CHANGE_LANG -> AuthUI.changeLang();
             case LOGOUT -> AuthUI.logout();
 
             case CREATE_ADMIN -> SuperAdminUI.create();
@@ -74,7 +76,7 @@ AtmProcessUI.service.infoCard();
             case UN_BLOCK_ATM -> AtmUI.unblock();
             case BLOCK_LIST_ATM -> AtmUI.blockList();
 
-            case CARD_INFO-> AtmProcessUI.infoCard();
+            case CARD_INFO -> AtmProcessUI.infoCard();
 
             case EXIT -> {
                 Print.println(Color.YELLOW, "Good bay");

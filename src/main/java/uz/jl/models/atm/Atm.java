@@ -1,6 +1,7 @@
 package uz.jl.models.atm;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.jl.configs.Session;
 import uz.jl.enums.atm.ATMStatus;
@@ -17,6 +18,7 @@ import static uz.jl.utils.BaseUtil.generateUniqueID;
  */
 @Getter
 @Setter
+@NoArgsConstructor
 public class Atm extends Auditable {
     private String bankId;
     private ATMType type;
@@ -24,10 +26,6 @@ public class Atm extends Auditable {
     private ATMStatus status;
     private double latitude;
     private double longitude;
-
-    public Atm() {
-        super(generateUniqueID(), Session.getInstance().getUser().getId());
-    }
 
     public Atm(String name, ATMType atmType, String bankId, AuthUser user) {
         super(generateUniqueID(), user.getId());

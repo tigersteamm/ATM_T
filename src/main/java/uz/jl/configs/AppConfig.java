@@ -29,7 +29,8 @@ public class AppConfig {
     public static void init() throws APIException {
         load();
 //        initSuperUser();
-        language = Language.getByCode(get("bank.default.language"));
+        language = Session.getInstance().getUser().getLanguage();
+//        Language.getByCode(get("bank.default.language"));
     }
 
     public static void initSuperUser() {
@@ -61,10 +62,13 @@ public class AppConfig {
         }
     }
 
-    public static Properties getLang(String lang) {
+    public static Properties getLang(Language lang) {
+        if (lang == null) {
+            return en;
+        }
         return switch (lang) {
-            case "uz" -> uz;
-            case "ru" -> ru;
+            case UZ -> uz;
+            case RU -> ru;
             default -> en;
         };
     }

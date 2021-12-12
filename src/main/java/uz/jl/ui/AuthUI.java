@@ -2,6 +2,7 @@ package uz.jl.ui;
 
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.mapper.AuthUserMapper;
+import uz.jl.models.settings.Language;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.auth.AuthService;
 import uz.jl.utils.Input;
@@ -22,12 +23,19 @@ public class AuthUI extends BaseUI {
     }
 
     public static void profile() {
-        ResponseEntity<String> response = service.profile();;
+        ResponseEntity<String> response = service.profile();
         showResponse(response);
     }
 
     public static void logout() {
         ResponseEntity<String> response = service.logout();
+        showResponse(response);
+    }
+
+    public static void changeLang() {
+        Language.showAll();
+        String lang = Input.getStr("Language = ");
+        ResponseEntity<String> response = service.changeLang(lang);
         showResponse(response);
     }
 }

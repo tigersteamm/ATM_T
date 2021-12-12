@@ -1,13 +1,16 @@
 package uz.jl.services.auth;
 
+import uz.jl.configs.AppConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
+import uz.jl.dao.db.FRWAuthUser;
 import uz.jl.enums.auth.Role;
 import uz.jl.enums.auth.UserStatus;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.auth.AuthUser;
+import uz.jl.models.settings.Language;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.utils.Color;
@@ -73,5 +76,24 @@ public class AuthService
         }
         Print.println(Color.GREEN, Session.getInstance().getUser());
         return new ResponseEntity<>("success", HttpStatus.HTTP_200);
+    }
+
+    public ResponseEntity<String> changeLang(String lang) {
+        switch (lang.toUpperCase()) {
+            case "UZ", "RU", "EN" -> {
+                Session.getInstance().getUser().setLanguage(
+                        switch (lang.toUpperCase()) {
+                            case "UZ" -> Language.UZ;
+                            case "RU" -> Language.RU;
+                            default -> Language.EN;
+                        }
+                );
+                FRWAuthUser.getInstance().writeAll(FRWAuthUser.getInstance().getAll());
+                return new ResponseEntity<>("success", HttpStatus.HTTP_200);
+            }
+            default -> {
+                return new ResponseEntity<>("bad choice", HttpStatus.HTTP_406);
+            }
+        }
     }
 }
