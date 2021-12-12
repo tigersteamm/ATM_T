@@ -1,7 +1,10 @@
 package uz.jl.ui;
 
 import uz.jl.configs.AppConfig;
+import uz.jl.configs.LangConfig;
+import uz.jl.configs.Session;
 import uz.jl.exceptions.APIException;
+import uz.jl.models.settings.Language;
 import uz.jl.ui.menus.Menu;
 import uz.jl.ui.menus.MenuKey;
 import uz.jl.utils.Color;
@@ -21,9 +24,10 @@ public class MainMenu {
     }
 
     public static void main(String[] args) {
+        Language language = Session.getInstance().getUser().getLanguage();
         AtmProcessUI.service.infoCard();
         Menu.show();
-        String choice = Input.getStr("?:");
+        String choice = Input.getStr(">>>>");
         MenuKey key = MenuKey.getByValue(choice);
 
         switch (key) {
@@ -79,11 +83,10 @@ public class MainMenu {
             case CARD_INFO -> AtmProcessUI.infoCard();
 
             case EXIT -> {
-                Print.println(Color.YELLOW, "Good bay");
+                Print.println(Color.YELLOW, LangConfig.get(language, "bye"));
                 return;
             }
-            default -> // TODO: 12/8/2021 do translations here
-                    Print.println(Color.RED, "Wrong Choice");
+            default -> Print.println(Color.RED, LangConfig.get(language, "wrong.choice"));
         }
         main(args);
     }

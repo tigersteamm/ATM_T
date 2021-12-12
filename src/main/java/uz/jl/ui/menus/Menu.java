@@ -1,6 +1,5 @@
 package uz.jl.ui.menus;
 
-import uz.jl.configs.AppConfig;
 import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.enums.auth.Role;
@@ -39,53 +38,51 @@ public class Menu {
             menus.put(LangConfig.get(language, "branch.update"), MenuKey.UPDATE_BRANCH);
         } else if (Role.ADMIN.equals(role)) {
             menus.put(LangConfig.get(language, "branch.create"), MenuKey.CREATE_BRANCH);
-            menus.put("Create HR", MenuKey.CREATE_HR);
-            menus.put("Create ATM", MenuKey.CREATE_ATM);
-            menus.put("Create Employee", MenuKey.CREATE_EMPLOYEE);
+            menus.put(LangConfig.get(language, "hr.create"), MenuKey.CREATE_HR);
+            menus.put(LangConfig.get(language, "atm.create"), MenuKey.CREATE_ATM);
+            menus.put(LangConfig.get(language, "employee.create"), MenuKey.CREATE_EMPLOYEE);
 
-            menus.put("Delete BRANCH", MenuKey.DELETE_BRANCH);
-            menus.put("Delete HR", MenuKey.DELETE_HR);
-            menus.put("Delete ATM", MenuKey.DELETE_ATM);
-            menus.put("Delete Employee", MenuKey.DELETE_EMPLOYEE);
+            menus.put(LangConfig.get(language, "branch.delete"), MenuKey.DELETE_BRANCH);
+            menus.put(LangConfig.get(language, "hr.delete"), MenuKey.DELETE_HR);
+            menus.put(LangConfig.get(language, "atm.delete"), MenuKey.DELETE_ATM);
+            menus.put(LangConfig.get(language, "employee.delete"), MenuKey.DELETE_EMPLOYEE);
 
-            menus.put("Block BRANCH", MenuKey.BLOCK_BRANCH);
-            menus.put("Block HR", MenuKey.BLOCK_HR);
-            menus.put("Block ATM", MenuKey.BLOCK_ATM);
-            menus.put("Block Employee", MenuKey.BLOCK_EMPLOYEE);
+            menus.put(LangConfig.get(language, "branch.block"), MenuKey.BLOCK_BRANCH);
+            menus.put(LangConfig.get(language, "hr.block"), MenuKey.BLOCK_HR);
+            menus.put(LangConfig.get(language, "atm.block"), MenuKey.BLOCK_ATM);
+            menus.put(LangConfig.get(language, "employee.block"), MenuKey.BLOCK_EMPLOYEE);
 
-            menus.put("UnBlock BRANCH", MenuKey.UN_BLOCK_BRANCH);
-            menus.put("UnBlock HR", MenuKey.UN_BLOCK_HR);
-            menus.put("UnBlock ATM", MenuKey.UN_BLOCK_ATM);
-            menus.put("UnBlock Employee", MenuKey.UN_BLOCK_EMPLOYEE);
+            menus.put(LangConfig.get(language, "branch.unblock"), MenuKey.UN_BLOCK_BRANCH);
+            menus.put(LangConfig.get(language, "hr.unblock"), MenuKey.UN_BLOCK_HR);
+            menus.put(LangConfig.get(language, "atm.unblock"), MenuKey.UN_BLOCK_ATM);
+            menus.put(LangConfig.get(language, "employee.unblock"), MenuKey.UN_BLOCK_EMPLOYEE);
 
-            menus.put("List BRANCH", MenuKey.LIST_BRANCH);
-            menus.put("List HR", MenuKey.LIST_HR);
-            menus.put("List ATM", MenuKey.LIST_ATM);
-            menus.put("List Employee", MenuKey.LIST_EMPLOYEE);
+            menus.put(LangConfig.get(language, "branch.list"), MenuKey.LIST_BRANCH);
+            menus.put(LangConfig.get(language, "hr.list"), MenuKey.LIST_HR);
+            menus.put(LangConfig.get(language, "atm.list"), MenuKey.LIST_ATM);
+            menus.put(LangConfig.get(language, "employee.list"), MenuKey.LIST_EMPLOYEE);
 
-            menus.put("Update BRANCH", MenuKey.UPDATE_BRANCH);
+            menus.put(LangConfig.get(language, "branch.update"), MenuKey.UPDATE_BRANCH);
         } else if (role.in(Role.ADMIN, Role.HR)) {
-            menus.put("List Employee", MenuKey.LIST_EMPLOYEE);
-            menus.put("Create Employee", MenuKey.CREATE_EMPLOYEE);
+            menus.put(LangConfig.get(language, "employee.list"), MenuKey.LIST_EMPLOYEE);
+            menus.put(LangConfig.get(language, "employee.create"), MenuKey.CREATE_EMPLOYEE);
 
-            menus.put("Delete Employee", MenuKey.DELETE_EMPLOYEE);
-            menus.put("Block Employee", MenuKey.BLOCK_EMPLOYEE);
+            menus.put(LangConfig.get(language, "employee.delete"), MenuKey.DELETE_EMPLOYEE);
+            menus.put(LangConfig.get(language, "employee.block"), MenuKey.BLOCK_EMPLOYEE);
 
-            menus.put("Un block Employee", MenuKey.UN_BLOCK_EMPLOYEE);
-            menus.put("Blocked Employee List", MenuKey.BLOCK_LIST_EMPLOYEE);
+            menus.put(LangConfig.get(language, "employee.unblock"), MenuKey.UN_BLOCK_EMPLOYEE);
+            menus.put(LangConfig.get(language, "employee.list.blocked"), MenuKey.BLOCK_LIST_EMPLOYEE);
         } else if (Role.EMPLOYEE.equals(role)) {
-            menus.put("Blocked Employee List", MenuKey.BLOCK_LIST_ATM);
-            menus.put("Update Atm", MenuKey.UPDATE_ATM);
-
-            menus.put("Atm List", MenuKey.LIST_ATM);
+            menus.put(LangConfig.get(language, "atm.update"), MenuKey.UPDATE_ATM);
+            menus.put(LangConfig.get(language, "atm.list"), MenuKey.LIST_ATM);
         } else if (Role.ANONYMOUS.equals(role)) {
-            menus.put("Login", MenuKey.LOGIN);
+            menus.put(LangConfig.get(language, "login"), MenuKey.LOGIN);
         }
         if (!Role.ANONYMOUS.equals(role)) {
-            menus.put("Change language", MenuKey.CHANGE_LANG);
-            menus.put("Logout", MenuKey.LOGOUT);
+            menus.put(LangConfig.get(language, "change.lang"), MenuKey.CHANGE_LANG);
+            menus.put(LangConfig.get(language, "logout"), MenuKey.LOGOUT);
         }
-        menus.put("Quit", MenuKey.EXIT);
+        menus.put(LangConfig.get(language, "quit"), MenuKey.EXIT);
         return menus;
     }
 
