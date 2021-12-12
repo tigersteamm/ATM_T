@@ -2,10 +2,8 @@ package uz.jl.configs;
 
 import lombok.Getter;
 import lombok.Setter;
-import uz.jl.enums.auth.Role;
-import uz.jl.enums.auth.UserStatus;
 import uz.jl.models.auth.AuthUser;
-import uz.jl.models.settings.Language;
+import uz.jl.models.atm.Atm;
 
 import java.util.Objects;
 
@@ -16,10 +14,12 @@ public class Session {
     @Getter
     @Setter
     private AuthUser user;
+    private Atm atm;
     private static Session session;
 
     private Session() {
         user = new AuthUser();
+        atm = new Atm();
     }
 
     public static Session getInstance() {

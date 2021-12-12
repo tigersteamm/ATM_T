@@ -22,11 +22,15 @@ public class AppConfig {
     public static Language language;
 
     private static final Properties properties = new Properties();
+    private static final Properties en = new Properties();
+    private static final Properties uz = new Properties();
+    private static final Properties ru = new Properties();
 
     public static void init() throws APIException {
         load();
 //        initSuperUser();
-        language = Language.getByCode(get("bank.default.language"));
+        language = Session.getInstance().getUser().getLanguage();
+//        Language.getByCode(get("bank.default.language"));
     }
 
     public static void initSuperUser() {
@@ -50,8 +54,22 @@ public class AppConfig {
     private static void load() throws APIException {
         try {
             properties.load(new FileReader("src/main/resources/app.properties"));
+            en.load(new FileReader("src/main/resources/lang/en.properties"));
+            uz.load(new FileReader("src/main/resources/lang/uz.properties"));
+            ru.load(new FileReader("src/main/resources/lang/ru.properties"));
         } catch (IOException e) {
             throw new APIException("File not found", HttpStatus.HTTP_404);
         }
+    }
+
+    public static Properties getLang(Language lang) {
+        if (lang == null) {
+            return en;
+        }
+        return switch (lang) {
+            case UZ -> uz;
+            case RU -> ru;
+            default -> en;
+        };
     }
 }

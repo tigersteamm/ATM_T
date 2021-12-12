@@ -54,7 +54,8 @@ public enum MenuKey {
     LOGOUT,
     EXIT,
     UNDEFINED,
-    CARD_INFO;
+    CARD_INFO,
+    CHANGE_LANG;
 
     public static MenuKey getByValue(String choice) {
         for (MenuKey menu : values()) {

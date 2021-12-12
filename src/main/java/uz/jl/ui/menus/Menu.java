@@ -1,7 +1,10 @@
 package uz.jl.ui.menus;
 
+import uz.jl.configs.AppConfig;
+import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.enums.auth.Role;
+import uz.jl.models.settings.Language;
 import uz.jl.utils.Print;
 
 import java.util.LinkedHashMap;
@@ -13,20 +16,22 @@ import java.util.Map;
 public class Menu {
     public static Map<String, MenuKey> menus() {
         Role role = Session.getInstance().getUser().getRole();
+        Language language = Session.getInstance().getUser().getLanguage();
+
         Map<String, MenuKey> menus = new LinkedHashMap<>();
         // TODO: 12/8/2021 do translations here
         if (Role.SUPER_ADMIN.equals(role)) {
-            menus.put("Create Branch", MenuKey.CREATE_BRANCH);
-            menus.put("Create Admin", MenuKey.CREATE_ADMIN);
+            menus.put(LangConfig.get(language, "branch.create"), MenuKey.CREATE_BRANCH);
+            menus.put(LangConfig.get(language, "admin.create"), MenuKey.CREATE_ADMIN);
 
-            menus.put("Delete Admin", MenuKey.DELETE_ADMIN);
-            menus.put("Delete Branch", MenuKey.DELETE_BRANCH);
+            menus.put(LangConfig.get(language, "admin.delete"), MenuKey.DELETE_ADMIN);
+            menus.put(LangConfig.get(language, "branch.delete"), MenuKey.DELETE_BRANCH);
 
-            menus.put("Block Admin", MenuKey.BLOCK_ADMIN);
-            menus.put("Block Branch", MenuKey.BLOCK_BRANCH);
+            menus.put(LangConfig.get(language, "admin.block"), MenuKey.BLOCK_ADMIN);
+            menus.put(LangConfig.get(language, "branch.block"), MenuKey.BLOCK_BRANCH);
 
-            menus.put("Unblock Admin", MenuKey.UN_BLOCK_ADMIN);
-            menus.put("UnBlock Branch", MenuKey.UN_BLOCK_BRANCH);
+            menus.put(LangConfig.get(language, "admin.unblock"), MenuKey.UN_BLOCK_ADMIN);
+            menus.put(LangConfig.get(language, "branch.unblock"), MenuKey.UN_BLOCK_BRANCH);
 
             menus.put("List Admin", MenuKey.LIST_ADMIN);
             menus.put("List Branch", MenuKey.LIST_BRANCH);
@@ -78,6 +83,7 @@ public class Menu {
             menus.put("Login", MenuKey.LOGIN);
         }
         if (!Role.ANONYMOUS.equals(role)) {
+            menus.put("Change language", MenuKey.CHANGE_LANG);
             menus.put("Logout", MenuKey.LOGOUT);
         }
         menus.put("Quit", MenuKey.EXIT);
