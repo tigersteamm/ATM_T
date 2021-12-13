@@ -26,6 +26,42 @@
         "status": "ACTIVE",
         "currencyCount": 5
       }
-    ]
+    ],
+    "createdAt": "Dec 13, 2021, 2:13:43 AM",
+    "deleted": 0
+  },
+  {
+    "branchId": "742539002942200T76DqMD6zQMataNpJqQ5",
+    "type": "VISA",
+    "name": "atmm",
+    "status": "ACTIVE",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "cassettes": [
+      {
+        "currencyValue": 100000,
+        "status": "ACTIVE",
+        "currencyCount": 12
+      },
+      {
+        "currencyValue": 50000,
+        "status": "ACTIVE",
+        "currencyCount": 12
+      },
+      {
+        "currencyValue": 10000,
+        "status": "ACTIVE",
+        "currencyCount": 12
+      },
+      {
+        "currencyValue": 5000,
+        "status": "ACTIVE",
+        "currencyCount": 12
+      }
+    ],
+    "id": "4836e5b147d24a77b1b06e591eab2cf3",
+    "createdAt": "Dec 13, 2021, 2:13:38 AM",
+    "createdBy": "26552187070700BfWGunI2rpscw23P6Uet",
+    "deleted": 0
   }
 ]

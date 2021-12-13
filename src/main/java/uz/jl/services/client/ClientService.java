@@ -4,8 +4,10 @@ import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.card.CardDao;
+import uz.jl.dao.db.FRWAtm;
 import uz.jl.dao.db.FRWAuthUser;
 import uz.jl.dao.db.FRWCard;
+import uz.jl.enums.atm.ATMType;
 import uz.jl.enums.auth.Role;
 import uz.jl.enums.auth.UserStatus;
 import uz.jl.enums.card.CardStatus;
@@ -23,7 +25,6 @@ import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
 import uz.jl.utils.Color;
-import uz.jl.utils.Print;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -31,12 +32,11 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static uz.jl.utils.BaseUtils.genId;
-import static uz.jl.utils.Color.PURPLE;
-import static uz.jl.utils.Color.RED;
+import static uz.jl.utils.Color.*;
+import static uz.jl.utils.Print.println;
 
 public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, AuthUserMapper>
         implements IBaseCrudService<AuthUser> {
-
     Role role = Session.getInstance().getUser().getRole();
     Language language = Session.getInstance().getUser().getLanguage();
 
@@ -133,10 +133,10 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
             if (authUser.getDeleted() == 0) {
                 if (authUser.getStatus().equals(UserStatus.ACTIVE) && authUser.getRole().equals(Role.CLIENT)) {
-                    Print.println(PURPLE, authUser.getUsername());
+                    println(PURPLE, authUser.getUsername());
                 }
                 if (authUser.getStatus().equals(UserStatus.BLOCKED) && authUser.getRole().equals(Role.CLIENT)) {
-                    Print.println(RED, authUser.getUsername());
+                    println(RED, authUser.getUsername());
                 }
             }
         }
@@ -203,7 +203,7 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
     public void blockList() {
         for (AuthUser authUser : FRWAuthUser.getInstance().getAll()) {
             if (authUser.getDeleted() == 0 && authUser.getStatus().equals(UserStatus.BLOCKED))
-                Print.println(Color.RED, authUser.getUsername());
+                println(Color.RED, authUser.getUsername());
         }
     }
 
@@ -300,7 +300,7 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
         BigDecimal needed = BigDecimal.valueOf(Long.parseLong(amount));
         Card card = Session.getInstance().getCard();
 
-        if (card.getBalance().compareTo(needed.multiply(BigDecimal.valueOf(1.01))) < 0) {
+        if (needed.compareTo(card.getBalance())>0) {
             return new ResponseEntity<>("Not Enough Money In Balance", HttpStatus.HTTP_406);
         }
 
@@ -310,19 +310,28 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
 
 
         Atm atm = Session.getInstance().getAtm();
-
-        Long neededLong = Long.parseLong(amount); //160 000
-
-        long atmBalance = 0;
-        ArrayList<Cassette> cassettes = atm.getCassettes();
-        //100 000 * 2
-        if (neededLong / cassettes.get(0).getCurrencyValue() > cassettes.get(0).getCurrencyCount()) {
-            // 60 000
-            neededLong -= cassettes.get(0).getCurrencyValue() * cassettes.get(0).getCurrencyCount();
-            if (neededLong / cassettes.get(1).getCurrencyValue() > cassettes.get(1).getCurrencyCount()) {
-
-            }
+           if(!outN(atm, needed)){
+               return new ResponseEntity<>("Invalid Amount", HttpStatus.HTTP_406);
         }
+//        else {
+//            outU(atm,needed);
+//        }
+        Session.getInstance().getCard().setBalance(Session.getInstance().getCard().getBalance().subtract(needed));
+        FRWCard.getInstance().writeAll(FRWCard.getInstance().getAll());
+
+
+//        Long neededLong = Long.parseLong(amount); //160 000
+
+//        long atmBalance = 0;
+//        ArrayList<Cassette> cassettes = atm.getCassettes();
+        //100 000 * 2
+//        if (neededLong / cassettes.get(0).getCurrencyValue() > cassettes.get(0).getCurrencyCount()) {
+//            // 60 000
+//            neededLong -= cassettes.get(0).getCurrencyValue() * cassettes.get(0).getCurrencyCount();
+//            if (neededLong / cassettes.get(1).getCurrencyValue() > cassettes.get(1).getCurrencyCount()) {
+//
+//            }
+//        }
 
 
 //        cassettes.get(4).getCurrencyValue()
@@ -340,6 +349,34 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
 //
 
         return new ResponseEntity<>(LangConfig.get(language, "successfully.done"), HttpStatus.HTTP_200);
+    }
+
+
+    private boolean outN(Atm atm, BigDecimal needed) {
+        int i=0;
+        ArrayList<Long> indexes=new ArrayList<>(4);
+        for (Cassette cassette : atm.getCassettes()) {
+            indexes.add(cassette.getCurrencyCount());
+        }
+        while(needed.compareTo(BigDecimal.valueOf(0))>0){
+            if(i==4){
+                break;
+            }
+            if(atm.getCassettes().get(i).getCurrencyCount()>0&&needed.compareTo(BigDecimal.valueOf(atm.getCassettes().get(i).getCurrencyValue()))>=0){
+                indexes.set(i,indexes.get(i)-1);
+                needed=needed.subtract(BigDecimal.valueOf(atm.getCassettes().get(i).getCurrencyValue()));
+            }
+            else{
+                i++;
+            }
+        }
+        if(needed.compareTo(BigDecimal.valueOf(0))!=0){
+            return false;
+        }
+        for (int i1 = 0; i1 < atm.getCassettes().size(); i1++) {
+            atm. getCassettes().get(i).setCurrencyValue(indexes.get(i1));
+        }
+        return true;
     }
 
 //    private CardType getCardType(String pan) {

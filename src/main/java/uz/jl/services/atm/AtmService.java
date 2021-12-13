@@ -76,7 +76,7 @@ public class AtmService
                 println(RED, "Tekshirganman 🤣");
                 a = getStr(cassettes.get(i).getCurrencyValue() + "->");
             }
-            cassettes.get(i).setCurrencyCount(Integer.valueOf(a));
+            cassettes.get(i).setCurrencyCount(Long.valueOf(a));
         }
         atm.setCassettes(cassettes);
         return create(atm);
@@ -96,16 +96,16 @@ public class AtmService
         Cassette cassette2 = new Cassette();
         Cassette cassette3 = new Cassette();
         Cassette cassette4 = new Cassette();
-        cassette1.setCurrencyValue("100000");
+        cassette1.setCurrencyValue(100000L);
         cassette1.setStatus(CassetteStatus.ACTIVE);
         cassettes.add(cassette1);
-        cassette2.setCurrencyValue("50000");
+        cassette2.setCurrencyValue(50000L);
         cassette2.setStatus(CassetteStatus.ACTIVE);
         cassettes.add(cassette2);
-        cassette3.setCurrencyValue("10000");
+        cassette3.setCurrencyValue(10000L);
         cassette3.setStatus(CassetteStatus.ACTIVE);
         cassettes.add(cassette3);
-        cassette4.setCurrencyValue("5000");
+        cassette4.setCurrencyValue(5000L);
         cassette4.setStatus(CassetteStatus.ACTIVE);
         cassettes.add(cassette4);
     }

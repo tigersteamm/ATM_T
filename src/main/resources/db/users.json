@@ -8,7 +8,7 @@
     "language": "EN",
     "id": "1511617896657700RNTZm9kTlFgPg968jslM",
     "createdAt": "Dec 9, 2021, 11:15:57 AM",
-    "deleted": 0
+    "deleted": 1
   },
   {
     "username": "admin",
@@ -20,7 +20,7 @@
     "id": "26552187070700BfWGunI2rpscw23P6Uet",
     "createdAt": "Dec 13, 2021, 12:51:51 AM",
     "createdBy": "1511617896657700RNTZm9kTlFgPg968jslM",
-    "deleted": 0
+    "deleted": 1
   },
   {
     "username": "hr",
@@ -51,7 +51,7 @@
     "role": "CLIENT",
     "status": "ACTIVE",
     "phoneNumber": "1234",
-    "language": "EN",
+    "language": "RU",
     "id": "27058726704600XVP2mmhBdsoorfAjnfJZ",
     "createdAt": "Dec 13, 2021, 1:00:17 AM",
     "createdBy": "26770026646200fnFBL0orSI8EMEfWIJ5Y",
