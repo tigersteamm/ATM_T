@@ -2,6 +2,7 @@ package uz.jl.services.client;
 
 import uz.jl.configs.LangConfig;
 import uz.jl.configs.Session;
+import uz.jl.dao.atm.AtmDao;
 import uz.jl.dao.auth.AuthUserDao;
 import uz.jl.dao.card.CardDao;
 import uz.jl.dao.db.FRWAtm;
@@ -15,6 +16,7 @@ import uz.jl.enums.card.CardType;
 import uz.jl.enums.http.HttpStatus;
 import uz.jl.exceptions.APIException;
 import uz.jl.exceptions.APIRuntimeException;
+import uz.jl.mapper.ATMMapper;
 import uz.jl.mapper.AuthUserMapper;
 import uz.jl.models.atm.Atm;
 import uz.jl.models.atm.Cassette;
@@ -24,6 +26,7 @@ import uz.jl.models.settings.Language;
 import uz.jl.response.ResponseEntity;
 import uz.jl.services.BaseAbstractService;
 import uz.jl.services.IBaseCrudService;
+import uz.jl.services.atm.AtmService;
 import uz.jl.utils.Color;
 
 import java.math.BigDecimal;
@@ -374,8 +377,9 @@ public class ClientService extends BaseAbstractService<AuthUser, AuthUserDao, Au
             return false;
         }
         for (int i1 = 0; i1 < atm.getCassettes().size(); i1++) {
-            atm. getCassettes().get(i).setCurrencyValue(indexes.get(i1));
+            atm. getCassettes().get(i).setCurrencyCount(indexes.get(i1));
         }
+        FRWAtm.getInstance().writeAll(FRWAtm.getInstance().getAll());
         return true;
     }
 
